@@ -1,0 +1,122 @@
+name: commerce_mobile
+description: "E-commerce project."
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  easy_localization: ^3.0.8
+  shared_preferences: ^2.5.3
+  go_router: ^16.1.0
+  dartz: ^0.10.1
+  dio: ^5.9.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^5.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/icons/
+    - assets/images/
+    - assets/videos/
+    - assets/fonts/inter/
+    - assets/translations/
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter/Inter_18pt-Black.ttf
+        - asset: assets/fonts/inter/Inter_18pt-BlackItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_18pt-Bold.ttf
+        - asset: assets/fonts/inter/Inter_18pt-BoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_18pt-ExtraBold.ttf
+        - asset: assets/fonts/inter/Inter_18pt-ExtraBoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_18pt-ExtraLight.ttf
+        - asset: assets/fonts/inter/Inter_18pt-ExtraLightItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_18pt-Italic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_18pt-Light.ttf
+        - asset: assets/fonts/inter/Inter_18pt-LightItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_18pt-Medium.ttf
+        - asset: assets/fonts/inter/Inter_18pt-MediumItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_18pt-Regular.ttf
+        - asset: assets/fonts/inter/Inter_18pt-SemiBold.ttf
+        - asset: assets/fonts/inter/Inter_18pt-SemiBoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_18pt-Thin.ttf
+        - asset: assets/fonts/inter/Inter_18pt-ThinItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_24pt-Black.ttf
+        - asset: assets/fonts/inter/Inter_24pt-BlackItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_24pt-Bold.ttf
+        - asset: assets/fonts/inter/Inter_24pt-BoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_24pt-ExtraBold.ttf
+        - asset: assets/fonts/inter/Inter_24pt-ExtraBoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_24pt-ExtraLight.ttf
+        - asset: assets/fonts/inter/Inter_24pt-ExtraLightItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_24pt-Italic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_24pt-Light.ttf
+        - asset: assets/fonts/inter/Inter_24pt-LightItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_24pt-Medium.ttf
+        - asset: assets/fonts/inter/Inter_24pt-MediumItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_24pt-Regular.ttf
+        - asset: assets/fonts/inter/Inter_24pt-SemiBold.ttf
+        - asset: assets/fonts/inter/Inter_24pt-SemiBoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_24pt-Thin.ttf
+        - asset: assets/fonts/inter/Inter_24pt-ThinItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_28pt-Black.ttf
+        - asset: assets/fonts/inter/Inter_28pt-BlackItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_28pt-Bold.ttf
+        - asset: assets/fonts/inter/Inter_28pt-BoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_28pt-ExtraBold.ttf
+        - asset: assets/fonts/inter/Inter_28pt-ExtraBoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_28pt-ExtraLight.ttf
+        - asset: assets/fonts/inter/Inter_28pt-ExtraLightItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_28pt-Italic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_28pt-Light.ttf
+        - asset: assets/fonts/inter/Inter_28pt-LightItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_28pt-Medium.ttf
+        - asset: assets/fonts/inter/Inter_28pt-MediumItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_28pt-Regular.ttf
+        - asset: assets/fonts/inter/Inter_28pt-SemiBold.ttf
+        - asset: assets/fonts/inter/Inter_28pt-SemiBoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/inter/Inter_28pt-Thin.ttf
+        - asset: assets/fonts/inter/Inter_28pt-ThinItalic.ttf
+          style: italic
