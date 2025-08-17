@@ -1,3 +1,4 @@
+import 'package:commerce_mobile/presentation/pages/home/page/home_page.dart';
 import 'package:commerce_mobile/presentation/pages/splash/page/splash_page.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
@@ -5,15 +6,19 @@ import 'package:flutter/material.dart';
 import 'navigation_service.dart';
 
 class AppRouter {
-
   static final router = GoRouter(
-    observers: [ NavigationService.routeObserver ],
+    observers: [NavigationService.routeObserver],
     navigatorKey: NavigationService.navigatorKey,
-    initialLocation: SplashPage.path,
+    initialLocation: HomePage.path,
     routes: [
       GoRoute(
         path: SplashPage.path,
-        pageBuilder: (context, state) => const MaterialPage(child: SplashPage()),
+        pageBuilder:
+            (context, state) => const MaterialPage(child: SplashPage()),
+      ),
+      GoRoute(
+        path: HomePage.path,
+        pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
       ),
     ],
   );

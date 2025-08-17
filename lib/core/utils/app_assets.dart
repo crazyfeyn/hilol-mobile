@@ -10,12 +10,16 @@ class AppIcons {
   const AppIcons();
 
   final String flagUz = 'assets/icons/ic_test.svg';
+  final String home = 'assets/icons/home.svg';
+  final String cart = 'assets/icons/saved.svg';
+  final String person = 'assets/icons/person.svg';
 }
 
 class AppImages {
   const AppImages();
 
   final String appLogoCircle = 'assets/images/im_test.png';
+  final String meatImage = 'assets/images/meat.png';
 }
 
 class AppVideos {
