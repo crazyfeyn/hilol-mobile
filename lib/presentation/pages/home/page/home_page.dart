@@ -267,11 +267,7 @@ class _HomePageState extends State<HomePage> {
             topRight: Radius.circular(30),
           ),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              spreadRadius: 2,
-            ),
+            BoxShadow(color: Colors.black, blurRadius: 10, spreadRadius: 2),
           ],
           gradient: LinearGradient(
             colors: [AppColors.red300, AppColors.red300],
@@ -386,7 +382,7 @@ class _HomePageState extends State<HomePage> {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey,
             spreadRadius: 1,
             blurRadius: 8,
             offset: const Offset(0, 2),
@@ -427,7 +423,7 @@ class _HomePageState extends State<HomePage> {
                     child: Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
+                        color: Colors.white,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
