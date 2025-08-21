@@ -27,18 +27,18 @@ class AppColors {
   static const Color white900 = Color(0xFF3D3D3D);
   static const Color white950 = Color(0xFF292929);
 
-  ///Primary colors
-  static const Color primary50 = Color(0xFFF0FDFA);
-  static const Color primary100 = Color(0xFFCCFBF2);
-  static const Color primary200 = Color(0xFF99F6E7);
-  static const Color primary300 = Color(0xFF5EEAD8);
-  static const Color primary400 = Color(0xFF2DD4C4);
-  static const Color primary500 = Color(0xFF12A99D);
-  static const Color primary600 = Color(0xFF0D948C);
-  static const Color primary700 = Color(0xFF0F7671);
-  static const Color primary800 = Color(0xFF042F2F);
-  static const Color primary900 = Color(0xFF042F2F);
-  static const Color primary950 = Color(0xFF042F2F);
+  /// Primary colors (Blue)
+  static const Color primary50  = Color(0xFFEFF6FF);
+  static const Color primary100 = Color(0xFFDBEAFE);
+  static const Color primary200 = Color(0xFFBFDBFE);
+  static const Color primary300 = Color(0xFF93C5FD);
+  static const Color primary400 = Color(0xFF60A5FA);
+  static const Color primary500 = Color(0xFF3B82F6);
+  static const Color primary600 = Color(0xFF2563EB);
+  static const Color primary700 = Color(0xFF1D4ED8);
+  static const Color primary800 = Color(0xFF1E40AF);
+  static const Color primary900 = Color(0xFF1E3A8A);
+  static const Color primary950 = Color(0xFF172554);
 
 
   ///Red colors
@@ -55,6 +55,8 @@ class AppColors {
   static const Color warning400 = Color(0xFFFDB022);
   static const Color blue600 = Color(0xFF1570EF);
   static const Color textSecondary = Color(0xFF92929D);
+
+  static const Color nF8F7F7 = Color(0xFFF8F7F7);
 
   static Color hexToColor(String? hexColor) {
     try {

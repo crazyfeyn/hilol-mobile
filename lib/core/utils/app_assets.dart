@@ -9,7 +9,10 @@ class AppAssets {
 class AppIcons {
   const AppIcons();
 
-  final String flagUz = 'assets/icons/ic_test.svg';
+  final String flagUs = 'assets/icons/flag_us.svg';
+  final String flagKo = 'assets/icons/flag_ko.svg';
+  final String icClose = 'assets/icons/ic_close.svg';
+
   final String home = 'assets/icons/home.svg';
   final String cart = 'assets/icons/saved.svg';
   final String person = 'assets/icons/person.svg';

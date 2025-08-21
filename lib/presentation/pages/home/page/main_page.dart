@@ -1,10 +1,9 @@
+import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/presentation/pages/cart/page/cart_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/page/home_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/page/profile_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:commerce_mobile/core/utils/app_colors.dart';
-import 'package:commerce_mobile/core/utils/app_assets.dart';
-import 'package:svg_flutter/svg.dart';
 
 class MainPage extends StatefulWidget {
   static const String path = "/main_page";
@@ -28,80 +27,36 @@ class _MainPageState extends State<MainPage> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
+          color: AppColors.white50,
           boxShadow: [
-            BoxShadow(color: Colors.black, blurRadius: 10, spreadRadius: 2),
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.08),
+              offset: Offset(0, -2),
+              blurRadius: 12,
+            ),
           ],
-          gradient: LinearGradient(
-            colors: [AppColors.red300, AppColors.red300],
-            begin: Alignment.bottomCenter,
-            end: Alignment.topCenter,
-          ),
         ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30),
-            topRight: Radius.circular(30),
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            currentIndex: _currentIndex,
-            onTap: (index) {
-              setState(() => _currentIndex = index);
-              _pageController.animateToPage(
-                index,
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-              );
-            },
-            items: [
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  AppAssets.icons.home,
-                  colorFilter: ColorFilter.mode(
-                    _currentIndex == 0
-                        ? const Color(0xFF4A4A4A)
-                        : AppColors.white50,
-                    BlendMode.srcIn,
-                  ),
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  AppAssets.icons.cart,
-                  colorFilter: ColorFilter.mode(
-                    _currentIndex == 1
-                        ? const Color(0xFF4A4A4A)
-                        : AppColors.white50,
-                    BlendMode.srcIn,
-                  ),
-                ),
-                label: 'Saved',
-              ),
-              BottomNavigationBarItem(
-                icon: SvgPicture.asset(
-                  AppAssets.icons.person,
-                  colorFilter: ColorFilter.mode(
-                    _currentIndex == 2
-                        ? const Color(0xFF4A4A4A)
-                        : AppColors.white50,
-                    BlendMode.srcIn,
-                  ),
-                ),
-                label: 'Profile',
-              ),
-            ],
-            selectedItemColor: const Color(0xFF4A4A4A),
-            unselectedItemColor: AppColors.white50,
-            selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
-            unselectedFontSize: 13,
-            type: BottomNavigationBarType.fixed,
-          ),
+        child: BottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: (index) {
+            setState(() => _currentIndex = index);
+            _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+          },
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.home, size: 24),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.cart, size: 24),
+              label: 'Saved',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.person, size: 24),
+              label: 'Profile',
+            ),
+          ],
+          type: BottomNavigationBarType.fixed,
         ),
       ),
     );
