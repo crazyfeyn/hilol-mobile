@@ -16,7 +16,7 @@ class AppRouter {
   static final router = GoRouter(
     observers: [NavigationService.routeObserver],
     navigatorKey: NavigationService.navigatorKey,
-    initialLocation: SplashPage.path,
+    initialLocation: MainPage.path,
     routes: [
       GoRoute(
         path: SplashPage.path,
@@ -35,7 +35,12 @@ class AppRouter {
       ),
       GoRoute(
         path: ConfirmCodePage.path,
-        pageBuilder: (context, state) => MaterialPage(child: ConfirmCodePage(extra: state.extra as Map<String, dynamic>)),
+        pageBuilder:
+            (context, state) => MaterialPage(
+              child: ConfirmCodePage(
+                extra: state.extra as Map<String, dynamic>,
+              ),
+            ),
       ),
       GoRoute(
         path: ForgetPassPage.path,
