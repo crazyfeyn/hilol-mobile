@@ -8,6 +8,7 @@ import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_constants.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
+import 'package:commerce_mobile/presentation/pages/history/pages/order_history_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/page/edit_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/widget/custom_avatar_card.dart';
 import 'package:commerce_mobile/presentation/pages/profile/widget/profile_card.dart';
@@ -34,7 +35,8 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             children: [
               CustomAvatarCard(
-                imageUrl: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
+                imageUrl:
+                    "https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
               ),
               SizedBox(height: 8),
               Text(
@@ -61,29 +63,32 @@ class ProfilePage extends StatelessWidget {
               ProfileCard(
                 icon: CupertinoIcons.bag,
                 title: context.tr(LocaleKeys.my_orders),
+                onTap:
+                    () =>
+                        NavigationService.push(context, OrderHistoryPage.path),
               ),
+
               SizedBox(height: 16),
               ProfileCard(
-                icon: CupertinoIcons.lock,
-                title: context.tr(LocaleKeys.reset_password),
-              ),
-              SizedBox(height: 16),
-              ProfileCard(
-                onTap: () => LanguageBottomSheet.showBottomSheet(context: context),
+                onTap:
+                    () => LanguageBottomSheet.showBottomSheet(context: context),
                 flag: LangService.langIcon(context.locale.languageCode),
                 icon: CupertinoIcons.globe,
                 title: context.tr(LocaleKeys.change_language),
               ),
               SizedBox(height: 16),
               ProfileCard(
-                onTap: () => LauncherService.launcherApplication(AppConstants.support),
+                onTap:
+                    () => LauncherService.launcherApplication(
+                      AppConstants.support,
+                    ),
                 icon: CupertinoIcons.bubble_left_bubble_right,
                 title: context.tr(LocaleKeys.support),
               ),
               SizedBox(height: 16),
               ProfileCard(
                 onTap: () {
-                  if(Platform.isIOS) {
+                  if (Platform.isIOS) {
                     ShareService.shareUri(context, AppConstants.appStore);
                   } else {
                     ShareService.shareUri(context, AppConstants.playStore);
@@ -94,13 +99,19 @@ class ProfilePage extends StatelessWidget {
               ),
               SizedBox(height: 16),
               ProfileCard(
-                onTap: () => LauncherService.launcherApplication(AppConstants.privacyPolice),
+                onTap:
+                    () => LauncherService.launcherApplication(
+                      AppConstants.privacyPolice,
+                    ),
                 icon: CupertinoIcons.exclamationmark_shield,
                 title: context.tr(LocaleKeys.privacy_police),
               ),
               SizedBox(height: 16),
               ProfileCard(
-                onTap: () => LauncherService.launcherApplication(AppConstants.termsOfServices),
+                onTap:
+                    () => LauncherService.launcherApplication(
+                      AppConstants.termsOfServices,
+                    ),
                 icon: CupertinoIcons.info,
                 title: context.tr(LocaleKeys.terms_of_services),
               ),
@@ -111,15 +122,6 @@ class ProfilePage extends StatelessWidget {
                 },
                 icon: CupertinoIcons.square_arrow_right,
                 title: context.tr(LocaleKeys.logout_account),
-              ),
-              SizedBox(height: 16),
-              ProfileCard(
-                onTap: () {
-                  ProfileLogoutAndDelete.showDialog(context, isDelete: true);
-                },
-                isLogout: true,
-                icon: CupertinoIcons.delete,
-                title: context.tr(LocaleKeys.delete_account),
               ),
             ],
           ),
