@@ -2,6 +2,7 @@ import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatelessWidget {
+  static String path = "/cart_page";
   const CartPage({super.key});
 
   @override
@@ -68,8 +69,6 @@ class CartPage extends StatelessWidget {
                       _buildSummaryRow('Items', '3'),
                       8.hs(),
                       _buildSummaryRow('Subtotal', '\$423'),
-                      8.hs(),
-                      _buildSummaryRow('Discount', '\$4'),
                       8.hs(),
                       _buildSummaryRow('Delivery Charges', '\$2'),
                       16.hs(),

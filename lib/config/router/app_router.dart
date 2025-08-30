@@ -3,6 +3,9 @@ import 'package:commerce_mobile/presentation/pages/auth/forget_pass/page/forget_
 import 'package:commerce_mobile/presentation/pages/auth/reset_pass/page/reset_pass_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_up/page/sign_up_page.dart';
+import 'package:commerce_mobile/presentation/pages/cart/page/cart_page.dart';
+import 'package:commerce_mobile/presentation/pages/history/pages/order_history_page.dart';
+import 'package:commerce_mobile/presentation/pages/history/pages/order_product_detail_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/page/home_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/page/main_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/page/edit_page.dart';
@@ -63,6 +66,27 @@ class AppRouter {
       GoRoute(
         path: EditPage.path,
         pageBuilder: (context, state) => const MaterialPage(child: EditPage()),
+      ),
+      GoRoute(
+        path: CartPage.path,
+        pageBuilder: (context, state) => const MaterialPage(child: CartPage()),
+      ),
+      GoRoute(
+        path: OrderHistoryPage.path,
+        pageBuilder:
+            (context, state) => const MaterialPage(child: OrderHistoryPage()),
+      ),
+      GoRoute(
+        path: OrderProductModelDetailPage.path,
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return MaterialPage(
+            child: OrderProductModelDetailPage(
+              product: extra['product'],
+              order: extra['order'],
+            ),
+          );
+        },
       ),
     ],
   );
