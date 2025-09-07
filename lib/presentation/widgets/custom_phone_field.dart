@@ -1,9 +1,8 @@
+import 'package:commerce_mobile/core/utils/app_colors.dart';
+import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:hisobchi_mobile/core/utils/app_colors.dart';
-import 'package:hisobchi_mobile/core/utils/app_styles.dart';
-import 'package:hisobchi_mobile/core/utils/locale_keys.g.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CustomPhoneField extends StatefulWidget {
@@ -11,7 +10,12 @@ class CustomPhoneField extends StatefulWidget {
   final String? title;
   final TextEditingController controller;
 
-  const CustomPhoneField({super.key, this.readOnly = false, this.title, required this.controller});
+  const CustomPhoneField({
+    super.key,
+    this.readOnly = false,
+    this.title,
+    required this.controller,
+  });
 
   @override
   State<CustomPhoneField> createState() => _CustomPhoneFieldState();
@@ -22,14 +26,18 @@ class _CustomPhoneFieldState extends State<CustomPhoneField> {
   bool isFilled = false;
 
   var maskFormatter = MaskTextInputFormatter(
-      mask: '#########',
-      filter: {"#": RegExp(r'[0-9]')},
-      type: MaskAutoCompletionType.lazy);
+    mask: '#########',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
   Country _selectedCountry = Country.parse('UZ');
 
   Future<void> _initState() async {
     final countryList = CountryService().getAll();
-    _selectedCountry = countryList.firstWhere((e) => e.countryCode == 'UZ', orElse: () => countryList.first);
+    _selectedCountry = countryList.firstWhere(
+      (e) => e.countryCode == 'UZ',
+      orElse: () => countryList.first,
+    );
     maskFormatter = _onMask(_selectedCountry);
     if (mounted) setState(() {});
   }
@@ -38,21 +46,25 @@ class _CustomPhoneFieldState extends State<CustomPhoneField> {
   void initState() {
     super.initState();
     _initState();
-    isFilled = widget.controller.text.trim().length > _selectedCountry.phoneCode.length;
-    if(mounted) setState(() {});
+    isFilled =
+        widget.controller.text.trim().length >
+        _selectedCountry.phoneCode.length;
+    if (mounted) setState(() {});
   }
 
   @override
   void didUpdateWidget(covariant CustomPhoneField oldWidget) {
     super.didUpdateWidget(oldWidget);
-    isFilled == widget.controller.text.trim().length > _selectedCountry.phoneCode.length;
-    if(mounted) setState(() {});
+    isFilled ==
+        widget.controller.text.trim().length >
+            _selectedCountry.phoneCode.length;
+    if (mounted) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     Color? color = AppColors.black400;
-    if(isFilled) {
+    if (isFilled) {
       color = Theme.of(context).inputDecorationTheme.counterStyle?.color;
     }
     return Column(
@@ -79,17 +91,18 @@ class _CustomPhoneFieldState extends State<CustomPhoneField> {
             counter: const SizedBox.shrink(),
           ),
           onChanged: (value) {
-            if(mounted) setState(() {});
+            if (mounted) setState(() {});
             if (value.length <= _selectedCountry.example.length) {
               widget.controller.text = '${_selectedCountry.phoneCode}$value';
-              isFilled = widget.controller.text.trim().length > _selectedCountry.phoneCode.length;
+              isFilled =
+                  widget.controller.text.trim().length >
+                  _selectedCountry.phoneCode.length;
             }
           },
+          //! has to be fixed
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return context.tr(
-                LocaleKeys.phone_number_error_field_empty,
-              );
+              return context.tr("LocaleKeys.phone_number_error_field_empty");
             }
             return null;
           },
