@@ -19,7 +19,7 @@ class AppRouter {
   static final router = GoRouter(
     observers: [NavigationService.routeObserver],
     navigatorKey: NavigationService.navigatorKey,
-    initialLocation: MainPage.path,
+    initialLocation: SignUpPage.path,
     routes: [
       GoRoute(
         path: SplashPage.path,
