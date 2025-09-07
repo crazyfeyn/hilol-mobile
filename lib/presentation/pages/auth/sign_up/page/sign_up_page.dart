@@ -64,15 +64,14 @@ class _SignUpPageState extends State<SignUpPage> {
               CustomTextField(
                 title: context.tr(LocaleKeys.password_title_field),
                 hintText: context.tr(LocaleKeys.password_hint_field),
-                suffixIcon: obscureText ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
+                suffixIcon:
+                    obscureText ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
                 onSuffix: () => setState(() => obscureText = !obscureText),
                 obscureText: obscureText,
                 ctr: _passwordController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return context.tr(
-                      LocaleKeys.password_error_field_empty,
-                    );
+                    return context.tr(LocaleKeys.password_error_field_empty);
                   }
 
                   if (value.length < 8) {
@@ -100,11 +99,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   }
 
                   if (!RegExp(r'[0-9]').hasMatch(value)) {
-                    return context.tr(LocaleKeys.password_error_field_no_number);
+                    return context.tr(
+                      LocaleKeys.password_error_field_no_number,
+                    );
                   }
 
                   if (!RegExp(r'[!@#$&*~]').hasMatch(value)) {
-                    return context.tr(LocaleKeys.password_error_field_no_special_char);
+                    return context.tr(
+                      LocaleKeys.password_error_field_no_special_char,
+                    );
                   }
 
                   return null;
@@ -114,8 +117,14 @@ class _SignUpPageState extends State<SignUpPage> {
               CustomTextField(
                 title: context.tr(LocaleKeys.confirm_password_title_field),
                 hintText: context.tr(LocaleKeys.confirm_password_hint_field),
-                suffixIcon: obscureTextConfirm ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
-                onSuffix: () => setState(() => obscureTextConfirm = !obscureTextConfirm),
+                suffixIcon:
+                    obscureTextConfirm
+                        ? CupertinoIcons.eye_slash
+                        : CupertinoIcons.eye,
+                onSuffix:
+                    () => setState(
+                      () => obscureTextConfirm = !obscureTextConfirm,
+                    ),
                 obscureText: obscureTextConfirm,
                 ctr: _confirmPasswordController,
                 validator: (value) {
@@ -125,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     );
                   }
 
-                  if(!_passwordController.text.trim().contains(value)) {
+                  if (!_passwordController.text.trim().contains(value)) {
                     return context.tr(
                       LocaleKeys.confirm_password_error_field_password_mismatch,
                     );
@@ -136,10 +145,14 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(height: 24),
               CustomElevatedButton(
                 onTap: () {
-                  if(_formKey.currentState!.validate()) {
+                  if (_formKey.currentState!.validate()) {
                     final email = _emailController.text.trim();
                     final extra = {"page": MainPage.path, "email": email};
-                    NavigationService.push(context, ConfirmCodePage.path, extra: extra);
+                    NavigationService.push(
+                      context,
+                      ConfirmCodePage.path,
+                      extra: extra,
+                    );
                   }
                 },
                 title: context.tr(LocaleKeys.create_account_btn),

@@ -62,5 +62,19 @@
   "set_email": "Set this {}",
   "continue_btn": "Continue",
   "verification_code": "Verification code",
-  "create_new_password": "Create new password"
+  "create_new_password": "Create new password",
+   "first_name_hint": "Ismingizni kiriting",
+  "first_name_too_short": "Ism juda qisqa",
+  "first_name_invalid_format": "Ism noto‘g‘ri formatda",
+  
+  "last_name": "Familiyangiz",
+  "last_name_hint": "Familiyangizni kiriting",
+  "last_name_too_short": "Familiya juda qisqa",
+  "last_name_invalid_format": "Familiya noto‘g‘ri formatda",
+  
+  "phone_number": "Telefon raqami",
+  "phone_number_hint": "Telefon raqamingizni kiriting",
+  "phone_number_invalid_format": "Telefon raqami noto‘g‘ri formatda",
+  "phone_number_too_short": "Telefon raqami juda qisqa",
+  "phone_number_too_long": "Telefon raqami juda uzun"
 }

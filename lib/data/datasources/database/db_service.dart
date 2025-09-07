@@ -19,7 +19,7 @@ class DBService {
     final res = await _instance.clear(); // Clear all data on database DB
 
     // in order save language after logout
-    if(language != null) setLanguage(language);
+    if (language != null) setLanguage(language);
     return res;
   }
 
@@ -36,7 +36,7 @@ class DBService {
 
   /// Access Token
   static Future<bool> setAccessToken(String? value) async {
-    if(value == null) return false;
+    if (value == null) return false;
     return await _instance.setString(_StorageKeys.accessToken, value);
   }
 
@@ -50,7 +50,10 @@ class DBService {
 
   /// User Data
   static Future<bool> setUserData(UserModel value) async {
-    return await _instance.setString(_StorageKeys.userData, userModelToJson(value));
+    return await _instance.setString(
+      _StorageKeys.userData,
+      userModelToJson(value),
+    );
   }
 
   static UserModel? getUserData() {
@@ -61,7 +64,6 @@ class DBService {
   static Future<bool> delUserData() async {
     return await _instance.remove(_StorageKeys.userData);
   }
-
 }
 
 class _StorageKeys {
