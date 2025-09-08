@@ -5,7 +5,6 @@ import 'package:commerce_mobile/presentation/pages/auth/confirm_code/page/confir
 import 'package:commerce_mobile/presentation/pages/auth/widget/check_widget.dart';
 import 'package:commerce_mobile/presentation/pages/home/page/main_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
-import 'package:commerce_mobile/presentation/widgets/custom_phone_field.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +21,7 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
-  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   bool obscureText = true;
@@ -45,23 +44,34 @@ class _SignUpPageState extends State<SignUpPage> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 24),
-              CustomPhoneField(
-                controller: _phoneController,
-                title: context.tr(LocaleKeys.phone_number),
+              CustomTextField(
+                title: context.tr(LocaleKeys.email),
+                hintText: context.tr(LocaleKeys.email_hint),
+                keyboardType: TextInputType.emailAddress,
+                ctr: _emailController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return context.tr(LocaleKeys.empty_filed);
+                  } else if (!RegExp(
+                    r"^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$",
+                  ).hasMatch(value)) {
+                    return context.tr(LocaleKeys.email_invalid_format);
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 12),
               CustomTextField(
                 title: context.tr(LocaleKeys.password_title_field),
                 hintText: context.tr(LocaleKeys.password_hint_field),
-                suffixIcon: obscureText ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
+                suffixIcon:
+                    obscureText ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
                 onSuffix: () => setState(() => obscureText = !obscureText),
                 obscureText: obscureText,
                 ctr: _passwordController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return context.tr(
-                      LocaleKeys.password_error_field_empty,
-                    );
+                    return context.tr(LocaleKeys.password_error_field_empty);
                   }
 
                   if (value.length < 8) {
@@ -89,11 +99,15 @@ class _SignUpPageState extends State<SignUpPage> {
                   }
 
                   if (!RegExp(r'[0-9]').hasMatch(value)) {
-                    return context.tr(LocaleKeys.password_error_field_no_number);
+                    return context.tr(
+                      LocaleKeys.password_error_field_no_number,
+                    );
                   }
 
                   if (!RegExp(r'[!@#$&*~]').hasMatch(value)) {
-                    return context.tr(LocaleKeys.password_error_field_no_special_char);
+                    return context.tr(
+                      LocaleKeys.password_error_field_no_special_char,
+                    );
                   }
 
                   return null;
@@ -103,8 +117,14 @@ class _SignUpPageState extends State<SignUpPage> {
               CustomTextField(
                 title: context.tr(LocaleKeys.confirm_password_title_field),
                 hintText: context.tr(LocaleKeys.confirm_password_hint_field),
-                suffixIcon: obscureTextConfirm ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
-                onSuffix: () => setState(() => obscureTextConfirm = !obscureTextConfirm),
+                suffixIcon:
+                    obscureTextConfirm
+                        ? CupertinoIcons.eye_slash
+                        : CupertinoIcons.eye,
+                onSuffix:
+                    () => setState(
+                      () => obscureTextConfirm = !obscureTextConfirm,
+                    ),
                 obscureText: obscureTextConfirm,
                 ctr: _confirmPasswordController,
                 validator: (value) {
@@ -114,7 +134,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     );
                   }
 
-                  if(!_passwordController.text.trim().contains(value)) {
+                  if (!_passwordController.text.trim().contains(value)) {
                     return context.tr(
                       LocaleKeys.confirm_password_error_field_password_mismatch,
                     );
@@ -125,10 +145,14 @@ class _SignUpPageState extends State<SignUpPage> {
               SizedBox(height: 24),
               CustomElevatedButton(
                 onTap: () {
-                  if(_formKey.currentState!.validate()) {
-                    final phone = _phoneController.text.trim();
-                    final extra = {"page": MainPage.path, "phone": phone};
-                    NavigationService.push(context, ConfirmCodePage.path, extra: extra);
+                  if (_formKey.currentState!.validate()) {
+                    final email = _emailController.text.trim();
+                    final extra = {"page": MainPage.path, "email": email};
+                    NavigationService.push(
+                      context,
+                      ConfirmCodePage.path,
+                      extra: extra,
+                    );
                   }
                 },
                 title: context.tr(LocaleKeys.create_account_btn),

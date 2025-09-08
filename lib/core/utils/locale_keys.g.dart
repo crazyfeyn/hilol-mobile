@@ -2,7 +2,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-abstract class  LocaleKeys {
+abstract class LocaleKeys {
   static const app_name = 'app_name';
   static const lang_ko = 'lang_ko';
   static const lang_en = 'lang_en';
@@ -26,7 +26,8 @@ abstract class  LocaleKeys {
   static const full_name_title_field = 'full_name_title_field';
   static const full_name_hint_field = 'full_name_hint_field';
   static const full_name_error_field_empty = 'full_name_error_field.empty';
-  static const full_name_error_field_too_short = 'full_name_error_field.too_short';
+  static const full_name_error_field_too_short =
+      'full_name_error_field.too_short';
   static const full_name_error_field = 'full_name_error_field';
   static const login_to_app = 'login_to_app';
   static const create_new_account = 'create_new_account';
@@ -44,18 +45,27 @@ abstract class  LocaleKeys {
   static const password_title_field = 'password_title_field';
   static const password_hint_field = 'password_hint_field';
   static const password_error_field_empty = 'password_error_field.empty';
-  static const password_error_field_too_short = 'password_error_field.too_short';
-  static const password_error_field_contains_space = 'password_error_field.contains_space';
-  static const password_error_field_no_special_char = 'password_error_field.no_special_char';
-  static const password_error_field_no_number = 'password_error_field.no_number';
-  static const password_error_field_no_lowercase = 'password_error_field.no_lowercase';
-  static const password_error_field_no_uppercase = 'password_error_field.no_uppercase';
-  static const password_error_field_do_not_match = 'password_error_field.do_not_match';
+  static const password_error_field_too_short =
+      'password_error_field.too_short';
+  static const password_error_field_contains_space =
+      'password_error_field.contains_space';
+  static const password_error_field_no_special_char =
+      'password_error_field.no_special_char';
+  static const password_error_field_no_number =
+      'password_error_field.no_number';
+  static const password_error_field_no_lowercase =
+      'password_error_field.no_lowercase';
+  static const password_error_field_no_uppercase =
+      'password_error_field.no_uppercase';
+  static const password_error_field_do_not_match =
+      'password_error_field.do_not_match';
   static const password_error_field = 'password_error_field';
   static const confirm_password_title_field = 'confirm_password_title_field';
   static const confirm_password_hint_field = 'confirm_password_hint_field';
-  static const confirm_password_error_field_empty = 'confirm_password_error_field.empty';
-  static const confirm_password_error_field_password_mismatch = 'confirm_password_error_field.password_mismatch';
+  static const confirm_password_error_field_empty =
+      'confirm_password_error_field.empty';
+  static const confirm_password_error_field_password_mismatch =
+      'confirm_password_error_field.password_mismatch';
   static const confirm_password_error_field = 'confirm_password_error_field';
   static const forget_password = 'forget_password';
   static const do_not_have_account = 'do_not_have_account';
@@ -67,5 +77,17 @@ abstract class  LocaleKeys {
   static const continue_btn = 'continue_btn';
   static const verification_code = 'verification_code';
   static const create_new_password = 'create_new_password';
-
+  static const first_name_hint = 'first_name';
+  static const first_name_too_short = 'first_name_too_short';
+  static const first_name_invalid_format = 'first_name_invalid_format';
+  static const last_name = 'last_name';
+  static const first_name = 'first_name';
+  static const last_name_hint = 'last_name_hint';
+  static const last_name_too_short = 'last_name_too_short';
+  static const last_name_invalid_format = 'last_name_invalid_format';
+  static const phone_number = 'phone_number';
+  static const phone_number_hint = 'phone_number_hint';
+  static const phone_number_invalid_format = 'phone_number_invalid_format';
+  static const phone_number_too_short = 'phone_number_too_short';
+  static const phone_number_too_long = 'phone_number_too_long';
 }

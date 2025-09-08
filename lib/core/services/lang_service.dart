@@ -17,11 +17,15 @@ class LangService {
 
   // Supported locales
   // Needs to be same order with languages
-  static final supportedLocales = [const Locale("ko", "KR"), const Locale("en", "US")];
+  static final supportedLocales = [
+    const Locale("ko", "KR"),
+    const Locale("en", "US"),
+  ];
 
   static String get currentLocale {
     final localeLang = DBService.getLanguage();
-    if(localeLang == null) return fallbackLocale.toStringWithSeparator(separator: "-");
+    if (localeLang == null)
+      return fallbackLocale.toStringWithSeparator(separator: "-");
     return localeLang;
   }
 
@@ -39,12 +43,13 @@ class LangService {
     return supportedLocales
         .map(
           (e) => LanguageModel(
-        name: langName(e.languageCode),
-        icon: langIcon(e.languageCode),
-        languageCode: e.languageCode,
-        countryCode: e.countryCode,
-      ),
-    ).toList();
+            name: langName(e.languageCode),
+            icon: langIcon(e.languageCode),
+            languageCode: e.languageCode,
+            countryCode: e.countryCode,
+          ),
+        )
+        .toList();
   }
 
   static String langName(String languageCode) {
