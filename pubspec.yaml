@@ -28,6 +28,8 @@ dependencies:
   url_launcher: ^6.3.2
   share_plus: ^11.1.0
   pinput: ^5.0.1
+  country_picker: ^2.0.27
+  mask_text_input_formatter: ^2.9.0
 
 dev_dependencies:
   flutter_test:

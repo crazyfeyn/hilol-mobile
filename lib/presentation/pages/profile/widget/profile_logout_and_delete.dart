@@ -13,7 +13,7 @@ class ProfileLogoutAndDelete extends StatelessWidget {
   static showDialog(BuildContext context, {required bool isDelete, VoidCallback? onTap}) async {
     return await showCupertinoDialog(
       context: context,
-      builder: (_) => ProfileLogoutAndDelete(isDelete: isDelete),
+      builder: (_) => ProfileLogoutAndDelete(isDelete: isDelete, onTap: onTap),
     );
   }
 

@@ -4,7 +4,7 @@ import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/presentation/pages/auth/confirm_code/page/confirm_code_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/reset_pass/page/reset_pass_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
-import 'package:commerce_mobile/presentation/widgets/custom_text_field.dart';
+import 'package:commerce_mobile/presentation/widgets/custom_phone_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ class ForgetPassPage extends StatefulWidget {
 
 class _ForgetPassPageState extends State<ForgetPassPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,21 +38,9 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 24),
-              CustomTextField(
-                title: context.tr(LocaleKeys.email),
-                hintText: context.tr(LocaleKeys.email_hint),
-                keyboardType: TextInputType.emailAddress,
-                ctr: _emailController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return context.tr(LocaleKeys.empty_filed);
-                  } else if (!RegExp(
-                    r"^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$",
-                  ).hasMatch(value)) {
-                    return context.tr(LocaleKeys.email_invalid_format);
-                  }
-                  return null;
-                },
+              CustomPhoneField(
+                controller: _phoneController,
+                title: context.tr(LocaleKeys.phone_number),
               ),
               SizedBox(height: 24),
               CustomElevatedButton(
@@ -60,8 +48,8 @@ class _ForgetPassPageState extends State<ForgetPassPage> {
                   if(_formKey.currentState!.validate()) {
                     FocusManager.instance.primaryFocus?.unfocus();
 
-                    final email = _emailController.text.trim();
-                    final extra = {"page": ResetPasswordPage.path, "email": email};
+                    final phone = _phoneController.text.trim();
+                    final extra = {"page": ResetPasswordPage.path, "phone": phone};
                     NavigationService.push(context, ConfirmCodePage.path, extra: extra);
                   }
                 },

@@ -27,6 +27,11 @@
   },
   "login_to_app": "Ilovaga kirish",
   "create_new_account": "Create new account",
+  "phone_number": "Phone number",
+  "phone_number_hint": "Phone number",
+  "phone_number_error_field" : {
+    "empty": "Enter phone number"
+  },
   "email": "E-mail",
   "email_hint" : "email@gmail.com",
   "email_invalid_format": "Please enter a valid email address (e.g. email@gmail.com)",

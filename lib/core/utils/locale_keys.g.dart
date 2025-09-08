@@ -30,6 +30,10 @@ abstract class  LocaleKeys {
   static const full_name_error_field = 'full_name_error_field';
   static const login_to_app = 'login_to_app';
   static const create_new_account = 'create_new_account';
+  static const phone_number = 'phone_number';
+  static const phone_number_hint = 'phone_number_hint';
+  static const phone_number_error_field_empty = 'phone_number_error_field.empty';
+  static const phone_number_error_field = 'phone_number_error_field';
   static const email = 'email';
   static const email_hint = 'email_hint';
   static const email_invalid_format = 'email_invalid_format';

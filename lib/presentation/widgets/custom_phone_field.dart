@@ -1,9 +1,9 @@
+import 'package:commerce_mobile/core/utils/app_colors.dart';
+import 'package:commerce_mobile/core/utils/app_styles.dart';
+import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:hisobchi_mobile/core/utils/app_colors.dart';
-import 'package:hisobchi_mobile/core/utils/app_styles.dart';
-import 'package:hisobchi_mobile/core/utils/locale_keys.g.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CustomPhoneField extends StatefulWidget {
@@ -19,7 +19,6 @@ class CustomPhoneField extends StatefulWidget {
 
 class _CustomPhoneFieldState extends State<CustomPhoneField> {
   final TextEditingController ctr = TextEditingController();
-  bool isFilled = false;
 
   var maskFormatter = MaskTextInputFormatter(
       mask: '#########',
@@ -38,23 +37,10 @@ class _CustomPhoneFieldState extends State<CustomPhoneField> {
   void initState() {
     super.initState();
     _initState();
-    isFilled = widget.controller.text.trim().length > _selectedCountry.phoneCode.length;
-    if(mounted) setState(() {});
-  }
-
-  @override
-  void didUpdateWidget(covariant CustomPhoneField oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    isFilled == widget.controller.text.trim().length > _selectedCountry.phoneCode.length;
-    if(mounted) setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    Color? color = AppColors.black400;
-    if(isFilled) {
-      color = Theme.of(context).inputDecorationTheme.counterStyle?.color;
-    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 4,
@@ -62,7 +48,7 @@ class _CustomPhoneFieldState extends State<CustomPhoneField> {
         if (widget.title != null)
           Text(
             widget.title!,
-            style: AppStyles.labelLGRegular.copyWith(color: color),
+            style: AppStyles.labelLGRegular.copyWith(color: AppColors.black400),
           ),
         TextFormField(
           controller: ctr,
@@ -82,14 +68,11 @@ class _CustomPhoneFieldState extends State<CustomPhoneField> {
             if(mounted) setState(() {});
             if (value.length <= _selectedCountry.example.length) {
               widget.controller.text = '${_selectedCountry.phoneCode}$value';
-              isFilled = widget.controller.text.trim().length > _selectedCountry.phoneCode.length;
             }
           },
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return context.tr(
-                LocaleKeys.phone_number_error_field_empty,
-              );
+              return context.tr(LocaleKeys.phone_number_error_field_empty);
             }
             return null;
           },
