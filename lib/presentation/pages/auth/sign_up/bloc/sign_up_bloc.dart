@@ -1,3 +1,4 @@
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/data/models/auth_model.dart';
@@ -12,7 +13,6 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   final _repository = AuthRepositoryImpl();
 
   SignUpBloc() : super(const SignUpState()) {
-
     on<SignUpChangeObscureText1>((event, emit) {
       emit(state.copyWith(obscureText1: !state.obscureText1));
     });
@@ -27,7 +27,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
 
       String? clientId;
       final result = await _repository.signUp(event.auth);
-      if(result.isRight()) {
+      if (result.isRight()) {
         clientId = result.getOrElse(() => throw Exception("Unexpected error"));
         formzStatus = FormzSubmissionStatus.success;
       } else {
