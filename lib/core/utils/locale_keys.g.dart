@@ -23,6 +23,11 @@ abstract class  LocaleKeys {
   static const exit_btn = 'exit_btn';
   static const cancel_btn = 'cancel_btn';
   static const empty_filed = 'empty_filed';
+  static const full_name_title_field = 'full_name_title_field';
+  static const full_name_hint_field = 'full_name_hint_field';
+  static const full_name_error_field_empty = 'full_name_error_field.empty';
+  static const full_name_error_field_too_short = 'full_name_error_field.too_short';
+  static const full_name_error_field = 'full_name_error_field';
   static const first_name_title_field = 'first_name_title_field';
   static const first_name_hint_field = 'first_name_hint_field';
   static const first_name_error_field_empty = 'first_name_error_field.empty';
