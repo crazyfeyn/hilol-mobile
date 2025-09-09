@@ -8,6 +8,7 @@ import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_constants.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
+import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
 import 'package:commerce_mobile/presentation/pages/history/pages/order_history_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/page/edit_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/widget/custom_avatar_card.dart';
@@ -118,10 +119,26 @@ class ProfilePage extends StatelessWidget {
               SizedBox(height: 16),
               ProfileCard(
                 onTap: () {
-                  ProfileLogoutAndDelete.showDialog(context, isDelete: false);
-                },
+                  ProfileLogoutAndDelete.showDialog(
+                    context,
+                    isDelete: false,
+                    onTap: () => NavigationService.go(context, SignInPage.path),
+                  );                },
                 icon: CupertinoIcons.square_arrow_right,
                 title: context.tr(LocaleKeys.logout_account),
+              ),
+              SizedBox(height: 16),
+              ProfileCard(
+                onTap: () {
+                  ProfileLogoutAndDelete.showDialog(
+                    context,
+                    isDelete: true,
+                    onTap: () => NavigationService.go(context, SignInPage.path),
+                  );
+                },
+                isLogout: true,
+                icon: CupertinoIcons.delete,
+                title: context.tr(LocaleKeys.delete_account),
               ),
             ],
           ),

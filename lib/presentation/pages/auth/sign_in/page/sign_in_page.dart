@@ -6,6 +6,7 @@ import 'package:commerce_mobile/presentation/pages/auth/sign_up/page/sign_up_pag
 import 'package:commerce_mobile/presentation/pages/auth/widget/check_widget.dart';
 import 'package:commerce_mobile/presentation/pages/home/page/main_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
+import 'package:commerce_mobile/presentation/widgets/custom_phone_field.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +23,7 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
-  final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   bool obscureText = true;
 
@@ -43,21 +44,9 @@ class _SignInPageState extends State<SignInPage> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 24),
-              CustomTextField(
-                title: context.tr(LocaleKeys.email),
-                hintText: context.tr(LocaleKeys.email_hint),
-                keyboardType: TextInputType.emailAddress,
-                ctr: _emailController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return context.tr(LocaleKeys.empty_filed);
-                  } else if (!RegExp(
-                    r"^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$",
-                  ).hasMatch(value)) {
-                    return context.tr(LocaleKeys.email_invalid_format);
-                  }
-                  return null;
-                },
+              CustomPhoneField(
+                controller: _phoneController,
+                title: context.tr(LocaleKeys.phone_number),
               ),
               SizedBox(height: 12),
               CustomTextField(

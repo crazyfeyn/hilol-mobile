@@ -39,7 +39,7 @@ class _ConfirmCodePageState extends State<ConfirmCodePage> {
             SizedBox(height: 24),
             PinPutWidget(controller: pinController),
             SizedBox(height: 16),
-            TimerWidget(email: widget.extra["email"]),
+            TimerWidget(email: "+${widget.extra["phone"]}"),
             SizedBox(height: 16),
             CustomElevatedButton(
               title: context.tr(LocaleKeys.continue_btn),

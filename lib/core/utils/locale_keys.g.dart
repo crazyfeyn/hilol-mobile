@@ -28,8 +28,20 @@ abstract class  LocaleKeys {
   static const full_name_error_field_empty = 'full_name_error_field.empty';
   static const full_name_error_field_too_short = 'full_name_error_field.too_short';
   static const full_name_error_field = 'full_name_error_field';
+  static const first_name_title_field = 'first_name_title_field';
+  static const first_name_hint_field = 'first_name_hint_field';
+  static const first_name_error_field_empty = 'first_name_error_field.empty';
+  static const first_name_error_field_too_short = 'first_name_error_field.too_short';
+  static const first_name_error_field = 'first_name_error_field';
+  static const last_name_title_field = 'last_name_title_field';
+  static const last_name_hint_field = 'last_name_hint_field';
+  static const last_name_error_field_empty = 'last_name_error_field.empty';
+  static const last_name_error_field_too_short = 'last_name_error_field.too_short';
+  static const last_name_error_field = 'last_name_error_field';
   static const login_to_app = 'login_to_app';
   static const create_new_account = 'create_new_account';
+  static const phone_number_error_field_empty = 'phone_number_error_field.empty';
+  static const phone_number_error_field = 'phone_number_error_field';
   static const email = 'email';
   static const email_hint = 'email_hint';
   static const email_invalid_format = 'email_invalid_format';
@@ -75,5 +87,9 @@ abstract class  LocaleKeys {
   static const phone_number_invalid_format = 'phone_number_invalid_format';
   static const phone_number_too_short = 'phone_number_too_short';
   static const phone_number_too_long = 'phone_number_too_long';
+  static const timeout_message = 'timeout_message';
+  static const check_internet_connection = 'check_internet_connection';
+  static const bad_certificate_message = 'bad_certificate_message';
+  static const dio_unknown_message = 'dio_unknown_message';
 
 }

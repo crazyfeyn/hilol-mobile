@@ -34,25 +34,6 @@ class _EditPageState extends State<EditPage> {
               ),
 
               SizedBox(height: 24),
-              CustomTextField(
-                title: context.tr(LocaleKeys.full_name_title_field),
-                hintText: context.tr(LocaleKeys.full_name_hint_field),
-                textCapitalization: TextCapitalization.sentences,
-                ctr: _nameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return context.tr(LocaleKeys.full_name_error_field_empty);
-                  }
-
-                  if (value.length < 3) {
-                    return context.tr(
-                      LocaleKeys.full_name_error_field_too_short,
-                    );
-                  }
-
-                  return null;
-                },
-              ),
 
               SizedBox(height: 16),
               CustomTextField(
