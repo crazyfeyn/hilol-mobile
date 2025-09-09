@@ -15,7 +15,7 @@ class UserRepositoryImpl extends UserRepository {
   @override
   Future<Either<String, UserModel>> fetchUserData() async {
     try {
-      final api = NetworkService.apiFetchUserData;
+      final api = NetworkService.apiAuthSignUp;
       final cancelToken = cancelTokenManager.getToken(api);
       final response = await NetworkService.get(api, cancelToken);
       final result = UserModel.fromJson(response['data']);

@@ -216,7 +216,7 @@ class _SignUpViewState extends State<SignUpView> {
                             AuthModel(
                               firstname: _firstNameController.text.trim(),
                               lastname: _lastNameController.text.trim(),
-                              phoneNumber: "+${_phoneController.text.trim()}",
+                              phoneNumber: _phoneController.text.trim(),
                               password: _passwordController.text.trim(),
                             ),
                           ),

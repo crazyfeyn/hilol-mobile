@@ -91,7 +91,6 @@ class NetworkService {
 
   /* Http Apis */
   static final String apiAuthSignUp = "/api/v1/auth/register";
-  static final String apiFetchUserData = "/api/v1/user";
 
   /* Http Params */
   static Map<String, dynamic> paramsLogin(String phone, String password) {

@@ -19,7 +19,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Either<String, String>> signUp(AuthModel auth) async {
     try {
-      final api = NetworkService.apiFetchUserData;
+      final api = NetworkService.apiAuthSignUp;
       final cancelToken = cancelTokenManager.getToken(api);
       final response = await NetworkService.post(api, cancelToken, auth.toJson());
       final result = response['data']['clientId'];
