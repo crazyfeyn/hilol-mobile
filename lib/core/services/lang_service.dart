@@ -24,8 +24,7 @@ class LangService {
 
   static String get currentLocale {
     final localeLang = DBService.getLanguage();
-    if (localeLang == null)
-      return fallbackLocale.toStringWithSeparator(separator: "-");
+    if (localeLang == null) return fallbackLocale.toStringWithSeparator(separator: "-");
     return localeLang;
   }
 

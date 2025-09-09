@@ -1,15 +1,18 @@
 import 'dart:io';
 
-import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/core/services/lang_service.dart';
+import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:uuid/uuid.dart';
 import 'package:dio/dio.dart';
+
 
 class NetworkService {
   static bool _isTester = true;
-  static final _serverDev = "";
-  static final _serverProd = "";
+  static final _serverDev = "http://131.153.18.44:8080";
+  static final _serverProd = "http://131.153.18.44:8080";
 
   static String get getService {
     if (_isTester) return _serverDev;
@@ -20,8 +23,9 @@ class NetworkService {
     final langCode = LangService.currentLocale;
     final accessToken = DBService.getAccessToken();
     return {
-      "X-Client-Type": "Hisobchi-APP",
       "token": accessToken,
+      "X-Device-Type": Platform.operatingSystem,
+      "X-Request-UUID": Uuid().v4(),
       "Accept-Language": langCode,
     };
   }
@@ -38,17 +42,11 @@ class NetworkService {
       var response = await _dio.get(api, queryParameters: params, cancelToken: cancelToken);
       return response.data;
     } on DioException catch (e) {
-      final error = NetworkException.fromDioError(e);
-      if(error.type != NetworkExceptionType.cancelled) {
-        GlobalSnackBar.showError(error.message);
-      }
       throw NetworkException.fromDioError(e);
-    } on SocketException catch (e) {
-      GlobalSnackBar.showError("");
-      throw NetworkException("No internet connection: ${e.message}", NetworkExceptionType.noInternet,);
+    } on SocketException catch (_) {
+      throw NetworkException(LocaleKeys.check_internet_connection.tr(), NetworkExceptionType.noInternet);
     } catch (e) {
-      GlobalSnackBar.showError("");
-      throw NetworkException("An unexpected error occurred: $e", NetworkExceptionType.unknown,);
+      throw NetworkException(LocaleKeys.dio_unknown_message.tr(args: [e.toString()]), NetworkExceptionType.unknown);
     }
   }
 
@@ -57,17 +55,11 @@ class NetworkService {
       var response = await _dio.post(api, data: data, queryParameters: params, cancelToken: cancelToken);
       return response.data;
     } on DioException catch (e) {
-      final error = NetworkException.fromDioError(e);
-      if(error.type != NetworkExceptionType.cancelled) {
-        GlobalSnackBar.showError(error.message);
-      }
       throw NetworkException.fromDioError(e);
-    } on SocketException catch (e) {
-      GlobalSnackBar.showError("");
-      throw NetworkException("No internet connection: ${e.message}", NetworkExceptionType.noInternet,);
+    } on SocketException catch (_) {
+      throw NetworkException(LocaleKeys.check_internet_connection.tr(), NetworkExceptionType.noInternet);
     } catch (e) {
-      GlobalSnackBar.showError("");
-      throw NetworkException("An unexpected error occurred: $e", NetworkExceptionType.unknown,);
+      throw NetworkException(LocaleKeys.dio_unknown_message.tr(args: [e.toString()]), NetworkExceptionType.unknown);
     }
   }
 
@@ -76,17 +68,11 @@ class NetworkService {
       var response = await _dio.put(api, data: data, cancelToken: cancelToken);
       return response.data;
     } on DioException catch (e) {
-      final error = NetworkException.fromDioError(e);
-      if(error.type != NetworkExceptionType.cancelled) {
-        GlobalSnackBar.showError(error.message);
-      }
       throw NetworkException.fromDioError(e);
-    } on SocketException catch (e) {
-      GlobalSnackBar.showError("");
-      throw NetworkException("No internet connection: ${e.message}", NetworkExceptionType.noInternet,);
+    } on SocketException catch (_) {
+      throw NetworkException(LocaleKeys.check_internet_connection.tr(), NetworkExceptionType.noInternet);
     } catch (e) {
-      GlobalSnackBar.showError("");
-      throw NetworkException("An unexpected error occurred: $e", NetworkExceptionType.unknown,);
+      throw NetworkException(LocaleKeys.dio_unknown_message.tr(args: [e.toString()]), NetworkExceptionType.unknown);
     }
   }
 
@@ -95,21 +81,16 @@ class NetworkService {
       var response = await _dio.delete(api, data: data, queryParameters: params, cancelToken: cancelToken);
       return response.data;
     } on DioException catch (e) {
-      final error = NetworkException.fromDioError(e);
-      if(error.type != NetworkExceptionType.cancelled) {
-        GlobalSnackBar.showError(error.message);
-      }
       throw NetworkException.fromDioError(e);
-    } on SocketException catch (e) {
-      GlobalSnackBar.showError("");
-      throw NetworkException("No internet connection: ${e.message}", NetworkExceptionType.noInternet,);
+    } on SocketException catch (_) {
+      throw NetworkException(LocaleKeys.check_internet_connection.tr(), NetworkExceptionType.noInternet);
     } catch (e) {
-      GlobalSnackBar.showError("");
-      throw NetworkException("An unexpected error occurred: $e", NetworkExceptionType.unknown,);
+      throw NetworkException(LocaleKeys.dio_unknown_message.tr(args: [e.toString()]), NetworkExceptionType.unknown);
     }
   }
 
   /* Http Apis */
+  static final String apiAuthSignUp = "/api/v1/auth/register";
   static final String apiFetchUserData = "/api/v1/user";
 
   /* Http Params */
