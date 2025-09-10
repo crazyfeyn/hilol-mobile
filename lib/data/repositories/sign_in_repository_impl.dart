@@ -2,14 +2,14 @@ import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/data/datasources/network/cancel_token_manager.dart';
 import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:commerce_mobile/data/datasources/network/network_service.dart';
-import 'package:commerce_mobile/data/models/auth_model.dart';
-import 'package:commerce_mobile/domain/repositories/auth_repository.dart';
+import 'package:commerce_mobile/data/models/sign_in_model.dart';
+import 'package:commerce_mobile/domain/repositories/sign_in_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class AuthRepositoryImpl extends AuthRepository {
+class SignInRepositoryImpl extends SignInRepository {
   late final CancelTokenManager cancelTokenManager;
 
-  AuthRepositoryImpl() {
+  SignInRepositoryImpl() {
     cancelTokenManager = CancelTokenManager();
   }
 
@@ -17,15 +17,22 @@ class AuthRepositoryImpl extends AuthRepository {
   void dispose() => cancelTokenManager.cancelAll();
 
   @override
-  Future<Either<String, String>> signUp(AuthModel auth) async {
+  Future<Either<String, SignInParam>> signIn(SignInModel auth) async {
     try {
-      final api = NetworkService.apiAuthSignUp;
+      final api = NetworkService.apiAuthSignIn;
       final cancelToken = cancelTokenManager.getToken(api);
-      final response = await NetworkService.post(api, cancelToken, auth.toJson());
-      final result = response['data']['clientId'];
+      final response = await NetworkService.post(
+        api,
+        cancelToken,
+        auth.toJson(),
+      );
+      final result = SignInParam(
+        refreshToken: response['data']['refreshToken'],
+        accessToken: response['data']['accessToken'],
+      );
       return Right(result);
-    } on NetworkException catch(e) {
-      if(e.type != NetworkExceptionType.cancelled) {
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {
         GlobalSnackBar.showError(e.message);
       }
       return Left(e.toString());

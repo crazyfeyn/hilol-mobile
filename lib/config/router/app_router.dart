@@ -88,6 +88,11 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        path: SignUpPage.path,
+        pageBuilder:
+            (context, state) => const MaterialPage(child: SignUpPage()),
+      ),
     ],
   );
 

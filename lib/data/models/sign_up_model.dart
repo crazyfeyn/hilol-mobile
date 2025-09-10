@@ -1,30 +1,24 @@
-class AuthModel {
+class SignUpModel {
   String? firstname;
   String? lastname;
   String? phoneNumber;
   String? password;
 
-  AuthModel({
-    this.firstname,
-    this.lastname,
-    this.phoneNumber,
-    this.password,
-  });
+  SignUpModel({this.firstname, this.lastname, this.phoneNumber, this.password});
 
-  AuthModel copyWith({
+  SignUpModel copyWith({
     String? firstname,
     String? lastname,
     String? phoneNumber,
     String? password,
-  }) =>
-      AuthModel(
-        firstname: firstname ?? this.firstname,
-        lastname: lastname ?? this.lastname,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-        password: password ?? this.password,
-      );
+  }) => SignUpModel(
+    firstname: firstname ?? this.firstname,
+    lastname: lastname ?? this.lastname,
+    phoneNumber: phoneNumber ?? this.phoneNumber,
+    password: password ?? this.password,
+  );
 
-  factory AuthModel.fromJson(Map<String, dynamic> json) => AuthModel(
+  factory SignUpModel.fromJson(Map<String, dynamic> json) => SignUpModel(
     firstname: json["firstname"],
     lastname: json["lastname"],
     phoneNumber: json["phoneNumber"],

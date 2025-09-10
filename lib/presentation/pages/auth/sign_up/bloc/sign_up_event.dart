@@ -7,7 +7,7 @@ class SignUpChangeObscureText1 extends SignUpEvent {}
 class SignUpChangeObscureText2 extends SignUpEvent {}
 
 class SignUpSendData extends SignUpEvent {
-  AuthModel auth;
+  SignUpModel auth;
 
   SignUpSendData(this.auth);
 }
