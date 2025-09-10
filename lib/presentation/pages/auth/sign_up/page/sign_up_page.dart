@@ -2,7 +2,7 @@ import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/data/models/auth_model.dart';
+import 'package:commerce_mobile/data/models/sign_up_model.dart';
 import 'package:commerce_mobile/presentation/pages/auth/confirm_code/page/confirm_code_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_up/bloc/sign_up_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/auth/widget/check_widget.dart';
@@ -50,8 +50,8 @@ class _SignUpViewState extends State<SignUpView> {
   Widget build(BuildContext context) {
     return BlocConsumer<SignUpBloc, SignUpState>(
       listener: (context, state) {
-        if(state.formzStatus.isSuccess && state.clientId != null) {
-          final extra = { "clientId": state.clientId, "auth": state.auth};
+        if (state.formzStatus.isSuccess && state.clientId != null) {
+          final extra = {"clientId": state.clientId, "auth": state.auth};
           NavigationService.push(context, ConfirmCodePage.path, extra: extra);
         }
       },
@@ -213,7 +213,7 @@ class _SignUpViewState extends State<SignUpView> {
                       if (_formKey.currentState!.validate()) {
                         bloc.add(
                           SignUpSendData(
-                            AuthModel(
+                            SignUpModel(
                               firstname: _firstNameController.text.trim(),
                               lastname: _lastNameController.text.trim(),
                               phoneNumber: _phoneController.text.trim(),

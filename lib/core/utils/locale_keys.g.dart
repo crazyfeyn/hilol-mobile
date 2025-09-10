@@ -23,11 +23,6 @@ abstract class  LocaleKeys {
   static const exit_btn = 'exit_btn';
   static const cancel_btn = 'cancel_btn';
   static const empty_filed = 'empty_filed';
-  static const full_name_title_field = 'full_name_title_field';
-  static const full_name_hint_field = 'full_name_hint_field';
-  static const full_name_error_field_empty = 'full_name_error_field.empty';
-  static const full_name_error_field_too_short = 'full_name_error_field.too_short';
-  static const full_name_error_field = 'full_name_error_field';
   static const first_name_title_field = 'first_name_title_field';
   static const first_name_hint_field = 'first_name_hint_field';
   static const first_name_error_field_empty = 'first_name_error_field.empty';
@@ -91,5 +86,8 @@ abstract class  LocaleKeys {
   static const check_internet_connection = 'check_internet_connection';
   static const bad_certificate_message = 'bad_certificate_message';
   static const dio_unknown_message = 'dio_unknown_message';
+  static const login_error_message = 'login_error_message';
+  static const verify_code_error_message = 'verify_code_error_message';
+  static const enter_verification_code = 'enter_verification_code';
 
 }

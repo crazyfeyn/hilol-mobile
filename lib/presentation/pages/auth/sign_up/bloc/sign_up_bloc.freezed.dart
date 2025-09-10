@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SignUpState {
   FormzSubmissionStatus get formzStatus => throw _privateConstructorUsedError;
-  AuthModel? get auth => throw _privateConstructorUsedError;
+  SignUpModel? get auth => throw _privateConstructorUsedError;
   String? get clientId => throw _privateConstructorUsedError;
   bool get obscureText1 => throw _privateConstructorUsedError;
   bool get obscureText2 => throw _privateConstructorUsedError;
@@ -39,7 +39,7 @@ abstract class $SignUpStateCopyWith<$Res> {
   @useResult
   $Res call({
     FormzSubmissionStatus formzStatus,
-    AuthModel? auth,
+    SignUpModel? auth,
     String? clientId,
     bool obscureText1,
     bool obscureText2,
@@ -78,7 +78,7 @@ class _$SignUpStateCopyWithImpl<$Res, $Val extends SignUpState>
                 freezed == auth
                     ? _value.auth
                     : auth // ignore: cast_nullable_to_non_nullable
-                        as AuthModel?,
+                        as SignUpModel?,
             clientId:
                 freezed == clientId
                     ? _value.clientId
@@ -111,7 +111,7 @@ abstract class _$$SignUpStateImplCopyWith<$Res>
   @useResult
   $Res call({
     FormzSubmissionStatus formzStatus,
-    AuthModel? auth,
+    SignUpModel? auth,
     String? clientId,
     bool obscureText1,
     bool obscureText2,
@@ -149,7 +149,7 @@ class __$$SignUpStateImplCopyWithImpl<$Res>
             freezed == auth
                 ? _value.auth
                 : auth // ignore: cast_nullable_to_non_nullable
-                    as AuthModel?,
+                    as SignUpModel?,
         clientId:
             freezed == clientId
                 ? _value.clientId
@@ -186,7 +186,7 @@ class _$SignUpStateImpl extends _SignUpState {
   final FormzSubmissionStatus formzStatus;
   @override
   @JsonKey()
-  final AuthModel? auth;
+  final SignUpModel? auth;
   @override
   @JsonKey()
   final String? clientId;
@@ -240,7 +240,7 @@ class _$SignUpStateImpl extends _SignUpState {
 abstract class _SignUpState extends SignUpState {
   const factory _SignUpState({
     final FormzSubmissionStatus formzStatus,
-    final AuthModel? auth,
+    final SignUpModel? auth,
     final String? clientId,
     final bool obscureText1,
     final bool obscureText2,
@@ -250,7 +250,7 @@ abstract class _SignUpState extends SignUpState {
   @override
   FormzSubmissionStatus get formzStatus;
   @override
-  AuthModel? get auth;
+  SignUpModel? get auth;
   @override
   String? get clientId;
   @override

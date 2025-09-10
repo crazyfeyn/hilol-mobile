@@ -146,6 +146,8 @@ class NetworkService {
 
   /* Http Apis */
   static final String apiAuthSignUp = "/api/v1/auth/register";
+  static final String apiAuthSignIn = "/api/v1/auth/login";
+  static final String apiAuthConfirmPass = "/api/v1/auth/verify-phone";
 
   /* Http Params */
   static Map<String, dynamic> paramsLogin(String phone, String password) {

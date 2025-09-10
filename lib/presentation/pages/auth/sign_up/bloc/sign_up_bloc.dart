@@ -1,8 +1,8 @@
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
-import 'package:commerce_mobile/data/models/auth_model.dart';
-import 'package:commerce_mobile/data/repositories/auth_repository_impl.dart';
+import 'package:commerce_mobile/data/models/sign_up_model.dart';
+import 'package:commerce_mobile/data/repositories/sign_UP_repository_impl.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sign_up_event.dart';
@@ -10,7 +10,7 @@ part 'sign_up_state.dart';
 part 'sign_up_bloc.freezed.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  final _repository = AuthRepositoryImpl();
+  final _repository = SignUpRepositoryImpl();
 
   SignUpBloc() : super(const SignUpState()) {
     on<SignUpChangeObscureText1>((event, emit) {
