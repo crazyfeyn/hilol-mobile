@@ -96,5 +96,9 @@
   "dio_unknown_message": "Dio unknown message: {}",
   "login_error_message": "Invalid email or password. Please try again",
    "verify_code_error_message": "The verification code is invalid or expired. Please try again",
-   "enter_verification_code": "Enter the verification code"
+   "enter_verification_code": "Enter the verification code",
+   "loading": "Loading...",
+  "password_reset_error": "Password reset failed. Please try again",
+  "password_reset_success": "Password has been successfully reset"
+
 }

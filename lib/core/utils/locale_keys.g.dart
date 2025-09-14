@@ -89,5 +89,8 @@ abstract class  LocaleKeys {
   static const login_error_message = 'login_error_message';
   static const verify_code_error_message = 'verify_code_error_message';
   static const enter_verification_code = 'enter_verification_code';
+  static const loading = 'loading';
+  static const password_reset_error = 'password_reset_error';
+  static const password_reset_success = 'password_reset_success';
 
 }

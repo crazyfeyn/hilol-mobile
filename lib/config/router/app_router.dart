@@ -52,8 +52,12 @@ class AppRouter {
       ),
       GoRoute(
         path: ResetPasswordPage.path,
-        pageBuilder:
-            (context, state) => const MaterialPage(child: ResetPasswordPage()),
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          return MaterialPage(
+            child: ResetPasswordPage(phoneNumber: extra['phoneNumber']),
+          );
+        },
       ),
       GoRoute(
         path: HomePage.path,
