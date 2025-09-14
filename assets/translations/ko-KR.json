@@ -96,5 +96,9 @@
   "dio_unknown_message": "Dio unknown message: {}",
   "login_error_message": "Email yoki parol noto‘g‘ri. Iltimos, qaytadan urinib ko‘ring",
   "verify_code_error_message": "Tasdiqlash kodi noto‘g‘ri yoki muddati o‘tgan. Qaytadan urinib ko‘ring",
-  "enter_verification_code": "Tasdiqlash kodini kiriting"
+  "enter_verification_code": "Tasdiqlash kodini kiriting",
+  "loading": "Yuklanmoqda...",
+  "password_reset_error": "Parolni tiklash muvaffaqiyatsiz bo'ldi. Iltimos, qayta urinib ko'ring",
+  "password_reset_success": "Parol muvaffaqiyatli tiklandi"
+
 }

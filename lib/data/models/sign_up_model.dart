@@ -27,6 +27,7 @@ class SignUpModel {
 
   Map<String, dynamic> toJson() => {
     "firstname": firstname,
+
     "lastname": lastname,
     "phoneNumber": phoneNumber,
     "password": password,
