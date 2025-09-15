@@ -92,5 +92,6 @@ abstract class  LocaleKeys {
   static const loading = 'loading';
   static const password_reset_error = 'password_reset_error';
   static const password_reset_success = 'password_reset_success';
+  static const user_not_found = 'user_not_found';
 
 }

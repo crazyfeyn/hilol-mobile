@@ -99,6 +99,7 @@
    "enter_verification_code": "Enter the verification code",
    "loading": "Loading...",
   "password_reset_error": "Password reset failed. Please try again",
-  "password_reset_success": "Password has been successfully reset"
+  "password_reset_success": "Password has been successfully reset",
+  "user_not_found": "User not found"
 
 }

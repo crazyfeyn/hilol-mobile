@@ -1,4 +1,5 @@
 import 'package:commerce_mobile/core/utils/app_snackbar.dart';
+import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/data/datasources/network/cancel_token_manager.dart';
 import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:commerce_mobile/data/datasources/network/network_service.dart';
@@ -29,12 +30,13 @@ class ResetPassRepositoryImpl extends ResetPassRepository {
         cancelToken,
         resetPassParam.toJson(),
       );
-      print('[][][][][][][]-=-=-=-=-=-=-');
-      print(response);
       final result = ResetPassTokenModel(
         refreshToken: response['data']['refreshToken'],
         accessToken: response['data']['accessToken'],
       );
+      DBService.clearTokens();
+      await DBService.setAccessToken(result.accessToken);
+      await DBService.setRefreshToken(result.refreshToken);
       return Right(result);
     } on NetworkException catch (e) {
       if (e.type != NetworkExceptionType.cancelled) {

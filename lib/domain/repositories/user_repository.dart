@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 
 abstract class UserRepository {
   Future<Either<String, UserModel>> fetchUserData();
+  Future<Either<String, bool>> logout();
 
   void dispose();
 }
