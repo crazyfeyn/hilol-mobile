@@ -99,6 +99,7 @@
   "enter_verification_code": "Tasdiqlash kodini kiriting",
   "loading": "Yuklanmoqda...",
   "password_reset_error": "Parolni tiklash muvaffaqiyatsiz bo'ldi. Iltimos, qayta urinib ko'ring",
-  "password_reset_success": "Parol muvaffaqiyatli tiklandi"
+  "password_reset_success": "Parol muvaffaqiyatli tiklandi",
+  "user_not_found": "Foydalanuvchi topilmadi"
 
 }

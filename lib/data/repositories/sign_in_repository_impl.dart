@@ -1,8 +1,10 @@
 import 'package:commerce_mobile/core/utils/app_snackbar.dart';
+import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/data/datasources/network/cancel_token_manager.dart';
 import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:commerce_mobile/data/datasources/network/network_service.dart';
 import 'package:commerce_mobile/data/models/sign_in_model.dart';
+import 'package:commerce_mobile/data/models/user_model.dart';
 import 'package:commerce_mobile/domain/repositories/sign_in_repository.dart';
 import 'package:dartz/dartz.dart';
 
@@ -30,6 +32,13 @@ class SignInRepositoryImpl extends SignInRepository {
         refreshToken: response['data']['refreshToken'],
         accessToken: response['data']['accessToken'],
       );
+      await DBService.setAccessToken(result.accessToken);
+      await DBService.setRefreshToken(result.refreshToken);
+
+      // if (response['data']['user'] != null) {
+      //   final userData = UserModel.fromJson(response['data']['user']);
+      //   await DBService.setUserData(userData);
+      // }
       return Right(result);
     } on NetworkException catch (e) {
       if (e.type != NetworkExceptionType.cancelled) {

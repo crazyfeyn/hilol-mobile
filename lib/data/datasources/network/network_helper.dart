@@ -98,12 +98,12 @@ class NetworkInterceptor extends Interceptor {
 
       final response = await dio.post(
         '/api/v1/auth/refresh-token',
-        data: {'refresh_token': refreshToken},
+        data: {'refreshToken': refreshToken},
       );
 
       if (response.statusCode == 200) {
         final newAccessToken = response.data['access_token'];
-        final newRefreshToken = response.data['refresh_token'];
+        final newRefreshToken = response.data['refreshToken'];
 
         // Save new tokens
         await DBService.saveAccessToken(newAccessToken);
