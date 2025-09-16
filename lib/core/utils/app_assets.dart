@@ -11,6 +11,7 @@ class AppIcons {
 
   final String flagUs = 'assets/icons/flag_us.svg';
   final String flagKo = 'assets/icons/flag_ko.svg';
+  final String flagUz = 'assets/icons/flag_uz.svg';
   final String icClose = 'assets/icons/ic_close.svg';
 
   final String home = 'assets/icons/home.svg';
