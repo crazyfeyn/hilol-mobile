@@ -57,6 +57,7 @@ class NetworkInterceptor extends Interceptor {
           await _handleTokenRefreshFailure();
         }
       } catch (e) {
+        print('Token refresh error: $e');
         await _handleTokenRefreshFailure();
       }
 
@@ -80,46 +81,54 @@ class NetworkInterceptor extends Interceptor {
     try {
       final refreshToken = DBService.getRefreshToken();
       if (refreshToken.isEmpty) {
+        print('No refresh token available');
         return false;
       }
 
-      // Use separate Dio instance or create one for refresh to avoid interceptor loops
-      final dio =
-          authDio ??
-          Dio(
-            BaseOptions(
-              baseUrl: _getBaseUrl(), // You'll need to implement this
-              headers: {
-                "Accept-Language": LangService.currentLocale,
-                "Content-Type": "application/json",
-              },
-            ),
-          );
+      // Create a clean Dio instance without interceptors to avoid loops
+      final dio = Dio(
+        BaseOptions(
+          baseUrl: _getBaseUrl(),
+          headers: {
+            "Accept-Language": LangService.currentLocale,
+            "Content-Type": "application/json",
+          },
+        ),
+      );
 
       final response = await dio.post(
         '/api/v1/auth/refresh-token',
         data: {'refreshToken': refreshToken},
       );
 
-      if (response.statusCode == 200) {
-        final newAccessToken = response.data['access_token'];
-        final newRefreshToken = response.data['refreshToken'];
+      if (response.statusCode == 200 && response.data['success'] == true) {
+        // ✅ Fixed: Use correct response structure
+        final data = response.data['data'];
+        final newAccessToken = data['accessToken'];
+        final newRefreshToken = data['refreshToken'];
 
-        // Save new tokens
-        await DBService.saveAccessToken(newAccessToken);
-        if (newRefreshToken != null) {
-          await DBService.saveRefreshToken(newRefreshToken);
+        if (newAccessToken != null) {
+          // Save new tokens
+          await DBService.saveAccessToken(newAccessToken);
+          if (newRefreshToken != null) {
+            await DBService.saveRefreshToken(newRefreshToken);
+          }
+
+          print('Token refreshed successfully');
+          return true;
         }
-
-        return true;
       }
+
+      print('Token refresh failed: Invalid response');
+      return false;
     } catch (e) {
       print('Token refresh failed: $e');
+      return false;
     }
-    return false;
   }
 
   Future<Response> _retry(RequestOptions requestOptions) async {
+    // Create a new Dio instance without interceptors for retry
     final dio = Dio(
       BaseOptions(
         baseUrl: _getBaseUrl(),
@@ -144,6 +153,7 @@ class NetworkInterceptor extends Interceptor {
   Future<void> _handleTokenRefreshFailure() async {
     try {
       await DBService.clearTokens();
+      print('Tokens cleared due to refresh failure');
       // You might want to navigate to login screen here
       // or emit an event to notify the app about logout
       // NavigationService.pushAndClearStack('/login');

@@ -20,25 +20,17 @@ class UserRepositoryImpl extends UserRepository {
     try {
       final localUser = DBService.getUserData();
       if (localUser != null) {
-        print('yutdik, yutdik, yyutdik');
-        print('[][][][][][]');
-        print(localUser.fullName);
         return Right(localUser);
       }
-      print('ikkonchi');
-      print('ikkonchi bir');
       final api = NetworkService.apiGetUser;
       final cancelToken = cancelTokenManager.getToken(api);
       final response = await NetworkService.get(api, cancelToken);
 
       if (response['success'] == true && response['data'] != null) {
-        print("ikkinchidan success");
         final userData = UserModel.fromJson(response['data']);
         await DBService.setUserData(userData);
         return Right(userData);
       }
-      print('oxshamadi');
-      print('p[[p[p[opoksdfvjkbdgfkjdjkfgjkdfhbg]]]]');
 
       return Left(context.tr(LocaleKeys.user_not_found));
     } on NetworkException catch (e) {

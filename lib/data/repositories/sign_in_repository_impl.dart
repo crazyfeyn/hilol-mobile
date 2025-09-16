@@ -35,10 +35,10 @@ class SignInRepositoryImpl extends SignInRepository {
       await DBService.setAccessToken(result.accessToken);
       await DBService.setRefreshToken(result.refreshToken);
 
-      // if (response['data']['user'] != null) {
-      //   final userData = UserModel.fromJson(response['data']['user']);
-      //   await DBService.setUserData(userData);
-      // }
+      if (response['data']['user'] != null) {
+        final userData = UserModel.fromJson(response['data']['user']);
+        await DBService.setUserData(userData);
+      }
       return Right(result);
     } on NetworkException catch (e) {
       if (e.type != NetworkExceptionType.cancelled) {

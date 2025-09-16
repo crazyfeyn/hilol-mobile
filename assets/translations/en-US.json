@@ -1,73 +1,74 @@
 {
   "app_name": "E-commerce",
-  "lang_ko" : "한국인",
-  "lang_en" : "English",
+  "lang_ko": "Korean",
+  "lang_en": "English",
+  "lang_uz": "Uzbek",
   "change_language": "Change language",
   "save_btn": "Save",
-  "edit_profile": "Profileni tahrirlash",
-  "reset_password": "Parolni tiklash",
-  "my_orders": "Buyurtmalarim",
-  "support": "Qo'llab-quvvatlash",
-  "share_app": "Ilovani ulashish",
-  "privacy_police": "Maxfiylik siyosati",
-  "terms_of_services": "Bizning shartlar",
-  "logout_account": "Hisobdan chiqish",
-  "logout_account_prompt": "Haqiqatan ham chiqmoqchimisiz?",
-  "delete_account": "Hisobni o'chirish",
-  "delete_account_prompt": "Haqiqatan ham hisobingizni butunlay o‘chirmoqchimisiz?",
-  "delete_btn": "O‘chirish",
-  "exit_btn": "Chiqish",
-  "cancel_btn": "Bekor qilish",
+  "edit_profile": "Edit profile",
+  "reset_password": "Reset password",
+  "my_orders": "My orders",
+  "support": "Support",
+  "share_app": "Share app",
+  "privacy_police": "Privacy policy",
+  "terms_of_services": "Terms of service",
+  "logout_account": "Logout",
+  "logout_account_prompt": "Are you sure you want to log out?",
+  "delete_account": "Delete account",
+  "delete_account_prompt": "Are you sure you want to permanently delete your account?",
+  "delete_btn": "Delete",
+  "exit_btn": "Exit",
+  "cancel_btn": "Cancel",
   "empty_filed": "Entry is required",
 
   "first_name_title_field": "Firstname",
   "first_name_hint_field": "Enter firstname...",
   "first_name_error_field": {
     "empty": "Enter firstname",
-    "too_short": "Firstname kamida 3 ta belgidan iborat bo‘lishi kerak"
+    "too_short": "Firstname must be at least 3 characters long"
   },
 
   "last_name_title_field": "Lastname",
   "last_name_hint_field": "Enter lastname...",
   "last_name_error_field": {
     "empty": "Enter lastname",
-    "too_short": "Lastname kamida 3 ta belgidan iborat bo‘lishi kerak"
+    "too_short": "Lastname must be at least 3 characters long"
   },
 
-  "login_to_app": "Ilovaga kirish",
+  "login_to_app": "Login to app",
   "create_new_account": "Create new account",
-  "phone_number_error_field" : {
+  "phone_number_error_field": {
     "empty": "Enter phone number"
   },
   "email": "E-mail",
-  "email_hint" : "email@gmail.com",
+  "email_hint": "email@gmail.com",
   "email_invalid_format": "Please enter a valid email address (e.g. email@gmail.com)",
   "address_title": "Address",
   "address_hint": "Enter address",
   "address_error_field": {
     "empty": "Enter address"
   },
-  "password_title_field": "Parol",
-  "password_hint_field": "Parolni kiriting...",
+  "password_title_field": "Password",
+  "password_hint_field": "Enter password...",
   "password_error_field": {
-    "empty": "Parolingizni kiriting",
-    "too_short": "Parol kamida 8 ta belgidan iborat bo‘lishi kerak",
-    "contains_space": "Parolda bo‘sh joy bo‘lmasligi kerak",
-    "no_special_char": "Parolda kamida bitta maxsus belgi bo‘lishi kerak",
-    "no_number": "Parolda kamida bitta raqam bo‘lishi kerak",
-    "no_lowercase": "Parolda kamida bitta kichik harf bo‘lishi kerak",
-    "no_uppercase": "Parolda kamida bitta katta harf bo‘lishi kerak",
-    "do_not_match": "Parollar mos emas"
+    "empty": "Enter your password",
+    "too_short": "Password must be at least 8 characters long",
+    "contains_space": "Password must not contain spaces",
+    "no_special_char": "Password must contain at least one special character",
+    "no_number": "Password must contain at least one number",
+    "no_lowercase": "Password must contain at least one lowercase letter",
+    "no_uppercase": "Password must contain at least one uppercase letter",
+    "do_not_match": "Passwords do not match"
   },
-  "confirm_password_title_field": "Parol takrorlang",
-  "confirm_password_hint_field": "Parolni qayta kiriting...",
+  "confirm_password_title_field": "Confirm password",
+  "confirm_password_hint_field": "Re-enter password...",
   "confirm_password_error_field": {
-    "empty": "Parolni qayta kiriting",
-    "password_mismatch": "Parol mos kelmadi"
+    "empty": "Re-enter password",
+    "password_mismatch": "Passwords do not match"
   },
-  "forget_password": "Forget password",
+  "forget_password": "Forgot password",
   "do_not_have_account": "Don't have an account?",
-  "have_account": "Do you have an account?",
+  "have_account": "Already have an account?",
   "login_btn": "Login",
   "create_account_btn": "Create account",
   "reset_code": "Reset code",
@@ -78,28 +79,27 @@
   "first_name_hint": "Enter your first name",
   "first_name_too_short": "First name is too short",
   "first_name_invalid_format": "First name has an invalid format",
-  
+
   "last_name": "Last name",
   "last_name_hint": "Enter your last name",
   "last_name_too_short": "Last name is too short",
   "last_name_invalid_format": "Last name has an invalid format",
-  
+
   "phone_number": "Phone number",
   "phone_number_hint": "Enter your phone number",
   "phone_number_invalid_format": "Phone number has an invalid format",
   "phone_number_too_short": "Phone number is too short",
   "phone_number_too_long": "Phone number is too long",
 
-  "timeout_message": "Timeout message",
-  "check_internet_connection": "Check internet connection",
-  "bad_certificate_message": "Bad certificate message",
-  "dio_unknown_message": "Dio unknown message: {}",
+  "timeout_message": "Timeout error",
+  "check_internet_connection": "Check your internet connection",
+  "bad_certificate_message": "Bad certificate",
+  "dio_unknown_message": "Unknown Dio error: {}",
   "login_error_message": "Invalid email or password. Please try again",
-   "verify_code_error_message": "The verification code is invalid or expired. Please try again",
-   "enter_verification_code": "Enter the verification code",
-   "loading": "Loading...",
+  "verify_code_error_message": "The verification code is invalid or expired. Please try again",
+  "enter_verification_code": "Enter the verification code",
+  "loading": "Loading...",
   "password_reset_error": "Password reset failed. Please try again",
   "password_reset_success": "Password has been successfully reset",
   "user_not_found": "User not found"
-
 }

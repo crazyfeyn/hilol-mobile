@@ -6,6 +6,7 @@ abstract class  LocaleKeys {
   static const app_name = 'app_name';
   static const lang_ko = 'lang_ko';
   static const lang_en = 'lang_en';
+  static const lang_uz = 'lang_uz';
   static const change_language = 'change_language';
   static const save_btn = 'save_btn';
   static const edit_profile = 'edit_profile';

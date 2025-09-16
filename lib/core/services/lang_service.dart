@@ -20,11 +20,14 @@ class LangService {
   static final supportedLocales = [
     const Locale("ko", "KR"),
     const Locale("en", "US"),
+    const Locale("uz", "UZ"),
   ];
 
   static String get currentLocale {
     final localeLang = DBService.getLanguage();
-    if (localeLang == null) return fallbackLocale.toStringWithSeparator(separator: "-");
+    if (localeLang == null) {
+      return fallbackLocale.toStringWithSeparator(separator: "-");
+    }
     return localeLang;
   }
 
@@ -57,6 +60,8 @@ class LangService {
         return LocaleKeys.lang_ko.tr();
       case 'en':
         return LocaleKeys.lang_en.tr();
+      case 'uz':
+        return LocaleKeys.lang_uz.tr();
       default:
         throw "Exception: Not found";
     }
@@ -68,6 +73,8 @@ class LangService {
         return AppAssets.icons.flagKo;
       case 'en':
         return AppAssets.icons.flagUs;
+      case 'uz':
+        return AppAssets.icons.flagUz;
       default:
         throw "Exception: Not found";
     }

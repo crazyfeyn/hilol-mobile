@@ -107,16 +107,6 @@ class _ProfileViewState extends State<ProfileView> {
 
                   const SizedBox(height: 24),
                   ProfileCard(
-                    onTap:
-                        state.formzStatus.isInProgress
-                            ? null
-                            : () =>
-                                NavigationService.push(context, EditPage.path),
-                    icon: CupertinoIcons.person,
-                    title: context.tr(LocaleKeys.edit_profile),
-                  ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
                     icon: CupertinoIcons.bag,
                     title: context.tr(LocaleKeys.my_orders),
                     onTap:
@@ -204,7 +194,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 context,
                                 isDelete: false,
                                 onTap: () {
-                                  Navigator.pop(context); // Close dialog first
+                                  // Navigator.pop(context);
                                   bloc.add(const UserEvent.logout());
                                 },
                               );
@@ -222,8 +212,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 context,
                                 isDelete: true,
                                 onTap: () {
-                                  Navigator.pop(context); // Close dialog first
-                                  // TODO: Implement delete account logic
+                                  bloc.add(const UserEvent.logout());
                                   NavigationService.go(
                                     context,
                                     SignInPage.path,

@@ -21,8 +21,9 @@ class NetworkService {
   static Map<String, String> get getHeaders {
     final langCode = LangService.currentLocale;
     final accessToken = DBService.getAccessToken();
+
     return {
-      "token": accessToken,
+      if (accessToken.isNotEmpty) "Authorization": "Bearer $accessToken",
       "X-Device-Type": Platform.operatingSystem,
       "X-Request-UUID": Uuid().v4(),
       "Accept-Language": langCode,
