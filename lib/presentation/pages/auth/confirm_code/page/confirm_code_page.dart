@@ -10,7 +10,7 @@ import 'package:commerce_mobile/presentation/pages/auth/confirm_code/widget/time
 import 'package:commerce_mobile/presentation/pages/auth/forget_pass/bloc/reset_pass_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/auth/reset_pass/page/reset_pass_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
-import 'package:commerce_mobile/presentation/pages/home/page/main_page.dart';
+import 'package:commerce_mobile/presentation/pages/home/main/page/main_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
