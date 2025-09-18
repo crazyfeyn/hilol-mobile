@@ -5,15 +5,6 @@ import 'package:commerce_mobile/data/models/product_model.dart';
 import 'package:commerce_mobile/data/repositories/product_repository_impl.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:dartz/dartz.dart';
-import 'package:commerce_mobile/core/utils/app_enums.dart';
-import 'package:commerce_mobile/data/models/product_model.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:bloc/bloc.dart';
-import 'package:commerce_mobile/core/utils/app_enums.dart';
-import 'package:commerce_mobile/data/models/product_model.dart';
-import 'package:commerce_mobile/data/repositories/product_repository_impl.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:dartz/dartz.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -54,6 +45,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           state.copyWith(
             formzStatus: FormzSubmissionStatus.success,
             products: products,
+          ),
+        );
+      } else {
+        emit(state.copyWith(formzStatus: FormzSubmissionStatus.failure));
+      }
+    });
+
+    on<HomeFetchProductById>((event, emit) async {
+      emit(state.copyWith(formzStatus: FormzSubmissionStatus.inProgress));
+
+      Either<String, ProductModel> result = await _repository.fetchProductById(
+        event.productId,
+      );
+      if (result.isRight()) {
+        final product = result.getOrElse(
+          () => throw Exception("Unexpected error"),
+        );
+        emit(
+          state.copyWith(
+            formzStatus: FormzSubmissionStatus.success,
+            product: product,
           ),
         );
       } else {

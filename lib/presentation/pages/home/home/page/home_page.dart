@@ -2,7 +2,6 @@ import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/utils/app_assets.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/data/models/product_category_model.dart';
-import 'package:commerce_mobile/data/models/product_model.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/bloc/home_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/widgets/build_banner_widget.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/widgets/product_card.dart';
@@ -154,14 +153,13 @@ class _HomeViewState extends State<HomeView> {
                                     bloc.add(
                                       const HomeEvent.fetchAllProducts(),
                                     );
+                                  } else {
+                                    bloc.add(
+                                      HomeEvent.fetchProductByCategory(
+                                        category.id,
+                                      ),
+                                    );
                                   }
-                                  // else {
-                                  //   bloc.add(
-                                  //     HomeEvent.fetchProductByCategory(
-                                  //       category.id,
-                                  //     ),
-                                  //   );
-                                  // }
                                 },
                                 child: Column(
                                   children: [

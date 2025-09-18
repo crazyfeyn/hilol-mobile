@@ -57,7 +57,6 @@ class NetworkInterceptor extends Interceptor {
           await _handleTokenRefreshFailure();
         }
       } catch (e) {
-        print('Token refresh error: $e');
         await _handleTokenRefreshFailure();
       }
 

@@ -157,9 +157,5 @@ class NetworkService {
   static final String apiGetProductById = "/api/v1/product/get";
   static final String apiGetProductsByCategory =
       "/api/v1/product/get-by-category";
-
-  /* Http Params */
-  static Map<String, dynamic> paramsLogin(String phone, String password) {
-    return {"phone": phone, "password": password};
-  }
+  static final String apiFileDownload = "/api/v1/file/download";
 }

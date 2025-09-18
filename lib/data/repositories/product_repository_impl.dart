@@ -16,6 +16,10 @@ class ProductRepositoryImpl extends ProductRepository {
   @override
   void dispose() => cancelTokenManager.cancelAll();
 
+  String _getDownloadUrl(String identity) {
+    return "${NetworkService.getService}${NetworkService.apiFileDownload}?identity=$identity";
+  }
+
   @override
   Future<Either<String, List<ProductCategoryModel>>>
   fetchAllCategories() async {
@@ -42,7 +46,17 @@ class ProductRepositoryImpl extends ProductRepository {
       final response = await NetworkService.get(api, cancelToken);
 
       final data = response['data']['list'] as List;
-      final products = data.map((json) => ProductModel.fromJson(json)).toList();
+      final products =
+          data.map((json) {
+            final product = ProductModel.fromJson(json);
+            // Map all image identities -> download URLs
+            final updatedImages =
+                product.images
+                    .map((identity) => _getDownloadUrl(identity))
+                    .toList();
+            return product.copyWith(images: updatedImages);
+          }).toList();
+
       return Right(products);
     } catch (e) {
       GlobalSnackBar.showError(e.toString());
@@ -60,7 +74,11 @@ class ProductRepositoryImpl extends ProductRepository {
       });
 
       final data = response['data'];
-      return Right(ProductModel.fromJson(data));
+      final product = ProductModel.fromJson(data);
+      final updatedImages =
+          product.images.map((identity) => _getDownloadUrl(identity)).toList();
+
+      return Right(product.copyWith(images: updatedImages));
     } catch (e) {
       GlobalSnackBar.showError(e.toString());
       return Left(e.toString());
@@ -79,7 +97,16 @@ class ProductRepositoryImpl extends ProductRepository {
       });
 
       final data = response['data']['list'] as List;
-      final products = data.map((json) => ProductModel.fromJson(json)).toList();
+      final products =
+          data.map((json) {
+            final product = ProductModel.fromJson(json);
+            final updatedImages =
+                product.images
+                    .map((identity) => _getDownloadUrl(identity))
+                    .toList();
+            return product.copyWith(images: updatedImages);
+          }).toList();
+
       return Right(products);
     } catch (e) {
       GlobalSnackBar.showError(e.toString());
