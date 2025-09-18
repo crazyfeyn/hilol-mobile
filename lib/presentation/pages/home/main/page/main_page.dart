@@ -1,6 +1,6 @@
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/presentation/pages/cart/page/cart_page.dart';
-import 'package:commerce_mobile/presentation/pages/home/page/home_page.dart';
+import 'package:commerce_mobile/presentation/pages/home/home/page/home_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/page/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +40,11 @@ class _MainPageState extends State<MainPage> {
           currentIndex: _currentIndex,
           onTap: (index) {
             setState(() => _currentIndex = index);
-            _pageController.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
+            _pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
           },
           items: [
             BottomNavigationBarItem(

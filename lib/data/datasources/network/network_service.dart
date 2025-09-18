@@ -25,8 +25,9 @@ class NetworkService {
     return {
       if (accessToken.isNotEmpty) "Authorization": "Bearer $accessToken",
       "X-Device-Type": Platform.operatingSystem,
-      "X-Request-UUID": Uuid().v4(),
+      "X-Request-UUID": const Uuid().v4(),
       "Accept-Language": langCode,
+      "X-Client-Lang": langCode,
     };
   }
 
@@ -151,6 +152,11 @@ class NetworkService {
   static final String apiAuthConfirmPass = "/api/v1/auth/verify-phone";
   static final String apiResetPass = "/api/v1/auth/reset-password";
   static final String apiGetUser = "/api/v1/user";
+  static final String apiGetAllCategories = "/api/v1/product-category/all";
+  static final String apiGetAllProducts = "/api/v1/product/get-all";
+  static final String apiGetProductById = "/api/v1/product/get";
+  static final String apiGetProductsByCategory =
+      "/api/v1/product/get-by-category";
 
   /* Http Params */
   static Map<String, dynamic> paramsLogin(String phone, String password) {
