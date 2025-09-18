@@ -56,6 +56,34 @@ class ProductModel {
       'measurementId': measurementId,
     };
   }
+
+  ProductModel copyWith({
+    int? id,
+    int? categoryId,
+    String? title,
+    TitleData? titleData,
+    List<String>? images,
+    String? description,
+    String? brand,
+    int? amount,
+    String? currency,
+    double? price,
+    int? measurementId,
+  }) {
+    return ProductModel(
+      id: id ?? this.id,
+      categoryId: categoryId ?? this.categoryId,
+      title: title ?? this.title,
+      titleData: titleData ?? this.titleData,
+      images: images ?? this.images,
+      description: description ?? this.description,
+      brand: brand ?? this.brand,
+      amount: amount ?? this.amount,
+      currency: currency ?? this.currency,
+      price: price ?? this.price,
+      measurementId: measurementId ?? this.measurementId,
+    );
+  }
 }
 
 class TitleData {
@@ -75,5 +103,13 @@ class TitleData {
 
   Map<String, dynamic> toJson() {
     return {'en': en, 'kor': kor, 'uz': uz};
+  }
+
+  TitleData copyWith({String? en, String? kor, String? uz}) {
+    return TitleData(
+      en: en ?? this.en,
+      kor: kor ?? this.kor,
+      uz: uz ?? this.uz,
+    );
   }
 }

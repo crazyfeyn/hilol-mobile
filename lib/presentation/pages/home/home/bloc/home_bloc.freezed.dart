@@ -21,6 +21,7 @@ mixin _$HomeEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchAllProducts,
     required TResult Function(int categoryId) fetchProductByCategory,
+    required TResult Function(int productId) fetchProductById,
     required TResult Function() resetStatus,
     required TResult Function() dispose,
   }) => throw _privateConstructorUsedError;
@@ -28,6 +29,7 @@ mixin _$HomeEvent {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchAllProducts,
     TResult? Function(int categoryId)? fetchProductByCategory,
+    TResult? Function(int productId)? fetchProductById,
     TResult? Function()? resetStatus,
     TResult? Function()? dispose,
   }) => throw _privateConstructorUsedError;
@@ -35,6 +37,7 @@ mixin _$HomeEvent {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchAllProducts,
     TResult Function(int categoryId)? fetchProductByCategory,
+    TResult Function(int productId)? fetchProductById,
     TResult Function()? resetStatus,
     TResult Function()? dispose,
     required TResult orElse(),
@@ -44,6 +47,7 @@ mixin _$HomeEvent {
     required TResult Function(HomeFetchAllProducts value) fetchAllProducts,
     required TResult Function(HomeFetchProductByCategory value)
     fetchProductByCategory,
+    required TResult Function(HomeFetchProductById value) fetchProductById,
     required TResult Function(HomeResetStatus value) resetStatus,
     required TResult Function(HomeDispose value) dispose,
   }) => throw _privateConstructorUsedError;
@@ -51,6 +55,7 @@ mixin _$HomeEvent {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HomeFetchAllProducts value)? fetchAllProducts,
     TResult? Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult? Function(HomeFetchProductById value)? fetchProductById,
     TResult? Function(HomeResetStatus value)? resetStatus,
     TResult? Function(HomeDispose value)? dispose,
   }) => throw _privateConstructorUsedError;
@@ -58,6 +63,7 @@ mixin _$HomeEvent {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HomeFetchAllProducts value)? fetchAllProducts,
     TResult Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult Function(HomeFetchProductById value)? fetchProductById,
     TResult Function(HomeResetStatus value)? resetStatus,
     TResult Function(HomeDispose value)? dispose,
     required TResult orElse(),
@@ -130,6 +136,7 @@ class _$HomeFetchAllProductsImpl implements HomeFetchAllProducts {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchAllProducts,
     required TResult Function(int categoryId) fetchProductByCategory,
+    required TResult Function(int productId) fetchProductById,
     required TResult Function() resetStatus,
     required TResult Function() dispose,
   }) {
@@ -141,6 +148,7 @@ class _$HomeFetchAllProductsImpl implements HomeFetchAllProducts {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchAllProducts,
     TResult? Function(int categoryId)? fetchProductByCategory,
+    TResult? Function(int productId)? fetchProductById,
     TResult? Function()? resetStatus,
     TResult? Function()? dispose,
   }) {
@@ -152,6 +160,7 @@ class _$HomeFetchAllProductsImpl implements HomeFetchAllProducts {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchAllProducts,
     TResult Function(int categoryId)? fetchProductByCategory,
+    TResult Function(int productId)? fetchProductById,
     TResult Function()? resetStatus,
     TResult Function()? dispose,
     required TResult orElse(),
@@ -168,6 +177,7 @@ class _$HomeFetchAllProductsImpl implements HomeFetchAllProducts {
     required TResult Function(HomeFetchAllProducts value) fetchAllProducts,
     required TResult Function(HomeFetchProductByCategory value)
     fetchProductByCategory,
+    required TResult Function(HomeFetchProductById value) fetchProductById,
     required TResult Function(HomeResetStatus value) resetStatus,
     required TResult Function(HomeDispose value) dispose,
   }) {
@@ -179,6 +189,7 @@ class _$HomeFetchAllProductsImpl implements HomeFetchAllProducts {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HomeFetchAllProducts value)? fetchAllProducts,
     TResult? Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult? Function(HomeFetchProductById value)? fetchProductById,
     TResult? Function(HomeResetStatus value)? resetStatus,
     TResult? Function(HomeDispose value)? dispose,
   }) {
@@ -190,6 +201,7 @@ class _$HomeFetchAllProductsImpl implements HomeFetchAllProducts {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HomeFetchAllProducts value)? fetchAllProducts,
     TResult Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult Function(HomeFetchProductById value)? fetchProductById,
     TResult Function(HomeResetStatus value)? resetStatus,
     TResult Function(HomeDispose value)? dispose,
     required TResult orElse(),
@@ -280,6 +292,7 @@ class _$HomeFetchProductByCategoryImpl implements HomeFetchProductByCategory {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchAllProducts,
     required TResult Function(int categoryId) fetchProductByCategory,
+    required TResult Function(int productId) fetchProductById,
     required TResult Function() resetStatus,
     required TResult Function() dispose,
   }) {
@@ -291,6 +304,7 @@ class _$HomeFetchProductByCategoryImpl implements HomeFetchProductByCategory {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchAllProducts,
     TResult? Function(int categoryId)? fetchProductByCategory,
+    TResult? Function(int productId)? fetchProductById,
     TResult? Function()? resetStatus,
     TResult? Function()? dispose,
   }) {
@@ -302,6 +316,7 @@ class _$HomeFetchProductByCategoryImpl implements HomeFetchProductByCategory {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchAllProducts,
     TResult Function(int categoryId)? fetchProductByCategory,
+    TResult Function(int productId)? fetchProductById,
     TResult Function()? resetStatus,
     TResult Function()? dispose,
     required TResult orElse(),
@@ -318,6 +333,7 @@ class _$HomeFetchProductByCategoryImpl implements HomeFetchProductByCategory {
     required TResult Function(HomeFetchAllProducts value) fetchAllProducts,
     required TResult Function(HomeFetchProductByCategory value)
     fetchProductByCategory,
+    required TResult Function(HomeFetchProductById value) fetchProductById,
     required TResult Function(HomeResetStatus value) resetStatus,
     required TResult Function(HomeDispose value) dispose,
   }) {
@@ -329,6 +345,7 @@ class _$HomeFetchProductByCategoryImpl implements HomeFetchProductByCategory {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HomeFetchAllProducts value)? fetchAllProducts,
     TResult? Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult? Function(HomeFetchProductById value)? fetchProductById,
     TResult? Function(HomeResetStatus value)? resetStatus,
     TResult? Function(HomeDispose value)? dispose,
   }) {
@@ -340,6 +357,7 @@ class _$HomeFetchProductByCategoryImpl implements HomeFetchProductByCategory {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HomeFetchAllProducts value)? fetchAllProducts,
     TResult Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult Function(HomeFetchProductById value)? fetchProductById,
     TResult Function(HomeResetStatus value)? resetStatus,
     TResult Function(HomeDispose value)? dispose,
     required TResult orElse(),
@@ -361,6 +379,173 @@ abstract class HomeFetchProductByCategory implements HomeEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$HomeFetchProductByCategoryImplCopyWith<_$HomeFetchProductByCategoryImpl>
+  get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$HomeFetchProductByIdImplCopyWith<$Res> {
+  factory _$$HomeFetchProductByIdImplCopyWith(
+    _$HomeFetchProductByIdImpl value,
+    $Res Function(_$HomeFetchProductByIdImpl) then,
+  ) = __$$HomeFetchProductByIdImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int productId});
+}
+
+/// @nodoc
+class __$$HomeFetchProductByIdImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$HomeFetchProductByIdImpl>
+    implements _$$HomeFetchProductByIdImplCopyWith<$Res> {
+  __$$HomeFetchProductByIdImplCopyWithImpl(
+    _$HomeFetchProductByIdImpl _value,
+    $Res Function(_$HomeFetchProductByIdImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? productId = null}) {
+    return _then(
+      _$HomeFetchProductByIdImpl(
+        null == productId
+            ? _value.productId
+            : productId // ignore: cast_nullable_to_non_nullable
+                as int,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$HomeFetchProductByIdImpl implements HomeFetchProductById {
+  const _$HomeFetchProductByIdImpl(this.productId);
+
+  @override
+  final int productId;
+
+  @override
+  String toString() {
+    return 'HomeEvent.fetchProductById(productId: $productId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$HomeFetchProductByIdImpl &&
+            (identical(other.productId, productId) ||
+                other.productId == productId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, productId);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$HomeFetchProductByIdImplCopyWith<_$HomeFetchProductByIdImpl>
+  get copyWith =>
+      __$$HomeFetchProductByIdImplCopyWithImpl<_$HomeFetchProductByIdImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() fetchAllProducts,
+    required TResult Function(int categoryId) fetchProductByCategory,
+    required TResult Function(int productId) fetchProductById,
+    required TResult Function() resetStatus,
+    required TResult Function() dispose,
+  }) {
+    return fetchProductById(productId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? fetchAllProducts,
+    TResult? Function(int categoryId)? fetchProductByCategory,
+    TResult? Function(int productId)? fetchProductById,
+    TResult? Function()? resetStatus,
+    TResult? Function()? dispose,
+  }) {
+    return fetchProductById?.call(productId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? fetchAllProducts,
+    TResult Function(int categoryId)? fetchProductByCategory,
+    TResult Function(int productId)? fetchProductById,
+    TResult Function()? resetStatus,
+    TResult Function()? dispose,
+    required TResult orElse(),
+  }) {
+    if (fetchProductById != null) {
+      return fetchProductById(productId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(HomeFetchAllProducts value) fetchAllProducts,
+    required TResult Function(HomeFetchProductByCategory value)
+    fetchProductByCategory,
+    required TResult Function(HomeFetchProductById value) fetchProductById,
+    required TResult Function(HomeResetStatus value) resetStatus,
+    required TResult Function(HomeDispose value) dispose,
+  }) {
+    return fetchProductById(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(HomeFetchAllProducts value)? fetchAllProducts,
+    TResult? Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult? Function(HomeFetchProductById value)? fetchProductById,
+    TResult? Function(HomeResetStatus value)? resetStatus,
+    TResult? Function(HomeDispose value)? dispose,
+  }) {
+    return fetchProductById?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(HomeFetchAllProducts value)? fetchAllProducts,
+    TResult Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult Function(HomeFetchProductById value)? fetchProductById,
+    TResult Function(HomeResetStatus value)? resetStatus,
+    TResult Function(HomeDispose value)? dispose,
+    required TResult orElse(),
+  }) {
+    if (fetchProductById != null) {
+      return fetchProductById(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class HomeFetchProductById implements HomeEvent {
+  const factory HomeFetchProductById(final int productId) =
+      _$HomeFetchProductByIdImpl;
+
+  int get productId;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$HomeFetchProductByIdImplCopyWith<_$HomeFetchProductByIdImpl>
   get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -409,6 +594,7 @@ class _$HomeResetStatusImpl implements HomeResetStatus {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchAllProducts,
     required TResult Function(int categoryId) fetchProductByCategory,
+    required TResult Function(int productId) fetchProductById,
     required TResult Function() resetStatus,
     required TResult Function() dispose,
   }) {
@@ -420,6 +606,7 @@ class _$HomeResetStatusImpl implements HomeResetStatus {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchAllProducts,
     TResult? Function(int categoryId)? fetchProductByCategory,
+    TResult? Function(int productId)? fetchProductById,
     TResult? Function()? resetStatus,
     TResult? Function()? dispose,
   }) {
@@ -431,6 +618,7 @@ class _$HomeResetStatusImpl implements HomeResetStatus {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchAllProducts,
     TResult Function(int categoryId)? fetchProductByCategory,
+    TResult Function(int productId)? fetchProductById,
     TResult Function()? resetStatus,
     TResult Function()? dispose,
     required TResult orElse(),
@@ -447,6 +635,7 @@ class _$HomeResetStatusImpl implements HomeResetStatus {
     required TResult Function(HomeFetchAllProducts value) fetchAllProducts,
     required TResult Function(HomeFetchProductByCategory value)
     fetchProductByCategory,
+    required TResult Function(HomeFetchProductById value) fetchProductById,
     required TResult Function(HomeResetStatus value) resetStatus,
     required TResult Function(HomeDispose value) dispose,
   }) {
@@ -458,6 +647,7 @@ class _$HomeResetStatusImpl implements HomeResetStatus {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HomeFetchAllProducts value)? fetchAllProducts,
     TResult? Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult? Function(HomeFetchProductById value)? fetchProductById,
     TResult? Function(HomeResetStatus value)? resetStatus,
     TResult? Function(HomeDispose value)? dispose,
   }) {
@@ -469,6 +659,7 @@ class _$HomeResetStatusImpl implements HomeResetStatus {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HomeFetchAllProducts value)? fetchAllProducts,
     TResult Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult Function(HomeFetchProductById value)? fetchProductById,
     TResult Function(HomeResetStatus value)? resetStatus,
     TResult Function(HomeDispose value)? dispose,
     required TResult orElse(),
@@ -529,6 +720,7 @@ class _$HomeDisposeImpl implements HomeDispose {
   TResult when<TResult extends Object?>({
     required TResult Function() fetchAllProducts,
     required TResult Function(int categoryId) fetchProductByCategory,
+    required TResult Function(int productId) fetchProductById,
     required TResult Function() resetStatus,
     required TResult Function() dispose,
   }) {
@@ -540,6 +732,7 @@ class _$HomeDisposeImpl implements HomeDispose {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? fetchAllProducts,
     TResult? Function(int categoryId)? fetchProductByCategory,
+    TResult? Function(int productId)? fetchProductById,
     TResult? Function()? resetStatus,
     TResult? Function()? dispose,
   }) {
@@ -551,6 +744,7 @@ class _$HomeDisposeImpl implements HomeDispose {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? fetchAllProducts,
     TResult Function(int categoryId)? fetchProductByCategory,
+    TResult Function(int productId)? fetchProductById,
     TResult Function()? resetStatus,
     TResult Function()? dispose,
     required TResult orElse(),
@@ -567,6 +761,7 @@ class _$HomeDisposeImpl implements HomeDispose {
     required TResult Function(HomeFetchAllProducts value) fetchAllProducts,
     required TResult Function(HomeFetchProductByCategory value)
     fetchProductByCategory,
+    required TResult Function(HomeFetchProductById value) fetchProductById,
     required TResult Function(HomeResetStatus value) resetStatus,
     required TResult Function(HomeDispose value) dispose,
   }) {
@@ -578,6 +773,7 @@ class _$HomeDisposeImpl implements HomeDispose {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(HomeFetchAllProducts value)? fetchAllProducts,
     TResult? Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult? Function(HomeFetchProductById value)? fetchProductById,
     TResult? Function(HomeResetStatus value)? resetStatus,
     TResult? Function(HomeDispose value)? dispose,
   }) {
@@ -589,6 +785,7 @@ class _$HomeDisposeImpl implements HomeDispose {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(HomeFetchAllProducts value)? fetchAllProducts,
     TResult Function(HomeFetchProductByCategory value)? fetchProductByCategory,
+    TResult Function(HomeFetchProductById value)? fetchProductById,
     TResult Function(HomeResetStatus value)? resetStatus,
     TResult Function(HomeDispose value)? dispose,
     required TResult orElse(),
@@ -608,6 +805,7 @@ abstract class HomeDispose implements HomeEvent {
 mixin _$HomeState {
   FormzSubmissionStatus get formzStatus => throw _privateConstructorUsedError;
   List<ProductModel> get products => throw _privateConstructorUsedError;
+  ProductModel? get product => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -621,7 +819,11 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({FormzSubmissionStatus formzStatus, List<ProductModel> products});
+  $Res call({
+    FormzSubmissionStatus formzStatus,
+    List<ProductModel> products,
+    ProductModel? product,
+  });
 }
 
 /// @nodoc
@@ -638,7 +840,11 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? formzStatus = null, Object? products = null}) {
+  $Res call({
+    Object? formzStatus = null,
+    Object? products = null,
+    Object? product = freezed,
+  }) {
     return _then(
       _value.copyWith(
             formzStatus:
@@ -651,6 +857,11 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                     ? _value.products
                     : products // ignore: cast_nullable_to_non_nullable
                         as List<ProductModel>,
+            product:
+                freezed == product
+                    ? _value.product
+                    : product // ignore: cast_nullable_to_non_nullable
+                        as ProductModel?,
           )
           as $Val,
     );
@@ -666,7 +877,11 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   ) = __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({FormzSubmissionStatus formzStatus, List<ProductModel> products});
+  $Res call({
+    FormzSubmissionStatus formzStatus,
+    List<ProductModel> products,
+    ProductModel? product,
+  });
 }
 
 /// @nodoc
@@ -682,7 +897,11 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? formzStatus = null, Object? products = null}) {
+  $Res call({
+    Object? formzStatus = null,
+    Object? products = null,
+    Object? product = freezed,
+  }) {
     return _then(
       _$HomeStateImpl(
         formzStatus:
@@ -695,6 +914,11 @@ class __$$HomeStateImplCopyWithImpl<$Res>
                 ? _value._products
                 : products // ignore: cast_nullable_to_non_nullable
                     as List<ProductModel>,
+        product:
+            freezed == product
+                ? _value.product
+                : product // ignore: cast_nullable_to_non_nullable
+                    as ProductModel?,
       ),
     );
   }
@@ -706,6 +930,7 @@ class _$HomeStateImpl implements _HomeState {
   const _$HomeStateImpl({
     this.formzStatus = FormzSubmissionStatus.initial,
     final List<ProductModel> products = const [],
+    this.product,
   }) : _products = products;
 
   @override
@@ -721,8 +946,11 @@ class _$HomeStateImpl implements _HomeState {
   }
 
   @override
+  final ProductModel? product;
+
+  @override
   String toString() {
-    return 'HomeState(formzStatus: $formzStatus, products: $products)';
+    return 'HomeState(formzStatus: $formzStatus, products: $products, product: $product)';
   }
 
   @override
@@ -732,7 +960,8 @@ class _$HomeStateImpl implements _HomeState {
             other is _$HomeStateImpl &&
             (identical(other.formzStatus, formzStatus) ||
                 other.formzStatus == formzStatus) &&
-            const DeepCollectionEquality().equals(other._products, _products));
+            const DeepCollectionEquality().equals(other._products, _products) &&
+            (identical(other.product, product) || other.product == product));
   }
 
   @override
@@ -740,6 +969,7 @@ class _$HomeStateImpl implements _HomeState {
     runtimeType,
     formzStatus,
     const DeepCollectionEquality().hash(_products),
+    product,
   );
 
   /// Create a copy of HomeState
@@ -755,12 +985,15 @@ abstract class _HomeState implements HomeState {
   const factory _HomeState({
     final FormzSubmissionStatus formzStatus,
     final List<ProductModel> products,
+    final ProductModel? product,
   }) = _$HomeStateImpl;
 
   @override
   FormzSubmissionStatus get formzStatus;
   @override
   List<ProductModel> get products;
+  @override
+  ProductModel? get product;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.

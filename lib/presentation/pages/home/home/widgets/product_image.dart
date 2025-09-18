@@ -2,7 +2,7 @@ import 'package:commerce_mobile/data/models/product_model.dart';
 import 'package:flutter/material.dart';
 
 Widget buildProductImage(ProductModel product) {
-  // Check if images exist and are not empty
+  //? Check if images exist and are not empty
   if (product.images.isNotEmpty) {
     final imageUrl = product.images.first;
     if (imageUrl.isNotEmpty) {
