@@ -16,13 +16,15 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeBloc()..add(const HomeEvent.fetchAllProducts()),
+      create:
+          (_) =>
+              HomeBloc()
+                ..add(const HomeEvent.fetchAllProducts())
+                ..add(const HomeEvent.fetchAllProductCategories()),
       child: const HomeView(),
     );
   }
 }
-
-int selectedCategoryIndex = 0;
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -32,6 +34,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  int selectedCategoryIndex = 0;
+
   @override
   void deactivate() {
     context.read<HomeBloc>().add(const HomeEvent.dispose());
@@ -42,7 +46,14 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {
-        if (state.formzStatus.isFailure) {}
+        if (state.formzStatus.isFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Failed to load data'),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       },
       builder: (context, state) {
         final bloc = context.read<HomeBloc>();
@@ -53,6 +64,7 @@ class _HomeViewState extends State<HomeView> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  // Search Bar
                   Container(
                     margin: const EdgeInsets.symmetric(
                       horizontal: 20,
@@ -84,6 +96,8 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   20.hs(),
+
+                  // Carousel Banner
                   CarouselSlider(
                     options: CarouselOptions(
                       height: 200,
@@ -119,7 +133,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   20.hs(),
 
-                  // Categories
+                  // Categories Section
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
@@ -134,105 +148,16 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        SizedBox(
-                          height: 100,
-                          child: ListView.separated(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: categories.length,
-                            separatorBuilder:
-                                (context, index) => const SizedBox(width: 12),
-                            itemBuilder: (context, index) {
-                              final category = categories[index];
-                              final isSelected = selectedCategoryIndex == index;
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    selectedCategoryIndex = index;
-                                  });
-                                  if (category.id == 0) {
-                                    bloc.add(
-                                      const HomeEvent.fetchAllProducts(),
-                                    );
-                                  } else {
-                                    bloc.add(
-                                      HomeEvent.fetchProductByCategory(
-                                        category.id,
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      width: 70,
-                                      height: 70,
-                                      decoration: BoxDecoration(
-                                        color:
-                                            isSelected
-                                                ? category.color
-                                                : Colors.white,
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                          color:
-                                              isSelected
-                                                  ? category.color
-                                                  : Colors.grey[200]!,
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: Icon(
-                                        category.icon,
-                                        color:
-                                            isSelected
-                                                ? Colors.white
-                                                : category.color,
-                                        size: 28,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      category.name,
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w500,
-                                        color:
-                                            isSelected
-                                                ? category.color
-                                                : Colors.grey[600],
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                        _buildCategoriesSection(state, bloc),
                       ],
                     ),
                   ),
                   30.hs(),
+
+                  // Products Grid
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child:
-                        state.formzStatus.isInProgress && state.products.isEmpty
-                            ? const Center(child: CircularProgressIndicator())
-                            : GridView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    childAspectRatio: 0.75,
-                                    crossAxisSpacing: 15,
-                                    mainAxisSpacing: 15,
-                                  ),
-                              itemCount: state.products.length,
-                              itemBuilder: (context, index) {
-                                final product = state.products[index];
-                                return buildProductCard(product);
-                              },
-                            ),
+                    child: _buildProductsGrid(state),
                   ),
                   const SizedBox(height: 20),
                 ],
@@ -244,55 +169,200 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  final List<ProductCategoryModel> categories = [
-    ProductCategoryModel(
-      id: 0,
-      name: 'All',
-      icon: Icons.grid_view,
-      color: const Color(0xFF7B68EE),
-    ),
-    ProductCategoryModel(
-      id: 1,
-      name: 'Fruits',
-      icon: Icons.apple,
-      color: const Color(0xFFF59E0B),
-    ),
+  Widget _buildCategoriesSection(HomeState state, HomeBloc bloc) {
+    if (state.categories.isEmpty && state.formzStatus.isInProgress) {
+      return const SizedBox(
+        height: 100,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
 
-    ProductCategoryModel(
-      id: 2,
-      name: 'Vegetables',
-      icon: Icons.eco,
-      color: const Color(0xFF10B981),
-    ),
-    ProductCategoryModel(
-      id: 3,
-      name: 'Milk & Dairy',
-      icon: Icons.local_drink,
-      color: const Color(0xFF3B82F6),
-    ),
-    ProductCategoryModel(
-      id: 4,
-      name: 'Meat',
-      icon: Icons.restaurant,
-      color: const Color(0xFFEF4444),
-    ),
-    ProductCategoryModel(
-      id: 5,
-      name: 'Bakery',
-      icon: Icons.cake,
-      color: const Color(0xFF8B5CF6),
-    ),
-    ProductCategoryModel(
-      id: 6,
-      name: 'Snacks',
-      icon: Icons.cookie,
-      color: const Color(0xFFF97316),
-    ),
-    ProductCategoryModel(
-      id: 7,
-      name: 'Beverages',
-      icon: Icons.local_cafe,
-      color: const Color(0xFF06B6D4),
-    ),
-  ];
+    if (state.categories.isEmpty) {
+      return SizedBox(
+        height: 100,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'No categories available',
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed:
+                    () => bloc.add(const HomeEvent.fetchAllProductCategories()),
+                child: const Text('Retry'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    // Combine "All" category with API categories
+    final allCategories = [
+      ProductCategoryModel(
+        id: 0,
+        title: 'All',
+        description: 'All products',
+        imageIdentity: '',
+      ),
+      ...state.categories,
+    ];
+
+    return SizedBox(
+      height: 100,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: allCategories.length,
+        separatorBuilder: (context, index) => const SizedBox(width: 12),
+        itemBuilder: (context, index) {
+          final category = allCategories[index];
+          final isSelected = selectedCategoryIndex == index;
+
+          return GestureDetector(
+            onTap: () {
+              selectedCategoryIndex = index;
+
+              if (category.id == 0) {
+                bloc.add(HomeEvent.fetchAllProducts());
+              } else {
+                bloc.add(HomeEvent.fetchProductByCategory(category.id));
+              }
+            },
+            child: _buildCategoryItem(category, isSelected),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildCategoryItem(ProductCategoryModel category, bool isSelected) {
+    // Get default values for icon and color since your API model might not have them
+    final defaultIcon = _getDefaultIcon(category.title);
+    final defaultColor = _getDefaultColor(category.title);
+
+    return Column(
+      children: [
+        Container(
+          width: 70,
+          height: 70,
+          decoration: BoxDecoration(
+            color: isSelected ? defaultColor : Colors.white,
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: isSelected ? defaultColor : Colors.grey[200]!,
+              width: 2,
+            ),
+          ),
+          child: Icon(
+            defaultIcon,
+            color: isSelected ? Colors.white : defaultColor,
+            size: 28,
+          ),
+        ),
+        const SizedBox(height: 8),
+        SizedBox(
+          width: 70,
+          child: Text(
+            category.title,
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+              color: isSelected ? defaultColor : Colors.grey[600],
+            ),
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProductsGrid(HomeState state) {
+    if (state.formzStatus.isInProgress && state.products.isEmpty) {
+      return const SizedBox(
+        height: 200,
+        child: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (state.products.isEmpty) {
+      return SizedBox(
+        height: 200,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.shopping_bag_outlined,
+                size: 64,
+                color: Colors.grey[400],
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'No products found',
+                style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.75,
+        crossAxisSpacing: 15,
+        mainAxisSpacing: 15,
+      ),
+      itemCount: state.products.length,
+      itemBuilder: (context, index) {
+        final product = state.products[index];
+        return buildProductCard(product);
+      },
+    );
+  }
+
+  // Helper methods to provide default icons and colors for categories
+  IconData _getDefaultIcon(String categoryTitle) {
+    final title = categoryTitle.toLowerCase();
+    if (title.contains('all')) return Icons.grid_view;
+    if (title.contains('fruit')) return Icons.apple;
+    if (title.contains('vegetable')) return Icons.eco;
+    if (title.contains('dairy') || title.contains('milk')) {
+      return Icons.local_drink;
+    }
+    if (title.contains('meat')) return Icons.restaurant;
+    if (title.contains('bakery') || title.contains('bread')) return Icons.cake;
+    if (title.contains('snack')) return Icons.cookie;
+    if (title.contains('beverage') || title.contains('drink')) {
+      return Icons.local_cafe;
+    }
+    return Icons.category; // Default icon
+  }
+
+  Color _getDefaultColor(String categoryTitle) {
+    final title = categoryTitle.toLowerCase();
+    if (title.contains('all')) return const Color(0xFF7B68EE);
+    if (title.contains('fruit')) return const Color(0xFFF59E0B);
+    if (title.contains('vegetable')) return const Color(0xFF10B981);
+    if (title.contains('dairy') || title.contains('milk')) {
+      return const Color(0xFF3B82F6);
+    }
+    if (title.contains('meat')) return const Color(0xFFEF4444);
+    if (title.contains('bakery') || title.contains('bread')) {
+      return const Color(0xFF8B5CF6);
+    }
+    if (title.contains('snack')) return const Color(0xFFF97316);
+    if (title.contains('beverage') || title.contains('drink')) {
+      return const Color(0xFF06B6D4);
+    }
+    return const Color(0xFF6B7280); // Default color
+  }
 }

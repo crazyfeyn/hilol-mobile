@@ -101,5 +101,16 @@
   "loading": "Yuklanmoqda...",
   "password_reset_error": "Parolni tiklash muvaffaqiyatsiz tugadi. Qaytadan urinib ko‘ring",
   "password_reset_success": "Parol muvaffaqiyatli tiklandi",
-  "user_not_found": "Foydalanuvchi topilmadi"
+  "user_not_found": "Foydalanuvchi topilmadi",
+    "failed_to_load": "Mahsulot tafsilotlarini yuklashda xatolik yuz berdi",
+    "no_image": "Rasm mavjud emas",
+    "in_stock": "Omborda bor ({count})",
+    "out_of_stock": "Sotuvda yo‘q",
+    "description": "Tavsif",
+    "quantity": "Miqdor",
+    "total_price": "Umumiy narx:",
+    "add_to_cart": "Savatga qo‘shish",
+    "buy_now": "Hozir sotib olish",
+    "added_to_cart": "{quantity} ta {title} savatga qo‘shildi",
+    "proceed_checkout": "{quantity} ta {title} bilan xarid qilishga o‘tilmoqda"
 }

@@ -101,5 +101,16 @@
   "loading": "Loading...",
   "password_reset_error": "Password reset failed. Please try again",
   "password_reset_success": "Password has been successfully reset",
-  "user_not_found": "User not found"
+  "user_not_found": "User not found",
+   "failed_to_load": "Failed to load product details",
+    "no_image": "No image available",
+    "in_stock": "In Stock ({count})",
+    "out_of_stock": "Out of Stock",
+    "description": "Description",
+    "quantity": "Quantity",
+    "total_price": "Total Price:",
+    "add_to_cart": "Add to Cart",
+    "buy_now": "Buy Now",
+    "added_to_cart": "Added {quantity} {title} to cart",
+    "proceed_checkout": "Proceeding to checkout with {quantity} {title}"
 }

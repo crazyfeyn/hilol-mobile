@@ -28,7 +28,7 @@ class ProductRepositoryImpl extends ProductRepository {
       final cancelToken = cancelTokenManager.getToken(api);
       final response = await NetworkService.get(api, cancelToken);
 
-      final data = response['data'] as List;
+      final data = response['data']['list'] as List;
       final categories =
           data.map((json) => ProductCategoryModel.fromJson(json)).toList();
       return Right(categories);
@@ -109,6 +109,7 @@ class ProductRepositoryImpl extends ProductRepository {
 
       return Right(products);
     } catch (e) {
+      print(e.toString());
       GlobalSnackBar.showError(e.toString());
       return Left(e.toString());
     }

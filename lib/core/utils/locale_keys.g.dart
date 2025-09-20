@@ -94,5 +94,16 @@ abstract class  LocaleKeys {
   static const password_reset_error = 'password_reset_error';
   static const password_reset_success = 'password_reset_success';
   static const user_not_found = 'user_not_found';
+  static const failed_to_load = 'failed_to_load';
+  static const no_image = 'no_image';
+  static const in_stock = 'in_stock';
+  static const out_of_stock = 'out_of_stock';
+  static const description = 'description';
+  static const quantity = 'quantity';
+  static const total_price = 'total_price';
+  static const add_to_cart = 'add_to_cart';
+  static const buy_now = 'buy_now';
+  static const added_to_cart = 'added_to_cart';
+  static const proceed_checkout = 'proceed_checkout';
 
 }

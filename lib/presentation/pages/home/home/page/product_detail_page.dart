@@ -2,6 +2,8 @@ import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/data/models/product_model.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/bloc/home_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/home/home/cubit/quantity_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,9 +15,14 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create:
-          (_) => HomeBloc()..add(HomeEvent.fetchProductById(product.id ?? 0)),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create:
+              (_) => HomeBloc()..add(HomeEvent.fetchProductById(product.id)),
+        ),
+        BlocProvider(create: (_) => QuantityCubit(maxQuantity: product.amount)),
+      ],
       child: ProductDetailView(product: product),
     );
   }
@@ -40,8 +47,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       listener: (context, state) {
         if (state.formzStatus.isFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("Failed to load product details"),
+            SnackBar(
+              content: Text(context.tr("failed_to_load")),
               backgroundColor: Colors.red,
             ),
           );
@@ -62,7 +69,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     _buildDescription(),
                     _buildQuantitySelector(),
                     _buildAddToCartSection(context),
-                    const SizedBox(height: 20),
+                    20.hs(),
                   ],
                 ),
               ),
@@ -102,40 +109,12 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           ),
         ),
       ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            // Add to favorites functionality
-          },
-          icon: Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: const Icon(
-              Icons.favorite_border,
-              color: Colors.black,
-              size: 20,
-            ),
-          ),
-        ),
-        const SizedBox(width: 10),
-      ],
     );
   }
 
   Widget _buildProductImages() {
-    List<String> images = widget.product.images ?? [];
+    List<String> images = widget.product.images;
 
-    // If no images, show placeholder
     if (images.isEmpty) {
       return Container(
         height: 300,
@@ -149,9 +128,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               size: 80,
               color: Colors.grey[400],
             ),
-            const SizedBox(height: 10),
+            10.hs(),
             Text(
-              widget.product.title ?? 'Product',
+              context.tr("no_image"),
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[600],
@@ -165,7 +144,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
 
     return Column(
       children: [
-        // Main image
         Container(
           height: 300,
           width: double.infinity,
@@ -188,17 +166,15 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             },
           ),
         ),
-
-        // Image thumbnails (if multiple images)
         if (images.length > 1) ...[
-          const SizedBox(height: 15),
+          15.hs(),
           Container(
             height: 80,
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: images.length,
-              separatorBuilder: (context, index) => const SizedBox(width: 10),
+              separatorBuilder: (context, index) => 10.ws(),
               itemBuilder: (context, index) {
                 final isSelected = selectedImageIndex == index;
                 return GestureDetector(
@@ -249,33 +225,27 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Brand
-          if (widget.product.brand != null)
-            Text(
-              widget.product.brand!,
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[600],
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-
-          // Title
           Text(
-            widget.product.title ?? 'Product Name',
+            widget.product.brand,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey[600],
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Text(
+            widget.product.title,
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
-          const SizedBox(height: 10),
-
-          // Price and currency
+          10.hs(),
           Row(
             children: [
               Text(
-                "${widget.product.price?.toStringAsFixed(0) ?? '0'} ${widget.product.currency ?? 'KRW'}",
+                "${widget.product.price.toStringAsFixed(0)} ${widget.product.currency}",
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -283,35 +253,37 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 ),
               ),
               const Spacer(),
-
-              // Stock status
-              if (widget.product.amount != null)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 6,
-                  ),
-                  decoration: BoxDecoration(
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color:
+                      widget.product.amount > 0
+                          ? Colors.green[100]
+                          : Colors.red[100],
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  widget.product.amount > 0
+                      ? context
+                          .tr("in_stock")
+                          .replaceAll(
+                            "{count}",
+                            widget.product.amount.toString(),
+                          )
+                      : context.tr("out_of_stock"),
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
                     color:
-                        widget.product.amount! > 0
-                            ? Colors.green[100]
-                            : Colors.red[100],
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    widget.product.amount! > 0
-                        ? 'In Stock (${widget.product.amount})'
-                        : 'Out of Stock',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color:
-                          widget.product.amount! > 0
-                              ? Colors.green[700]
-                              : Colors.red[700],
-                    ),
+                        widget.product.amount > 0
+                            ? Colors.green[700]
+                            : Colors.red[700],
                   ),
                 ),
+              ),
             ],
           ),
         ],
@@ -325,18 +297,17 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Description',
-            style: TextStyle(
+          Text(
+            context.tr("description"),
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
-          const SizedBox(height: 10),
+          10.hs(),
           Text(
-            widget.product.description ??
-                'No description available for this product.',
+            widget.product.description,
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey[700],
@@ -354,26 +325,20 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Quantity',
-            style: TextStyle(
+          Text(
+            context.tr("quantity"),
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.black,
             ),
           ),
-          const SizedBox(height: 15),
+          15.hs(),
           Row(
             children: [
               _buildQuantityButton(
                 icon: Icons.remove,
-                onPressed: () {
-                  if (quantity > 1) {
-                    setState(() {
-                      quantity--;
-                    });
-                  }
-                },
+                onPressed: () => context.read<QuantityCubit>().decrement(),
               ),
               Container(
                 width: 60,
@@ -383,29 +348,173 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
-                  child: Text(
-                    '$quantity',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: BlocBuilder<QuantityCubit, int>(
+                    builder: (context, quantity) {
+                      return Text(
+                        '$quantity',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
               _buildQuantityButton(
                 icon: Icons.add,
-                onPressed: () {
-                  final maxQuantity = widget.product.amount ?? 999;
-                  if (quantity < maxQuantity) {
-                    setState(() {
-                      quantity++;
-                    });
-                  }
-                },
+                onPressed: () => context.read<QuantityCubit>().increment(),
               ),
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildAddToCartSection(BuildContext context) {
+    final isOutOfStock = widget.product.amount <= 0;
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          BlocBuilder<QuantityCubit, int>(
+            builder: (context, quantity) {
+              final totalPrice = (widget.product.price) * quantity;
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    context.tr("total_price"),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    "${totalPrice.toStringAsFixed(0)} ${widget.product.currency}",
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+          15.hs(),
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: BlocBuilder<QuantityCubit, int>(
+                  builder: (context, quantity) {
+                    return ElevatedButton(
+                      onPressed:
+                          isOutOfStock
+                              ? null
+                              : () => _addToCart(context, quantity),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            isOutOfStock ? Colors.grey : Colors.blue,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        isOutOfStock
+                            ? context.tr("out_of_stock")
+                            : context.tr("add_to_cart"),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              15.ws(),
+              Expanded(
+                child: BlocBuilder<QuantityCubit, int>(
+                  builder: (context, quantity) {
+                    return OutlinedButton(
+                      onPressed:
+                          isOutOfStock
+                              ? null
+                              : () => _buyNow(context, quantity),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor:
+                            isOutOfStock ? Colors.grey : Colors.blue,
+                        side: BorderSide(
+                          color: isOutOfStock ? Colors.grey : Colors.blue,
+                          width: 2,
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: Text(
+                        context.tr("buy_now"),
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _addToCart(BuildContext context, int quantity) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          context
+              .tr("added_to_cart")
+              .replaceAll("{quantity}", quantity.toString())
+              .replaceAll("{title}", widget.product.title),
+        ),
+        backgroundColor: Colors.green,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _buyNow(BuildContext context, int quantity) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          context
+              .tr("proceed_checkout")
+              .replaceAll("{quantity}", quantity.toString())
+              .replaceAll("{title}", widget.product.title),
+        ),
+        backgroundColor: Colors.blue,
+        duration: const Duration(seconds: 2),
       ),
     );
   }
@@ -426,133 +535,6 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           border: Border.all(color: Colors.grey[300]!),
         ),
         child: Icon(icon, color: Colors.black, size: 20),
-      ),
-    );
-  }
-
-  Widget _buildAddToCartSection(BuildContext context) {
-    final isOutOfStock =
-        widget.product.amount == null || widget.product.amount! <= 0;
-    final totalPrice = (widget.product.price ?? 0) * quantity;
-
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset: const Offset(0, -2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text(
-                'Total Price:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              ),
-              Text(
-                "${totalPrice.toStringAsFixed(0)} ${widget.product.currency ?? 'KRW'}",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blue,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 15),
-          Row(
-            children: [
-              // Add to Cart button
-              Expanded(
-                flex: 2,
-                child: ElevatedButton(
-                  onPressed:
-                      isOutOfStock
-                          ? null
-                          : () {
-                            _addToCart(context);
-                          },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isOutOfStock ? Colors.grey : Colors.blue,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: Text(
-                    isOutOfStock ? 'Out of Stock' : 'Add to Cart',
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 15),
-
-              // Buy Now button
-              Expanded(
-                child: OutlinedButton(
-                  onPressed:
-                      isOutOfStock
-                          ? null
-                          : () {
-                            _buyNow(context);
-                          },
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: isOutOfStock ? Colors.grey : Colors.blue,
-                    side: BorderSide(
-                      color: isOutOfStock ? Colors.grey : Colors.blue,
-                      width: 2,
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'Buy Now',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _addToCart(BuildContext context) {
-    // Implement add to cart functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Added $quantity ${widget.product.title} to cart'),
-        backgroundColor: Colors.green,
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
-
-  void _buyNow(BuildContext context) {
-    // Implement buy now functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Proceeding to checkout with $quantity ${widget.product.title}',
-        ),
-        backgroundColor: Colors.blue,
-        duration: const Duration(seconds: 2),
       ),
     );
   }
