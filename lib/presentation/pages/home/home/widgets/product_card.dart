@@ -41,7 +41,7 @@ Widget buildProductCard(ProductModel product) {
                       topRight: Radius.circular(15),
                     ),
                   ),
-                  child: Center(child: buildProductImage(product)),
+                  child: buildProductImage(product),
                 ),
               ),
               Expanded(
@@ -53,7 +53,7 @@ Widget buildProductCard(ProductModel product) {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        product.title ?? 'Product Name',
+                        product.title,
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -66,14 +66,14 @@ Widget buildProductCard(ProductModel product) {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "${product.price?.toStringAsFixed(0) ?? '0'} ${product.currency ?? 'KRW'}",
+                            "${product.price.toStringAsFixed(0)} ${product.currency}",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: Colors.blue[600],
                             ),
                           ),
-                          if (product.amount != null && product.amount! > 0)
+                          if (product.amount > 0)
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 6,
