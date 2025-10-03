@@ -200,7 +200,6 @@ class _HomeViewState extends State<HomeView> {
       );
     }
 
-    // Combine "All" category with API categories
     final allCategories = [
       ProductCategoryModel(
         id: 0,
