@@ -1,5 +1,4 @@
 import 'package:commerce_mobile/core/extension/extensions.dart';
-import 'package:commerce_mobile/presentation/pages/cart/page/checkout_page.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatelessWidget {
