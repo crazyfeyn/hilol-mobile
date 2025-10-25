@@ -7,7 +7,7 @@ import 'package:commerce_mobile/presentation/pages/auth/forget_pass/page/forget_
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/bloc/sign_in_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_up/page/sign_up_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/widget/check_widget.dart';
-import 'package:commerce_mobile/presentation/pages/home/main/page/main_page.dart';
+import 'package:commerce_mobile/presentation/pages/home/home/page/home_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_phone_field.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_text_field.dart';
@@ -50,7 +50,7 @@ class _SignInViewState extends State<SignInView> {
     return BlocConsumer<SignInBloc, SignInState>(
       listener: (context, state) {
         if (state.formzStatus.isSuccess && state.auth != null) {
-          NavigationService.go(context, MainPage.path);
+          NavigationService.go(context, HomePage.path);
         } else if (state.formzStatus.isFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

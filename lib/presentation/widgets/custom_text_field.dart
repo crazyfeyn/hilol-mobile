@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
   final bool readOnly;
+  final FocusNode? focusNode;
   final String? title;
   final String? hintText;
   final TextEditingController ctr;
@@ -15,13 +16,16 @@ class CustomTextField extends StatelessWidget {
   final int? maxLines;
   final Color? color;
   final bool obscureText;
+  final IconData? prefixIcon;
   final IconData? suffixIcon;
   final VoidCallback? onSuffix;
+  final Function(String)? onChanged;
   final String? Function(String?)? validator;
 
   const CustomTextField({
     super.key,
     this.readOnly = false,
+    this.focusNode,
     this.title,
     this.hintText,
     required this.ctr,
@@ -32,8 +36,10 @@ class CustomTextField extends StatelessWidget {
     this.color,
     this.minLines,
     this.maxLines = 1,
+    this.prefixIcon,
     this.suffixIcon,
     this.onSuffix,
+    this.onChanged,
     this.validator,
   });
 
@@ -50,6 +56,7 @@ class CustomTextField extends StatelessWidget {
           ),
         TextFormField(
           controller: ctr,
+          focusNode: focusNode,
           minLines: minLines,
           maxLines: maxLines,
           obscuringCharacter: "*",
@@ -58,9 +65,12 @@ class CustomTextField extends StatelessWidget {
           inputFormatters: inputFormatters,
           textCapitalization: textCapitalization,
           style: AppStyles.bodyMDRegular,
+          onChanged: onChanged,
           decoration: InputDecoration(
             fillColor: color,
             hintText: hintText,
+            prefixIconConstraints: BoxConstraints(minWidth: 40, maxWidth: 40),
+            prefixIcon: prefixIcon != null ? Icon(prefixIcon, size: 18) : null,
             suffixIcon:
                 suffixIcon != null
                     ? IconButton(

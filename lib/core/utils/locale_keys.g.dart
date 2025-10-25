@@ -105,5 +105,18 @@ abstract class  LocaleKeys {
   static const buy_now = 'buy_now';
   static const added_to_cart = 'added_to_cart';
   static const proceed_checkout = 'proceed_checkout';
+  static const all = 'all';
+  static const search_here = 'search_here';
+  static const to_cart = 'to_cart';
+  static const order_summary = 'order_summary';
+  static const items = 'items';
+  static const subtotal = 'subtotal';
+  static const delivery_charges = 'delivery_charges';
+  static const total = 'total';
+  static const check_out_btn = 'check_out_btn';
+  static const empty_card_text = 'empty_card_text';
+  static const nav_home = 'nav_home';
+  static const nav_cart = 'nav_cart';
+  static const nav_profile = 'nav_profile';
 
 }

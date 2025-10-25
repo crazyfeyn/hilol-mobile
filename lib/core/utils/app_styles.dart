@@ -108,6 +108,13 @@ class AppStyles {
 
   ///----------TITLE XS----------///
 
+  /// TITLE SM Regular text styles[w500]
+  static TextStyle titleXSRegular= TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    height: 1,
+  );
+
   /// TITLE SM Medium text styles[w500]
   static TextStyle titleXSMedium = TextStyle(
     fontWeight: FontWeight.w500,

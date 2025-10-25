@@ -3,9 +3,15 @@ part of 'home_bloc.dart';
 @freezed
 class HomeState with _$HomeState {
   const factory HomeState({
-    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus formzStatus,
-    @Default([]) List<ProductModel> products,
-    ProductModel? product,
+    @Default(FormzSubmissionStatus.inProgress) FormzSubmissionStatus bannerStatus,
+
+    @Default(FormzSubmissionStatus.inProgress) FormzSubmissionStatus categoryStatus,
     @Default([]) List<ProductCategoryModel> categories,
-  }) = _HomeState;
+    @Default(null) int? selectCategoryId,
+
+    @Default(FormzSubmissionStatus.inProgress) FormzSubmissionStatus productStatus,
+    @Default([]) List<ProductModel> products,
+}) = _HomeState;
+
+  const HomeState._();
 }

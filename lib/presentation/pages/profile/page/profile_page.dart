@@ -11,7 +11,7 @@ import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
 import 'package:commerce_mobile/presentation/pages/history/pages/order_history_page.dart';
-import 'package:commerce_mobile/presentation/pages/profile/bloc/user_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/profile/bloc/profile_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/profile/widget/custom_avatar_card.dart';
 import 'package:commerce_mobile/presentation/pages/profile/widget/profile_card.dart';
 import 'package:commerce_mobile/presentation/pages/profile/widget/profile_logout_and_delete.dart';
@@ -22,13 +22,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
+  static const String path = "/profile_page";
+
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UserBloc()..add(const UserEvent.fetchData()),
-      child: const ProfileView(),
+      create: (context) => ProfileBloc(),
+      child: ProfileView(),
     );
   }
 }
@@ -41,33 +43,34 @@ class ProfileView extends StatefulWidget {
 }
 
 class _ProfileViewState extends State<ProfileView> {
+  WidgetsBinding get _binding => WidgetsBinding.instance;
+
+  void _initState(_) {
+    context.read<ProfileBloc>().add(ProfileFetchData());
+  }
+
+  @override
+  void initState() {
+    _binding.addPostFrameCallback(_initState);
+    super.initState();
+  }
+
   @override
   void deactivate() {
-    context.read<UserBloc>().add(const UserEvent.dispose());
+    context.read<ProfileBloc>().add(ProfileDispose());
     super.deactivate();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<UserBloc, UserState>(
+    return BlocConsumer<ProfileBloc, ProfileState>(
       listener: (context, state) {
-        // Handle logout success
-        if (state.formzStatus.isSuccess && state.user == null) {
+        if(state.logoutStatus.isSuccess || state.deleteStatus.isSuccess) {
           NavigationService.go(context, SignInPage.path);
-        }
-        // Handle logout/fetch failure
-        else if (state.formzStatus.isFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(context.tr("LocaleKeys.error_occurred")),
-              backgroundColor: Colors.red,
-            ),
-          );
         }
       },
       builder: (context, state) {
-        final bloc = context.read<UserBloc>();
-
+        final bloc = context.read<ProfileBloc>();
         return Scaffold(
           body: SingleChildScrollView(
             padding: EdgeInsets.only(
@@ -83,24 +86,18 @@ class _ProfileViewState extends State<ProfileView> {
                   if (state.formzStatus.isInProgress && state.user == null)
                     const CircularProgressIndicator()
                   else ...[
-                    CustomAvatarCard(
-                      imageUrl:
-                          state.user?.imageUrl ??
-                          "https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
-                    ),
+                    CustomAvatarCard(imageUrl: state.user?.imageUrl ?? ""),
                     const SizedBox(height: 8),
                     Text(
-                      "${state.user?.firstname ?? 'Mark'} ${state.user?.lastname ?? 'Adam'}",
+                      "${state.user?.firstname ?? ""} ${state.user?.lastname ?? ""}",
                       style: AppStyles.titleXLSemibold,
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      state.user?.phone ?? "Phone number is not found",
-                      style: AppStyles.labelLGSemibold.copyWith(
-                        color: AppColors.black400,
-                      ),
+                      state.user?.phone != null ? "+${state.user?.phone}" : "",
                       textAlign: TextAlign.center,
+                      style: AppStyles.labelLGSemibold.copyWith(color: AppColors.black400),
                     ),
                   ],
 
@@ -108,117 +105,67 @@ class _ProfileViewState extends State<ProfileView> {
                   ProfileCard(
                     icon: CupertinoIcons.bag,
                     title: context.tr(LocaleKeys.my_orders),
-                    onTap:
-                        state.formzStatus.isInProgress
-                            ? null
-                            : () => NavigationService.push(
-                              context,
-                              OrderHistoryPage.path,
-                            ),
+                    onTap: () => NavigationService.push(context, OrderHistoryPage.path),
                   ),
 
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap:
-                        state.formzStatus.isInProgress
-                            ? null
-                            : () => LanguageBottomSheet.showBottomSheet(
-                              context: context,
-                            ),
+                    onTap: () => LanguageBottomSheet.showBottomSheet(context: context),
                     flag: LangService.langIcon(context.locale.languageCode),
                     icon: CupertinoIcons.globe,
                     title: context.tr(LocaleKeys.change_language),
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap:
-                        state.formzStatus.isInProgress
-                            ? null
-                            : () => LauncherService.launcherApplication(
-                              AppConstants.support,
-                            ),
+                    onTap: () => LauncherService.launcherApplication(AppConstants.support),
                     icon: CupertinoIcons.bubble_left_bubble_right,
                     title: context.tr(LocaleKeys.support),
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap:
-                        state.formzStatus.isInProgress
-                            ? null
-                            : () {
-                              if (Platform.isIOS) {
-                                ShareService.shareUri(
-                                  context,
-                                  AppConstants.appStore,
-                                );
-                              } else {
-                                ShareService.shareUri(
-                                  context,
-                                  AppConstants.playStore,
-                                );
-                              }
-                            },
+                    onTap: () {
+                      if (Platform.isIOS) {
+                        ShareService.shareUri(context, AppConstants.appStore);
+                      } else {
+                        ShareService.shareUri(context, AppConstants.playStore);
+                      }
+                    },
                     icon: CupertinoIcons.share,
                     title: context.tr(LocaleKeys.share_app),
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap:
-                        state.formzStatus.isInProgress
-                            ? null
-                            : () => LauncherService.launcherApplication(
-                              AppConstants.privacyPolice,
-                            ),
+                    onTap:() => LauncherService.launcherApplication(AppConstants.privacyPolice),
                     icon: CupertinoIcons.exclamationmark_shield,
                     title: context.tr(LocaleKeys.privacy_police),
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap:
-                        state.formzStatus.isInProgress
-                            ? null
-                            : () => LauncherService.launcherApplication(
-                              AppConstants.termsOfServices,
-                            ),
+                    onTap: () => LauncherService.launcherApplication(AppConstants.termsOfServices),
                     icon: CupertinoIcons.info,
                     title: context.tr(LocaleKeys.terms_of_services),
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap:
-                        state.formzStatus.isInProgress
-                            ? null
-                            : () {
-                              ProfileLogoutAndDelete.showDialog(
-                                context,
-                                isDelete: false,
-                                onTap: () {
-                                  // Navigator.pop(context);
-                                  bloc.add(const UserEvent.logout());
-                                },
-                              );
-                            },
+                    onTap: () {
+                      ProfileLogoutAndDelete.showDialog(
+                        context,
+                        isDelete: false,
+                        onTap: () => bloc.add(ProfileLogOut()),
+                      );
+                    },
                     icon: CupertinoIcons.square_arrow_right,
                     title: context.tr(LocaleKeys.logout_account),
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap:
-                        state.formzStatus.isInProgress
-                            ? null
-                            : () {
-                              ProfileLogoutAndDelete.showDialog(
-                                context,
-                                isDelete: true,
-                                onTap: () {
-                                  bloc.add(const UserEvent.logout());
-                                  NavigationService.go(
-                                    context,
-                                    SignInPage.path,
-                                  );
-                                },
-                              );
-                            },
+                    onTap: () {
+                      ProfileLogoutAndDelete.showDialog(
+                        context,
+                        isDelete: true,
+                        onTap: () => bloc.add(ProfileDelete()),
+                      );
+                    },
                     isLogout: true,
                     icon: CupertinoIcons.delete,
                     title: context.tr(LocaleKeys.delete_account),

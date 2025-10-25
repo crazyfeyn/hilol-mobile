@@ -37,6 +37,10 @@ dependencies:
   uuid: ^4.5.1
   top_snackbar: ^0.0.6
   top_snackbar_flutter: ^3.3.0
+  shimmer: ^3.0.0
+  smooth_page_indicator: ^1.2.1
+  flutter_widget_from_html: ^0.17.1
+  dotted_line: ^3.2.3
 
 dev_dependencies:
   flutter_test:
@@ -54,7 +58,6 @@ flutter:
   assets:
     - assets/icons/
     - assets/images/
-    - assets/videos/
     - assets/fonts/inter/
     - assets/translations/
 

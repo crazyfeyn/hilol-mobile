@@ -1,5 +1,6 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
+import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/confirm_code_model.dart';
@@ -10,7 +11,7 @@ import 'package:commerce_mobile/presentation/pages/auth/confirm_code/widget/time
 import 'package:commerce_mobile/presentation/pages/auth/forget_pass/bloc/reset_pass_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/auth/reset_pass/page/reset_pass_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
-import 'package:commerce_mobile/presentation/pages/home/main/page/main_page.dart';
+import 'package:commerce_mobile/presentation/pages/home/home/page/home_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -53,8 +54,7 @@ class _ConfirmCodeViewState extends State<ConfirmCodeView> {
   final pinController = TextEditingController();
 
   //? Check if this is reset password flow
-  bool get isResetPasswordFlow =>
-      widget.extra['phoneNumber'] != null && widget.extra['password'] != null;
+  bool get isResetPasswordFlow => widget.extra['phoneNumber'] != null && widget.extra['password'] != null;
 
   @override
   void deactivate() {
@@ -80,23 +80,9 @@ class _ConfirmCodeViewState extends State<ConfirmCodeView> {
         if (state.formzStatus.isSuccess && state.resetPassToken != null) {
           // Password reset successful - navigate to sign in
           NavigationService.go(context, SignInPage.path);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                context.tr(LocaleKeys.password_reset_success),
-              ), // Add this to your locale
-              backgroundColor: Colors.green,
-            ),
-          );
+          GlobalSnackBar.showSuccess(context.tr(LocaleKeys.password_reset_success));
         } else if (state.formzStatus.isFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                context.tr(LocaleKeys.password_reset_error),
-              ), // Add this to your locale
-              backgroundColor: Colors.red,
-            ),
-          );
+          GlobalSnackBar.showError(context.tr(LocaleKeys.password_reset_error));
         }
       },
       builder: (context, state) {
@@ -118,15 +104,10 @@ class _ConfirmCodeViewState extends State<ConfirmCodeView> {
             NavigationService.push(context, ResetPasswordPage.path);
           } else {
             // For sign up flow, navigate to main page
-            NavigationService.go(context, MainPage.path);
+            NavigationService.go(context, HomePage.path);
           }
         } else if (state.formzStatus.isFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(context.tr(LocaleKeys.verify_code_error_message)),
-              backgroundColor: Colors.red,
-            ),
-          );
+          GlobalSnackBar.showError(context.tr(LocaleKeys.verify_code_error_message));
         }
       },
       builder: (context, state) {
@@ -175,14 +156,7 @@ class _ConfirmCodeViewState extends State<ConfirmCodeView> {
                 FocusManager.instance.primaryFocus?.unfocus();
 
                 if (pinController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        context.tr(LocaleKeys.enter_verification_code),
-                      ),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
+                  GlobalSnackBar.showError(context.tr(LocaleKeys.enter_verification_code));
                   return;
                 }
 

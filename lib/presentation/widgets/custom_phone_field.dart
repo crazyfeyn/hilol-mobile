@@ -20,23 +20,20 @@ class CustomPhoneField extends StatefulWidget {
 class _CustomPhoneFieldState extends State<CustomPhoneField> {
   final TextEditingController ctr = TextEditingController();
 
-  var maskFormatter = MaskTextInputFormatter(
-      mask: '#########',
-      filter: {"#": RegExp(r'[0-9]')},
-      type: MaskAutoCompletionType.lazy);
-  Country _selectedCountry = Country.parse('UZ');
+  var maskFormatter = MaskTextInputFormatter(mask: '##########', filter: {"#": RegExp(r'[0-9]')}, type: MaskAutoCompletionType.lazy);
+  Country _selectedCountry = Country.parse('KR');
 
   Future<void> _initState() async {
     final countryList = CountryService().getAll();
-    _selectedCountry = countryList.firstWhere((e) => e.countryCode == 'UZ', orElse: () => countryList.first);
+    _selectedCountry = countryList.firstWhere((e) => e.countryCode == 'KR', orElse: () => countryList.first);
     maskFormatter = _onMask(_selectedCountry);
     if (mounted) setState(() {});
   }
 
   @override
   void initState() {
-    super.initState();
     _initState();
+    super.initState();
   }
 
   @override

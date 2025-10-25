@@ -1,11 +1,9 @@
-// ignore: depend_on_referenced_packages
-import 'package:bloc/bloc.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/data/models/product_category_model.dart';
 import 'package:commerce_mobile/data/models/product_model.dart';
 import 'package:commerce_mobile/data/repositories/product_repository_impl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:dartz/dartz.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -14,87 +12,54 @@ part 'home_bloc.freezed.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final _repository = ProductRepositoryImpl();
 
+  List<ProductModel> allProducts = [];
   HomeBloc() : super(const HomeState()) {
-    on<HomeFetchAllProducts>((event, emit) async {
-      emit(state.copyWith(formzStatus: FormzSubmissionStatus.inProgress));
+    on<HomeFetchBanners>((event, emit) async {});
 
-      Either<String, List<ProductModel>> result;
-      result = await _repository.fetchAllProducts();
+    on<HomeFetchCategories>((event, emit) async {
+      FormzSubmissionStatus categoryStatus = FormzSubmissionStatus.inProgress;
+      emit(state.copyWith(categoryStatus: categoryStatus));
 
-      if (result.isRight()) {
-        final products = result.getOrElse(() => []);
-        emit(
-          state.copyWith(
-            formzStatus: FormzSubmissionStatus.success,
-            products: products,
-          ),
-        );
+      List<ProductCategoryModel> categories = [];
+      final result = await _repository.fetchAllCategories();
+      if(result.isRight()) {
+        categories = result.getOrElse(() => throw Exception("Unexpected error"));
+        categoryStatus = FormzSubmissionStatus.success;
       } else {
-        emit(state.copyWith(formzStatus: FormzSubmissionStatus.failure));
+        categoryStatus = FormzSubmissionStatus.failure;
       }
+
+      emit(state.copyWith(categories: categories, categoryStatus: categoryStatus));
     });
 
-    on<HomeFetchProductByCategory>((event, emit) async {
-      emit(state.copyWith(formzStatus: FormzSubmissionStatus.inProgress));
+    on<HomeFetchProducts>((event, emit) async {
+      List<ProductModel> products = [];
+      FormzSubmissionStatus productStatus = FormzSubmissionStatus.inProgress;
+      emit(state.copyWith(selectCategoryId: event.categoryId, productStatus: productStatus));
 
-      Either<String, List<ProductModel>> result = await _repository
-          .fetchProductsByCategory(event.categoryId);
-
-      if (result.isRight()) {
-        final products = result.getOrElse(() => []);
-        emit(
-          state.copyWith(
-            formzStatus: FormzSubmissionStatus.success,
-            products: products,
-          ),
-        );
+      late final result;
+      if(event.categoryId == null) {
+        result = await _repository.fetchAllProducts();
       } else {
-        emit(state.copyWith(formzStatus: FormzSubmissionStatus.failure));
+        result = await _repository.fetchProductsByCategory(event.categoryId!);
       }
+      if(result.isRight()) {
+        allProducts = result.getOrElse(() => throw Exception("Unexpected error"));
+        productStatus = FormzSubmissionStatus.success;
+        products = allProducts;
+      } else {
+        productStatus = FormzSubmissionStatus.failure;
+      }
+
+      emit(state.copyWith(products: products, productStatus: productStatus));
     });
 
-    on<HomeFetchProductById>((event, emit) async {
-      emit(state.copyWith(formzStatus: FormzSubmissionStatus.inProgress));
+    on<HomeSearchProducts>((event, emit) async {
+      final products = allProducts.where((product) {
+        return (product.title?.toLowerCase() ?? "").contains(event.text.toLowerCase());
+      }).toList();
 
-      Either<String, ProductModel> result = await _repository.fetchProductById(
-        event.productId,
-      );
-      if (result.isRight()) {
-        final product = result.getOrElse(
-          () => throw Exception("Unexpected error"),
-        );
-        emit(
-          state.copyWith(
-            formzStatus: FormzSubmissionStatus.success,
-            product: product,
-          ),
-        );
-      } else {
-        emit(state.copyWith(formzStatus: FormzSubmissionStatus.failure));
-      }
-    });
-
-    on<HomeFetchAllProductCategories>((event, emit) async {
-      emit(state.copyWith(formzStatus: FormzSubmissionStatus.inProgress));
-
-      Either<String, List<ProductCategoryModel>> result =
-          await _repository.fetchAllCategories();
-
-      if (result.isRight()) {
-        final categories = result.getOrElse(() => []);
-        emit(
-          state.copyWith(
-            formzStatus: FormzSubmissionStatus.success,
-            categories: categories,
-          ),
-        );
-      } else {
-        emit(state.copyWith(formzStatus: FormzSubmissionStatus.failure));
-      }
-    });
-
-    on<HomeResetStatus>((event, emit) {
-      emit(state.copyWith(formzStatus: FormzSubmissionStatus.initial));
+      emit(state.copyWith(products: products));
     });
 
     on<HomeDispose>((event, emit) => _repository.dispose());

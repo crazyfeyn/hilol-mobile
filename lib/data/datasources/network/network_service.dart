@@ -23,32 +23,23 @@ class NetworkService {
     final accessToken = DBService.getAccessToken();
 
     return {
-      if (accessToken.isNotEmpty) "Authorization": "Bearer $accessToken",
       "X-Device-Type": Platform.operatingSystem,
+      "Authorization": "Bearer $accessToken",
       "X-Request-UUID": const Uuid().v4(),
-      "Accept-Language": langCode,
       "X-Client-Lang": langCode,
     };
   }
 
   static Dio get _dio {
-    return Dio(BaseOptions(baseUrl: getService, headers: getHeaders))
-      ..interceptors.add(LogInterceptor(requestBody: true, responseBody: true))
-      ..interceptors.add(NetworkInterceptor());
+    final dio = Dio(BaseOptions(baseUrl: getService, headers: getHeaders))
+      ..interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+    return dio..interceptors.add(NetworkInterceptor(dio));
   }
 
   /* Http Requests */
-  static Future<T?> get<T>(
-    String api,
-    CancelToken cancelToken, [
-    Map<String, dynamic>? params,
-  ]) async {
+  static Future<T?> get<T>(String api, CancelToken cancelToken, [Map<String, dynamic>? params]) async {
     try {
-      var response = await _dio.get(
-        api,
-        queryParameters: params,
-        cancelToken: cancelToken,
-      );
+      var response = await _dio.get(api, queryParameters: params, cancelToken: cancelToken);
       return response.data;
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
@@ -65,19 +56,9 @@ class NetworkService {
     }
   }
 
-  static Future<T?> post<T>(
-    String api,
-    CancelToken cancelToken, [
-    Object? data,
-    Map<String, dynamic>? params,
-  ]) async {
+  static Future<T?> post<T>(String api, CancelToken cancelToken, [Object? data, Map<String, dynamic>? params]) async {
     try {
-      var response = await _dio.post(
-        api,
-        data: data,
-        queryParameters: params,
-        cancelToken: cancelToken,
-      );
+      var response = await _dio.post(api, data: data, queryParameters: params, cancelToken: cancelToken);
       return response.data;
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
@@ -94,11 +75,7 @@ class NetworkService {
     }
   }
 
-  static Future<T?> put<T>(
-    String api,
-    CancelToken cancelToken, [
-    Object? data,
-  ]) async {
+  static Future<T?> put<T>(String api, CancelToken cancelToken, [Object? data]) async {
     try {
       var response = await _dio.put(api, data: data, cancelToken: cancelToken);
       return response.data;
@@ -117,19 +94,9 @@ class NetworkService {
     }
   }
 
-  static Future<T?> delete<T>(
-    String api,
-    CancelToken cancelToken, [
-    Object? data,
-    Map<String, dynamic>? params,
-  ]) async {
+  static Future<T?> delete<T>(String api, CancelToken cancelToken, [Object? data, Map<String, dynamic>? params]) async {
     try {
-      var response = await _dio.delete(
-        api,
-        data: data,
-        queryParameters: params,
-        cancelToken: cancelToken,
-      );
+      var response = await _dio.delete(api, data: data, queryParameters: params, cancelToken: cancelToken);
       return response.data;
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
@@ -151,11 +118,27 @@ class NetworkService {
   static final String apiAuthSignIn = "/api/v1/auth/login";
   static final String apiAuthConfirmPass = "/api/v1/auth/verify-phone";
   static final String apiResetPass = "/api/v1/auth/reset-password";
+  static final String apiRefreshToken = "/api/v1/auth/refresh-token";
   static final String apiGetUser = "/api/v1/user";
+  static final String apiUserUploadImage = "/api/v1/user/upload/image";
+  static final String apiUserUpdateUserInfo = "/api/v1/user/update/user-info";
+  static final String apiUserDeleteAccount = "/api/v1/delete/account";
   static final String apiGetAllCategories = "/api/v1/product-category/all";
   static final String apiGetAllProducts = "/api/v1/product/get-all";
   static final String apiGetProductById = "/api/v1/product/get";
-  static final String apiGetProductsByCategory =
-      "/api/v1/product/get-by-category";
+  static final String apiGetProductsByCategory = "/api/v1/product/get-by-category";
   static final String apiFileDownload = "/api/v1/file/download";
+
+  /* Http Params */
+  static Map<String, dynamic> paramsRefreshToken(String clientId, String refreshToken) {
+    return {"clientId": clientId, "refreshToken": refreshToken};
+  }
+
+  static FormData paramsUserUploadImage(dynamic image) {
+    return FormData.fromMap({"image": image});
+  }
+
+  static Map<String, dynamic> paramsUserInfo(String firstname, String lastname) {
+    return { "firstname": firstname, "lastname": lastname };
+  }
 }

@@ -28,17 +28,17 @@ class AppColors {
   static const Color white950 = Color(0xFF292929);
 
   /// Primary colors (Blue)
-  static const Color primary50  = Color(0xFFEFF6FF);
-  static const Color primary100 = Color(0xFFDBEAFE);
-  static const Color primary200 = Color(0xFFBFDBFE);
-  static const Color primary300 = Color(0xFF93C5FD);
-  static const Color primary400 = Color(0xFF60A5FA);
-  static const Color primary500 = Color(0xFF3B82F6);
-  static const Color primary600 = Color(0xFF2563EB);
-  static const Color primary700 = Color(0xFF1D4ED8);
-  static const Color primary800 = Color(0xFF1E40AF);
-  static const Color primary900 = Color(0xFF1E3A8A);
-  static const Color primary950 = Color(0xFF172554);
+  static const Color primary50  = Color(0xFFF2F0FE);
+  static const Color primary100 = Color(0xFFE0DBFD);
+  static const Color primary200 = Color(0xFFC1B7FB);
+  static const Color primary300 = Color(0xFFA393F8);
+  static const Color primary400 = Color(0xFF8772F3);
+  static const Color primary500 = Color(0xFF7B68EE);
+  static const Color primary600 = Color(0xFF6A57D8);
+  static const Color primary700 = Color(0xFF5746B5);
+  static const Color primary800 = Color(0xFF453891);
+  static const Color primary900 = Color(0xFF322A6D);
+  static const Color primary950 = Color(0xFF221C4A);
 
 
   ///Red colors

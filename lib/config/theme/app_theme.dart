@@ -20,7 +20,7 @@ class AppTheme {
       centerTitle: true,
       backgroundColor: AppColors.white50,
       surfaceTintColor: Colors.transparent,
-      titleTextStyle: AppStyles.titleMDSemibold.copyWith(
+      titleTextStyle: AppStyles.bodyXLSemibold.copyWith(
         color: AppColors.black950,
       ),
       iconTheme: const IconThemeData(size: 20),
@@ -42,7 +42,7 @@ class AppTheme {
         backgroundColor: AppColors.primary500,
         minimumSize: Size(double.infinity, 56),
         maximumSize: Size(double.infinity, 56),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
         textStyle: AppStyles.bodyMDSemibold,
       ),
     ),
@@ -54,7 +54,7 @@ class AppTheme {
         minimumSize: Size(double.infinity, 56),
         maximumSize: Size(double.infinity, 56),
         side: BorderSide(width: 1, color: AppColors.primary200),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
         textStyle: AppStyles.bodyMDSemibold,
       ),
     ),

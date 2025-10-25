@@ -20,21 +20,18 @@
   "exit_btn": "Chiqish",
   "cancel_btn": "Bekor qilish",
   "empty_filed": "Maydon to‘ldirilishi shart",
-
   "first_name_title_field": "Ism",
   "first_name_hint_field": "Ismingizni kiriting...",
   "first_name_error_field": {
     "empty": "Ismni kiriting",
     "too_short": "Ism kamida 3 ta belgidan iborat bo‘lishi kerak"
   },
-
   "last_name_title_field": "Familiya",
   "last_name_hint_field": "Familiyangizni kiriting...",
   "last_name_error_field": {
     "empty": "Familiyani kiriting",
     "too_short": "Familiya kamida 3 ta belgidan iborat bo‘lishi kerak"
   },
-
   "login_to_app": "Ilovaga kirish",
   "create_new_account": "Yangi hisob yaratish",
   "phone_number_error_field": {
@@ -79,18 +76,15 @@
   "first_name_hint": "Ismingizni kiriting",
   "first_name_too_short": "Ism juda qisqa",
   "first_name_invalid_format": "Ism noto‘g‘ri formatda kiritildi",
-
   "last_name": "Familiya",
   "last_name_hint": "Familiyangizni kiriting",
   "last_name_too_short": "Familiya juda qisqa",
   "last_name_invalid_format": "Familiya noto‘g‘ri formatda kiritildi",
-
   "phone_number": "Telefon raqam",
   "phone_number_hint": "Telefon raqamingizni kiriting",
   "phone_number_invalid_format": "Telefon raqami noto‘g‘ri formatda",
   "phone_number_too_short": "Telefon raqami juda qisqa",
   "phone_number_too_long": "Telefon raqami juda uzun",
-
   "timeout_message": "Ulanish vaqti tugadi",
   "check_internet_connection": "Internet aloqasini tekshiring",
   "bad_certificate_message": "Xato sertifikat",
@@ -102,15 +96,29 @@
   "password_reset_error": "Parolni tiklash muvaffaqiyatsiz tugadi. Qaytadan urinib ko‘ring",
   "password_reset_success": "Parol muvaffaqiyatli tiklandi",
   "user_not_found": "Foydalanuvchi topilmadi",
-    "failed_to_load": "Mahsulot tafsilotlarini yuklashda xatolik yuz berdi",
-    "no_image": "Rasm mavjud emas",
-    "in_stock": "Omborda bor ({count})",
-    "out_of_stock": "Sotuvda yo‘q",
-    "description": "Tavsif",
-    "quantity": "Miqdor",
-    "total_price": "Umumiy narx:",
-    "add_to_cart": "Savatga qo‘shish",
-    "buy_now": "Hozir sotib olish",
-    "added_to_cart": "{quantity} ta {title} savatga qo‘shildi",
-    "proceed_checkout": "{quantity} ta {title} bilan xarid qilishga o‘tilmoqda"
+  "failed_to_load": "Mahsulot tafsilotlarini yuklashda xatolik yuz berdi",
+  "no_image": "Rasm mavjud emas",
+  "in_stock": "Omborda bor ({count})",
+  "out_of_stock": "Sotuvda yo‘q",
+  "description": "Tavsif",
+  "quantity": "Miqdor",
+  "total_price": "Umumiy narx:",
+  "add_to_cart": "Savatga qo‘shish",
+  "buy_now": "Hozir sotib olish",
+  "added_to_cart": "{quantity} ta {title} savatga qo‘shildi",
+  "proceed_checkout": "{quantity} ta {title} bilan xarid qilishga o‘tilmoqda",
+
+  "all": "Hammasi",
+  "search_here": "Search here",
+  "to_cart": "Savatga",
+  "order_summary": "Order summary",
+  "items": "Items",
+  "subtotal": "Subtotal",
+  "delivery_charges": "Delivery charges",
+  "total": "Total",
+  "check_out_btn": "Check out",
+  "empty_card_text": "Savatcha hozircha bo'sh",
+  "nav_home": "Home",
+  "nav_cart": "Savat",
+  "nav_profile": "Profile"
 }

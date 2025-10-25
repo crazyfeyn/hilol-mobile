@@ -6,10 +6,12 @@ import 'package:commerce_mobile/presentation/pages/auth/sign_up/page/sign_up_pag
 import 'package:commerce_mobile/presentation/pages/cart/page/cart_page.dart';
 import 'package:commerce_mobile/presentation/pages/history/pages/order_history_page.dart';
 import 'package:commerce_mobile/presentation/pages/history/pages/order_product_detail_page.dart';
+import 'package:commerce_mobile/presentation/pages/home/details/page/details_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/page/home_page.dart';
-import 'package:commerce_mobile/presentation/pages/home/main/page/main_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/page/edit_page.dart';
+import 'package:commerce_mobile/presentation/pages/profile/page/profile_page.dart';
 import 'package:commerce_mobile/presentation/pages/splash/page/splash_page.dart';
+import 'package:commerce_mobile/presentation/widgets/main_bottom_navigation_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 
@@ -59,21 +61,37 @@ class AppRouter {
           );
         },
       ),
-      GoRoute(
-        path: HomePage.path,
-        pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
+
+      ShellRoute(
+        builder: (context, state, child) {
+          return MainBottomNavigationBar(
+            currentPath: state.uri.path,
+            key: state.pageKey,
+            body: child,
+          );
+        },
+        routes: [
+          GoRoute(
+            path: HomePage.path,
+            pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
+          ),
+          GoRoute(
+            path: CartPage.path,
+            pageBuilder: (context, state) => const MaterialPage(child: CartPage()),
+          ),
+          GoRoute(
+            path: ProfilePage.path,
+            pageBuilder: (context, state) => const MaterialPage(child: ProfilePage()),
+          ),
+        ],
       ),
       GoRoute(
-        path: MainPage.path,
-        pageBuilder: (context, state) => const MaterialPage(child: MainPage()),
+        path: ProductDetailsPage.path,
+        pageBuilder: (context, state) => MaterialPage(child: ProductDetailsPage(extra: state.extra as Map<String, dynamic>)),
       ),
       GoRoute(
         path: EditPage.path,
         pageBuilder: (context, state) => const MaterialPage(child: EditPage()),
-      ),
-      GoRoute(
-        path: CartPage.path,
-        pageBuilder: (context, state) => const MaterialPage(child: CartPage()),
       ),
       GoRoute(
         path: OrderHistoryPage.path,
