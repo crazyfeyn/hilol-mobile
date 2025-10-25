@@ -4,6 +4,7 @@ import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/presentation/pages/cart/bloc/cart_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/cart/page/checkout_page.dart';
 import 'package:commerce_mobile/presentation/pages/cart/widget/total_price_cart.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_network_image.dart';
@@ -63,7 +64,7 @@ class _CartViewState extends State<CartView> {
             return Center(child: CircularProgressIndicator());
           }
 
-          if(state.carts.isEmpty) {
+          if (state.carts.isEmpty) {
             return Center(child: Text(context.tr(LocaleKeys.empty_card_text)));
           }
 
@@ -113,7 +114,10 @@ class _CartViewState extends State<CartView> {
                                   style: AppStyles.titleXSSemibold,
                                 ),
                                 Text(
-                                  cart.price?.formatPrice(cart.currency ?? "") ?? "",
+                                  cart.price?.formatPrice(
+                                        cart.currency ?? "",
+                                      ) ??
+                                      "",
                                   style: AppStyles.labelMDMedium.copyWith(
                                     color: AppColors.primary500,
                                   ),
@@ -133,7 +137,10 @@ class _CartViewState extends State<CartView> {
                               spacing: 8,
                               children: [
                                 IconButton(
-                                  onPressed: () => bloc.add(CartRemoveCountById(cart.id)),
+                                  onPressed:
+                                      () => bloc.add(
+                                        CartRemoveCountById(cart.id),
+                                      ),
                                   icon: Icon(Icons.remove, size: 16),
                                 ),
                                 Text(
@@ -144,9 +151,12 @@ class _CartViewState extends State<CartView> {
                                   textAlign: TextAlign.center,
                                 ),
                                 IconButton(
-                                  onPressed: (cart.count ?? 0) == (cart.amount ?? 0)
-                                      ? null
-                                      : () => bloc.add(CartAddCountById(cart.id)),
+                                  onPressed:
+                                      (cart.count ?? 0) == (cart.amount ?? 0)
+                                          ? null
+                                          : () => bloc.add(
+                                            CartAddCountById(cart.id),
+                                          ),
                                   icon: Icon(Icons.add, size: 16),
                                 ),
                               ],
@@ -187,7 +197,14 @@ class _CartViewState extends State<CartView> {
                 right: 16,
                 bottom: MediaQuery.viewPaddingOf(context).bottom + 8,
               ),
-              child: CustomElevatedButton(onTap: () {}, title: context.tr(LocaleKeys.check_out_btn)),
+              child: CustomElevatedButton(
+                onTap:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CheckoutPage()),
+                    ),
+                title: context.tr(LocaleKeys.check_out_btn),
+              ),
             ),
           );
         },
