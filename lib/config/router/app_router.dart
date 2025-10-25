@@ -4,6 +4,8 @@ import 'package:commerce_mobile/presentation/pages/auth/reset_pass/page/reset_pa
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_up/page/sign_up_page.dart';
 import 'package:commerce_mobile/presentation/pages/cart/page/cart_page.dart';
+import 'package:commerce_mobile/presentation/pages/cart/page/checkout_page.dart';
+import 'package:commerce_mobile/presentation/pages/cart/page/payment_page.dart';
 import 'package:commerce_mobile/presentation/pages/history/pages/order_history_page.dart';
 import 'package:commerce_mobile/presentation/pages/history/pages/order_product_detail_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/page/home_page.dart';
@@ -80,6 +82,7 @@ class AppRouter {
         pageBuilder:
             (context, state) => const MaterialPage(child: OrderHistoryPage()),
       ),
+
       GoRoute(
         path: OrderProductModelDetailPage.path,
         pageBuilder: (context, state) {

@@ -1,4 +1,5 @@
 import 'package:commerce_mobile/core/extension/extensions.dart';
+import 'package:commerce_mobile/presentation/pages/cart/page/checkout_page.dart';
 import 'package:flutter/material.dart';
 
 class CartPage extends StatelessWidget {
@@ -24,10 +25,10 @@ class CartPage extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               children: [
                 _buildCartItem(
-                  imagePath: 'assets/watch.jpg',
-                  title: 'Watch',
-                  brand: 'Rolex',
-                  price: 40,
+                  imagePath: 'assets/images/pepsi.png',
+                  title: 'Pepsi',
+                  brand: 'Pepsi',
+                  price: 18000,
                   quantity: 2,
                 ),
                 16.hs(),
@@ -51,11 +52,11 @@ class CartPage extends StatelessWidget {
                         ),
                       ),
                       16.hs(),
-                      _buildSummaryRow('Items', '3'),
+                      _buildSummaryRow('Items', '2'),
                       8.hs(),
-                      _buildSummaryRow('Subtotal', '\$423'),
+                      _buildSummaryRow('Subtotal', '36000 won'),
                       8.hs(),
-                      _buildSummaryRow('Delivery Charges', '\$2'),
+                      _buildSummaryRow('Delivery Charges', '2 won'),
                       16.hs(),
                       Container(height: 1, color: Colors.grey[200]),
                       16.hs(),
@@ -71,7 +72,7 @@ class CartPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '\$423',
+                            '36002 won',
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -143,9 +144,15 @@ class CartPage extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Container(
-                color: Colors.grey[300],
-                child: Icon(Icons.image, color: Colors.grey[600], size: 32),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    color: Colors.grey[300],
+                    child: Icon(Icons.image, color: Colors.grey[600], size: 32),
+                  );
+                },
               ),
             ),
           ),
@@ -170,7 +177,7 @@ class CartPage extends StatelessWidget {
                 ),
                 8.hs(),
                 Text(
-                  '\$$price',
+                  '$price won',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
