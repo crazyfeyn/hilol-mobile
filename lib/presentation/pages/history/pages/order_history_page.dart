@@ -11,19 +11,17 @@ class OrderHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Order History'),
-        centerTitle: true,
-      ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(16),
-        itemCount: _mockOrders.length,
-        separatorBuilder: (context, index) => 16.hs(),
-        itemBuilder: (context, index) {
-          final order = _mockOrders[index];
-          return buildOrderCard(context, order);
-        },
-      ),
+      appBar: AppBar(title: const Text('Order History'), centerTitle: true),
+      body: Center(child: Text('Empty')),
+      // body: ListView.separated(
+      //   padding: const EdgeInsets.all(16),
+      //   itemCount: _mockOrders.length,
+      //   separatorBuilder: (context, index) => 16.hs(),
+      //   itemBuilder: (context, index) {
+      //     final order = _mockOrders[index];
+      //     return buildOrderCard(context, order);
+      //   },
+      // ),
     );
   }
 }
