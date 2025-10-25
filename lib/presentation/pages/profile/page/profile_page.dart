@@ -61,6 +61,194 @@ class _ProfileViewState extends State<ProfileView> {
     super.deactivate();
   }
 
+  void _showBusinessInfoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Business Information', style: AppStyles.titleLGSemibold),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _buildInfoRow('Business Name', '주식회사 하나피 (Hanafi Co., Ltd.)'),
+                const SizedBox(height: 8),
+                _buildInfoRow('Business Registration Number', '123-45-67890'),
+                const SizedBox(height: 8),
+                _buildInfoRow('Representative Name', 'Azizbek Sharipov'),
+                const SizedBox(height: 8),
+                _buildInfoRow('Business Address', '전라북도 전주시 덕진구 백제대로 567, 2층'),
+                const SizedBox(height: 8),
+                _buildInfoRow(
+                  'Customer Service',
+                  'Email: support@hilol-market.kr / Tel: 010-1234-5678',
+                ),
+                const SizedBox(height: 8),
+                _buildInfoRow('E-commerce Registration', '제2025-전주덕진-0001호'),
+                const SizedBox(height: 8),
+                _buildInfoRow('Refund Inquiries', '+82-010-6343-1995'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                'Close',
+                style: AppStyles.bodyMDSemibold.copyWith(
+                  color: AppColors.primary500,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showRefundPolicyDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Refund & Exchange Policy',
+            style: AppStyles.titleLGSemibold,
+          ),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Refund Policy',
+                  style: AppStyles.labelLGSemibold.copyWith(
+                    color: AppColors.black950,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Refunds are available within 7 days of purchase if the product is unused and in original condition.',
+                  style: AppStyles.bodySMRegular.copyWith(
+                    color: AppColors.black600,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Refund Inquiries',
+                  style: AppStyles.labelLGSemibold.copyWith(
+                    color: AppColors.black950,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'For refund inquiries, please contact: +82-010-6343-1995',
+                  style: AppStyles.bodySMRegular.copyWith(
+                    color: AppColors.black600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                'Close',
+                style: AppStyles.bodyMDSemibold.copyWith(
+                  color: AppColors.primary500,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showDeliveryPolicyDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delivery Policy', style: AppStyles.titleLGSemibold),
+          content: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'Delivery Information',
+                  style: AppStyles.labelLGSemibold.copyWith(
+                    color: AppColors.black950,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Orders are shipped within 3–5 business days. Tracking information will be provided by email or SMS.',
+                  style: AppStyles.bodySMRegular.copyWith(
+                    color: AppColors.black600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                'Close',
+                style: AppStyles.bodyMDSemibold.copyWith(
+                  color: AppColors.primary500,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildInfoRow(String label, String value) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 120,
+          child: Text(
+            label,
+            style: AppStyles.labelLGMedium.copyWith(color: AppColors.black600),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            value,
+            style: AppStyles.bodySMRegular.copyWith(color: AppColors.black950),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPolicySection(String title, String content) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: AppStyles.labelLGSemibold.copyWith(color: AppColors.black950),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          content,
+          style: AppStyles.bodySMRegular.copyWith(color: AppColors.black600),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileBloc, ProfileState>(
@@ -169,6 +357,30 @@ class _ProfileViewState extends State<ProfileView> {
                     isLogout: true,
                     icon: CupertinoIcons.delete,
                     title: context.tr(LocaleKeys.delete_account),
+                  ),
+                  const SizedBox(height: 16),
+                  ProfileCard(
+                    icon: CupertinoIcons.building_2_fill,
+                    title: 'Business Information',
+                    onTap: () {
+                      _showBusinessInfoDialog(context);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ProfileCard(
+                    icon: CupertinoIcons.arrow_clockwise,
+                    title: 'Refund & Exchange Policy',
+                    onTap: () {
+                      _showRefundPolicyDialog(context);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ProfileCard(
+                    icon: CupertinoIcons.cube_box,
+                    title: 'Delivery Policy',
+                    onTap: () {
+                      _showDeliveryPolicyDialog(context);
+                    },
                   ),
                 ],
               ),
