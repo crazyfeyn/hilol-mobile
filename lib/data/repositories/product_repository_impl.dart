@@ -67,6 +67,7 @@ class ProductRepositoryImpl extends ProductRepository {
   @override
   Future<Either<String, ProductModel>> fetchProductById(int productId) async {
     try {
+      print('[][][][]');
       final api = NetworkService.apiGetProductById;
       final cancelToken = cancelTokenManager.getToken(api);
       final response = await NetworkService.get(api, cancelToken, {
@@ -74,7 +75,11 @@ class ProductRepositoryImpl extends ProductRepository {
       });
 
       final data = response['data'];
+      print(data);
       final product = ProductModel.fromJson(data);
+      print('-----');
+      print(product);
+
       final updatedImages =
           product.images.map((identity) => _getDownloadUrl(identity)).toList();
 
