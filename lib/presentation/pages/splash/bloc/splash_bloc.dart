@@ -18,17 +18,29 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
       emit(state.copyWith(formzStatus: formzStatus));
 
       UserModel? user = DBService.getUserData();
-      if(user != null) {
+      
+      // Check if user is logged in (has valid token)
+      bool isLoggedIn = DBService.isLoggedIn();
+      
+      if(user != null && isLoggedIn) {
+        // User exists and is logged in, just add delay for splash screen
         await Future.delayed(Duration(seconds: 2));
         formzStatus = FormzSubmissionStatus.success;
-      } else {
+      } else if(isLoggedIn && user == null) {
+        // User is logged in but no user data, try to fetch from API
         final result = await _repository.fetchUserData();
         if(result.isRight()) {
           user = result.getOrElse(() => throw Exception("Unexpected error"));
           formzStatus = FormzSubmissionStatus.success;
         } else {
+          // If fetch fails, user is not properly authenticated, clear tokens
+          await DBService.logOut();
           formzStatus = FormzSubmissionStatus.failure;
         }
+      } else {
+        // User is not logged in (new user or logged out), don't make API calls
+        await Future.delayed(Duration(seconds: 2));
+        formzStatus = FormzSubmissionStatus.success;
       }
 
       emit(state.copyWith(user: user, formzStatus: formzStatus));
