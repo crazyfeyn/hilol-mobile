@@ -72,20 +72,29 @@ class _ProfileViewState extends State<ProfileView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _buildInfoRow('Business Name', '주식회사 하나피 (Hanafi Co., Ltd.)'),
+                _buildInfoRow(
+                  'Business Name',
+                  'SHARIPOV AZIZBEK HAKIMJON UGLI',
+                ),
                 const SizedBox(height: 8),
-                _buildInfoRow('Business Registration Number', '123-45-67890'),
+                _buildInfoRow('Business Registration Number', '1388605788'),
                 const SizedBox(height: 8),
-                _buildInfoRow('Representative Name', 'Azizbek Sharipov'),
+                _buildInfoRow(
+                  'Representative Name',
+                  'SHARIPOV AZIZBEK HAKIMJON UGLI',
+                ),
                 const SizedBox(height: 8),
-                _buildInfoRow('Business Address', '전라북도 전주시 덕진구 백제대로 567, 2층'),
+                _buildInfoRow(
+                  'Business Address',
+                  '서울특별시 동대문구 경희대로 26 (회기동) 202호',
+                ),
                 const SizedBox(height: 8),
                 _buildInfoRow(
                   'Customer Service',
-                  'Email: support@hilol-market.kr / Tel: 010-1234-5678',
+                  'Email: golibtoramurodov@gmail.com / Tel: 010-8029-1802',
                 ),
                 const SizedBox(height: 8),
-                _buildInfoRow('E-commerce Registration', '제2025-전주덕진-0001호'),
+                _buildInfoRow('E-commerce Registration', '2025-서울동대문-2078'),
                 const SizedBox(height: 8),
                 _buildInfoRow('Refund Inquiries', '+82-010-6343-1995'),
               ],
@@ -253,7 +262,7 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileBloc, ProfileState>(
       listener: (context, state) {
-        if(state.logoutStatus.isSuccess || state.deleteStatus.isSuccess) {
+        if (state.logoutStatus.isSuccess || state.deleteStatus.isSuccess) {
           NavigationService.go(context, SignInPage.path);
         }
       },
@@ -285,7 +294,9 @@ class _ProfileViewState extends State<ProfileView> {
                     Text(
                       state.user?.phone != null ? "+${state.user?.phone}" : "",
                       textAlign: TextAlign.center,
-                      style: AppStyles.labelLGSemibold.copyWith(color: AppColors.black400),
+                      style: AppStyles.labelLGSemibold.copyWith(
+                        color: AppColors.black400,
+                      ),
                     ),
                   ],
 
@@ -293,19 +304,29 @@ class _ProfileViewState extends State<ProfileView> {
                   ProfileCard(
                     icon: CupertinoIcons.bag,
                     title: context.tr(LocaleKeys.my_orders),
-                    onTap: () => NavigationService.push(context, OrderHistoryPage.path),
+                    onTap:
+                        () => NavigationService.push(
+                          context,
+                          OrderHistoryPage.path,
+                        ),
                   ),
 
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap: () => LanguageBottomSheet.showBottomSheet(context: context),
+                    onTap:
+                        () => LanguageBottomSheet.showBottomSheet(
+                          context: context,
+                        ),
                     flag: LangService.langIcon(context.locale.languageCode),
                     icon: CupertinoIcons.globe,
                     title: context.tr(LocaleKeys.change_language),
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap: () => LauncherService.launcherApplication(AppConstants.support),
+                    onTap:
+                        () => LauncherService.launcherApplication(
+                          AppConstants.support,
+                        ),
                     icon: CupertinoIcons.bubble_left_bubble_right,
                     title: context.tr(LocaleKeys.support),
                   ),
@@ -323,13 +344,19 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap:() => LauncherService.launcherApplication(AppConstants.privacyPolice),
+                    onTap:
+                        () => LauncherService.launcherApplication(
+                          AppConstants.privacyPolice,
+                        ),
                     icon: CupertinoIcons.exclamationmark_shield,
                     title: context.tr(LocaleKeys.privacy_police),
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap: () => LauncherService.launcherApplication(AppConstants.termsOfServices),
+                    onTap:
+                        () => LauncherService.launcherApplication(
+                          AppConstants.termsOfServices,
+                        ),
                     icon: CupertinoIcons.info,
                     title: context.tr(LocaleKeys.terms_of_services),
                   ),
