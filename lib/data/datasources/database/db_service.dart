@@ -1,3 +1,4 @@
+import 'package:commerce_mobile/data/models/address_model.dart';
 import 'package:commerce_mobile/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -109,6 +110,20 @@ class DBService {
   static Future<bool> delUserData() async {
     return await _instance.remove(_StorageKeys.userData);
   }
+
+  /// Address Data
+  static Future<bool> setAddressData(AddressModel value) async {
+    return await _instance.setString(_StorageKeys.addressData, addressModelToMap(value));
+  }
+
+  static AddressModel? getAddressData() {
+    final value = _instance.getString(_StorageKeys.addressData);
+    return value != null ? addressModelFromMap(value) : null;
+  }
+
+  static Future<bool> delAddressData() async {
+    return await _instance.remove(_StorageKeys.addressData);
+  }
 }
 
 class _StorageKeys {
@@ -117,4 +132,5 @@ class _StorageKeys {
   static const refreshToken = 'refresh_token';
   static const clientId = 'client_id';
   static const userData = 'user_data';
+  static const addressData = 'address_data';
 }

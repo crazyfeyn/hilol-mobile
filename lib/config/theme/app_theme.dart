@@ -20,7 +20,7 @@ class AppTheme {
       centerTitle: true,
       backgroundColor: AppColors.white50,
       surfaceTintColor: Colors.transparent,
-      titleTextStyle: AppStyles.bodyXLSemibold.copyWith(
+      titleTextStyle: AppStyles.bodyMDSemibold.copyWith(
         color: AppColors.black950,
       ),
       iconTheme: const IconThemeData(size: 20),

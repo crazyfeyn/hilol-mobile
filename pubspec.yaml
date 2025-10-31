@@ -41,6 +41,8 @@ dependencies:
   smooth_page_indicator: ^1.2.1
   flutter_widget_from_html: ^0.17.1
   dotted_line: ^3.2.3
+  tosspayments_widget_sdk_flutter: ^2.1.2
+  kakao_map_plugin: ^0.3.7
 
 dev_dependencies:
   flutter_test:

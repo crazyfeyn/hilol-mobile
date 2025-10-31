@@ -5,10 +5,12 @@ import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  AuthRepository.initialize(appKey: 'javascript key');
   await EasyLocalization.ensureInitialized();
   await DBService.ensureInitialized();
 

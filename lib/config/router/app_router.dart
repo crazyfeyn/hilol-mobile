@@ -1,11 +1,12 @@
+import 'package:commerce_mobile/data/models/cart_model.dart';
+import 'package:commerce_mobile/presentation/pages/cart/address/page/address_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/confirm_code/page/confirm_code_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/forget_pass/page/forget_pass_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/reset_pass/page/reset_pass_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_up/page/sign_up_page.dart';
-import 'package:commerce_mobile/presentation/pages/cart/page/cart_page.dart';
-import 'package:commerce_mobile/presentation/pages/cart/page/checkout_page.dart';
-import 'package:commerce_mobile/presentation/pages/cart/page/payment_page.dart';
+import 'package:commerce_mobile/presentation/pages/cart/cart/page/cart_page.dart';
+import 'package:commerce_mobile/presentation/pages/cart/payment/page/payment_page.dart';
 import 'package:commerce_mobile/presentation/pages/history/pages/order_history_page.dart';
 import 'package:commerce_mobile/presentation/pages/history/pages/order_product_detail_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/details/page/details_page.dart';
@@ -117,6 +118,15 @@ class AppRouter {
         path: SignUpPage.path,
         pageBuilder:
             (context, state) => const MaterialPage(child: SignUpPage()),
+      ),
+
+      GoRoute(
+        path: AddressPage.path,
+        pageBuilder: (context, state) => MaterialPage(child: AddressPage(carts: state.extra as List<CartModel>)),
+      ),
+      GoRoute(
+        path: PaymentPage.path,
+        pageBuilder: (context, state) => MaterialPage(child: PaymentPage(extra: state.extra as Map<String, dynamic>)),
       ),
     ],
   );

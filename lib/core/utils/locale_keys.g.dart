@@ -41,10 +41,6 @@ abstract class  LocaleKeys {
   static const email = 'email';
   static const email_hint = 'email_hint';
   static const email_invalid_format = 'email_invalid_format';
-  static const address_title = 'address_title';
-  static const address_hint = 'address_hint';
-  static const address_error_field_empty = 'address_error_field.empty';
-  static const address_error_field = 'address_error_field';
   static const password_title_field = 'password_title_field';
   static const password_hint_field = 'password_hint_field';
   static const password_error_field_empty = 'password_error_field.empty';
@@ -118,5 +114,29 @@ abstract class  LocaleKeys {
   static const nav_home = 'nav_home';
   static const nav_cart = 'nav_cart';
   static const nav_profile = 'nav_profile';
+  static const deliver_address = 'deliver_address';
+  static const full_name_title = 'full_name_title';
+  static const full_name_hint = 'full_name_hint';
+  static const full_name_error_field_empty = 'full_name_error_field.empty';
+  static const full_name_error_field = 'full_name_error_field';
+  static const address_title = 'address_title';
+  static const address_hint = 'address_hint';
+  static const address_error_field_empty = 'address_error_field.empty';
+  static const address_error_field = 'address_error_field';
+  static const home_number_title = 'home_number_title';
+  static const home_number_hint = 'home_number_hint';
+  static const home_number_error_field_empty = 'home_number_error_field.empty';
+  static const home_number_error_field = 'home_number_error_field';
+  static const entrance_password_title = 'entrance_password_title';
+  static const entrance_password_hint = 'entrance_password_hint';
+  static const payment = 'payment';
+  static const payment_type = 'payment_type';
+  static const comment_title = 'comment_title';
+  static const comment_hint = 'comment_hint';
+  static const order_btn = 'order_btn';
+  static const payment_btn = 'payment_btn';
+  static const toss_bank = 'toss_bank';
+  static const cash = 'cash';
+  static const soon = 'soon';
 
 }

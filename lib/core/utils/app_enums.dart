@@ -40,3 +40,6 @@ extension FormzSubmissionStatusX on FormzSubmissionStatus {
   /// button to prevent duplicate submissions.
   bool get isInProgressOrSuccess => isInProgress || isSuccess;
 }
+
+
+enum PaymentMethod { tossBank, cash }

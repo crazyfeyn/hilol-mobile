@@ -40,11 +40,6 @@
   "email": "E-mail",
   "email_hint": "email@gmail.com",
   "email_invalid_format": "Iltimos, to‘g‘ri email manzilini kiriting (masalan: email@gmail.com)",
-  "address_title": "Manzil",
-  "address_hint": "Manzilni kiriting",
-  "address_error_field": {
-    "empty": "Manzilni kiriting"
-  },
   "password_title_field": "Parol",
   "password_hint_field": "Parolni kiriting...",
   "password_error_field": {
@@ -120,5 +115,35 @@
   "empty_card_text": "Savatcha hozircha bo'sh",
   "nav_home": "Home",
   "nav_cart": "Savat",
-  "nav_profile": "Profile"
+  "nav_profile": "Profile",
+
+  "deliver_address": "Yetkazib berish manzili",
+  "full_name_title": "Qabul qiluvchi ismi",
+  "full_name_hint": "Qabul qiluvchining ismini kiriting",
+  "full_name_error_field": {
+    "empty": "Qabul qiluvchining ismini kiriting"
+  },
+  "address_title": "Manzil",
+  "address_hint": "Manzilni kiriting",
+  "address_error_field": {
+    "empty": "Manzilni kiriting"
+  },
+  "home_number_title": "Uy raqami",
+  "home_number_hint": "Uy raqamini kiriting",
+  "home_number_error_field": {
+    "empty": "Uy raqamini kiriting"
+  },
+  "entrance_password_title": "Podyezdga kirish paroli",
+  "entrance_password_hint": "Parol kiriting agar bo'lsa",
+
+  "payment": "To'lov",
+  "payment_type": "To'lov usuli",
+  "comment_title": "Izoh",
+  "comment_hint": "Kuriyer uchun izoh",
+  "order_btn": "Buyurtma berish",
+  "payment_btn": "To'lov qilish",
+
+  "toss_bank": "Toss Bank",
+  "cash": "Naqt",
+  "soon": "Tez kunda"
 }

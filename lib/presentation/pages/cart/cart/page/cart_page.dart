@@ -1,10 +1,12 @@
+import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/presentation/pages/cart/bloc/cart_bloc.dart';
-import 'package:commerce_mobile/presentation/pages/cart/widget/total_price_cart.dart';
+import 'package:commerce_mobile/presentation/pages/cart/address/page/address_page.dart';
+import 'package:commerce_mobile/presentation/pages/cart/cart/bloc/cart_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/cart/cart/widget/total_price_cart.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_network_image.dart';
 import 'package:dotted_line/dotted_line.dart';
@@ -187,7 +189,10 @@ class _CartViewState extends State<CartView> {
                 right: 16,
                 bottom: MediaQuery.viewPaddingOf(context).bottom + 8,
               ),
-              child: CustomElevatedButton(onTap: () {}, title: context.tr(LocaleKeys.check_out_btn)),
+              child: CustomElevatedButton(
+                onTap: () => NavigationService.push(context, AddressPage.path, extra: state.carts),
+                title: context.tr(LocaleKeys.continue_btn),
+              ),
             ),
           );
         },

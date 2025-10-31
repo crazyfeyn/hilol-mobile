@@ -1,3 +1,7 @@
+import 'package:commerce_mobile/core/utils/app_enums.dart';
+import 'package:commerce_mobile/data/repositories/payment_method_model.dart';
+import 'package:flutter/cupertino.dart';
+
 class AppConstants {
   // App/Play store IDs
   static const String androidID = '';
@@ -22,6 +26,20 @@ class AppConstants {
   static const String termsOfServices =
       'https://play.google.com/store/apps/details?id=com.otashqassob&hl=en';
 
+  static List<PaymentMethodModel> paymentMethods = [
+    PaymentMethodModel(
+      method: PaymentMethod.tossBank,
+      icon: CupertinoIcons.creditcard,
+      title: "toss_bank",
+      isSoon: false,
+    ),
+    // PaymentMethodModel(
+    //   method: PaymentMethod.cash,
+    //   icon: CupertinoIcons.creditcard,
+    //   title: "cash",
+    //   isSoon: true,
+    // ),
+  ];
   const AppConstants._();
 }
 

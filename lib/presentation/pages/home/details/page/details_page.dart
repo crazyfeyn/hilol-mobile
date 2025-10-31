@@ -3,7 +3,7 @@ import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/presentation/pages/cart/page/cart_page.dart';
+import 'package:commerce_mobile/presentation/pages/cart/cart/page/cart_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/details/bloc/details_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/home/widget/carusel_images.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';

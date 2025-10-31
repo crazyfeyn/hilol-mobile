@@ -55,6 +55,7 @@ class CustomTextField extends StatelessWidget {
             style: AppStyles.labelLGRegular.copyWith(color: AppColors.black400),
           ),
         TextFormField(
+          readOnly: readOnly,
           controller: ctr,
           focusNode: focusNode,
           minLines: minLines,
