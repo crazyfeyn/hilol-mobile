@@ -40,18 +40,32 @@ class NetworkInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       final refreshToken = DBService.getRefreshToken();
       final clientId = DBService.getUserData()?.clientId;
-      final result = await repository.onRefreshToken(clientId ?? "", refreshToken);
-      if(result.isRight()) {
-        final res = result.getOrElse(() => throw Exception("Unexpected error"));
-        if(res) {
-          final newHeaders = Map<String, dynamic>.from(err.requestOptions.headers);
-          newHeaders['Authorization'] = 'Bearer ${DBService.getAccessToken()}';
-          final clonedRequest = err.requestOptions.copyWith(headers: newHeaders);
-          final response = await dio.fetch(clonedRequest);
-          return handler.resolve(response);
+      
+      // Only attempt token refresh if we have both refresh token and client ID
+      if (refreshToken.isNotEmpty && clientId != null && clientId.isNotEmpty) {
+        final result = await repository.onRefreshToken(clientId, refreshToken);
+        if(result.isRight()) {
+          final res = result.getOrElse(() => throw Exception("Unexpected error"));
+          if(res) {
+            final newHeaders = Map<String, dynamic>.from(err.requestOptions.headers);
+            newHeaders['Authorization'] = 'Bearer ${DBService.getAccessToken()}';
+            final clonedRequest = err.requestOptions.copyWith(headers: newHeaders);
+            final response = await dio.fetch(clonedRequest);
+            return handler.resolve(response);
+          } else {
+            // Token refresh failed, clear tokens and proceed with error
+            await DBService.logOut();
+            return handler.next(err);
+          }
         } else {
+          // Token refresh failed, clear tokens and proceed with error
+          await DBService.logOut();
           return handler.next(err);
         }
+      } else {
+        // No valid refresh token or client ID, clear tokens and proceed with error
+        await DBService.logOut();
+        return handler.next(err);
       }
     }
 

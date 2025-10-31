@@ -1,4 +1,4 @@
-package com.example.commerce_mobile
+package kr.hilolmarket.commerce_mobile
 
 import io.flutter.embedding.android.FlutterActivity
 

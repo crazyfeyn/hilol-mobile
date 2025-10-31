@@ -51,13 +51,6 @@ class _SignInViewState extends State<SignInView> {
       listener: (context, state) {
         if (state.formzStatus.isSuccess && state.auth != null) {
           NavigationService.go(context, HomePage.path);
-        } else if (state.formzStatus.isFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(context.tr(LocaleKeys.login_error_message)),
-              backgroundColor: Colors.red,
-            ),
-          );
         }
       },
       builder: (context, state) {
