@@ -1,8 +1,8 @@
 import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
-import 'package:commerce_mobile/presentation/pages/cart/bloc/cart_bloc.dart';
-import 'package:commerce_mobile/presentation/pages/cart/page/payment_page.dart';
+import 'package:commerce_mobile/presentation/pages/cart/cart/bloc/cart_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/cart/cart/page/payment_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

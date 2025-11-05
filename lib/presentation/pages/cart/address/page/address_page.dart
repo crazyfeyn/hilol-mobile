@@ -1,16 +1,17 @@
-import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/data/datasources/database/db_service.dart';
-import 'package:commerce_mobile/data/models/address_model.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
-import 'package:commerce_mobile/presentation/pages/cart/payment/page/payment_page.dart';
-import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
-import 'package:commerce_mobile/presentation/widgets/custom_text_field.dart';
+import 'package:commerce_mobile/presentation/pages/cart/address/bloc/address_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/cart/address/widget/address_form_section.dart';
+import 'package:commerce_mobile/presentation/pages/cart/address/widget/adress_bottom_bar.dart';
+import 'package:commerce_mobile/presentation/pages/cart/address/widget/adress_map_section.dart';
+import 'package:commerce_mobile/presentation/pages/cart/address/widget/keyboard_error_handler.dart';
+import 'package:commerce_mobile/presentation/pages/cart/address/widget/location_indicator.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
-class AddressPage extends StatefulWidget {
+class AddressPage extends StatelessWidget {
   static const String path = "/address_page";
 
   final List<CartModel> carts;
@@ -18,10 +19,24 @@ class AddressPage extends StatefulWidget {
   const AddressPage({super.key, required this.carts});
 
   @override
-  State<AddressPage> createState() => _AddressPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AddressBloc(),
+      child: AddressView(carts: carts),
+    );
+  }
 }
 
-class _AddressPageState extends State<AddressPage> {
+class AddressView extends StatefulWidget {
+  final List<CartModel> carts;
+
+  const AddressView({super.key, required this.carts});
+
+  @override
+  State<AddressView> createState() => _AddressViewState();
+}
+
+class _AddressViewState extends State<AddressView> {
   final _formKey = GlobalKey<FormState>();
   final _addressController = TextEditingController();
   final _phoneNumberController = TextEditingController();
@@ -29,126 +44,175 @@ class _AddressPageState extends State<AddressPage> {
   final _homeNumberController = TextEditingController();
   final _entrancePasswordController = TextEditingController();
 
+  KakaoMapController? _mapController;
+  bool _isMapCreated = false;
+
+  AddressBloc? _addressBloc;
+
   @override
   void initState() {
-    final user = DBService.getUserData();
-    final address = DBService.getAddressData();
-    _phoneNumberController.text = "+${user?.phone ?? ""}";
-    _addressController.text = address?.address ?? "";
-    _receiverNameController.text = address?.receiverName ?? "";
-    _homeNumberController.text = address?.homeNumber ?? "";
-    _entrancePasswordController.text = address?.entrancePassword ?? "";
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<AddressBloc>().add(AddressMapInitialized());
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.tr(LocaleKeys.deliver_address)),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            spacing: 16,
-            children: [
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.red,
-                  borderRadius: BorderRadius.circular(20),
+    return KeyboardErrorHandler(
+      child: BlocListener<AddressBloc, AddressState>(
+        listener: (context, state) {
+          _updateControllers(state);
+          if (state.selectedLocation != null &&
+              _mapController != null &&
+              _isMapCreated) {
+            _mapController!.setCenter(state.selectedLocation!);
+            _mapController!.clearMarker();
+            _mapController!.addMarker(
+              markers: [
+                Marker(
+                  markerId: 'selected_location',
+                  latLng: state.selectedLocation!,
                 ),
-                child: KakaoMap(
-                  onMapCreated: ((controller) {}),
+              ],
+            );
+          }
+        },
+        child: GestureDetector(
+          onTap: () {
+            final currentFocus = FocusScope.of(context);
+            if (!currentFocus.hasPrimaryFocus &&
+                currentFocus.focusedChild != null) {
+              FocusManager.instance.primaryFocus?.unfocus();
+            }
+          },
+          behavior: HitTestBehavior.translucent,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(context.tr(LocaleKeys.deliver_address)),
+              actions: [
+                BlocBuilder<AddressBloc, AddressState>(
+                  builder: (context, state) {
+                    return IconButton(
+                      icon:
+                          state.isGettingLocation
+                              ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                              : const Icon(Icons.my_location),
+                      onPressed:
+                          state.isGettingLocation
+                              ? null
+                              : () => context.read<AddressBloc>().add(
+                                AddressCurrentLocationRequested(),
+                              ),
+                      tooltip: context.tr(LocaleKeys.use_current_location),
+                    );
+                  },
+                ),
+              ],
+            ),
+            body: SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      AddressMapSection(
+                        onMapCreated: _handleMapCreated,
+                        onMapTap: _handleMapTap,
+                      ),
+                      const SizedBox(height: 16),
+                      const LocationIndicator(),
+                      const SizedBox(height: 16),
+                      AddressFormSection(
+                        addressController: _addressController,
+                        phoneNumberController: _phoneNumberController,
+                        receiverNameController: _receiverNameController,
+                        homeNumberController: _homeNumberController,
+                        entrancePasswordController: _entrancePasswordController,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              CustomTextField(
-                title: context.tr(LocaleKeys.address_title),
-                hintText: context.tr(LocaleKeys.address_hint),
-                ctr: _addressController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return context.tr(
-                      LocaleKeys.address_error_field_empty,
-                    );
-                  }
-                  return null;
-                },
-              ),
-              CustomTextField(
-                readOnly: true,
-                title: context.tr(LocaleKeys.phone_number),
-                hintText: context.tr(LocaleKeys.phone_number_hint),
-                ctr: _phoneNumberController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return context.tr(
-                      LocaleKeys.phone_number_error_field_empty,
-                    );
-                  }
-                  return null;
-                },
-              ),
-              CustomTextField(
-                title: context.tr(LocaleKeys.full_name_title),
-                hintText: context.tr(LocaleKeys.full_name_hint),
-                ctr: _receiverNameController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return context.tr(
-                      LocaleKeys.full_name_error_field_empty,
-                    );
-                  }
-                  return null;
-                },
-              ),
-              CustomTextField(
-                title: context.tr(LocaleKeys.home_number_title),
-                hintText: context.tr(LocaleKeys.home_number_hint),
-                ctr: _homeNumberController,
-              ),
-              CustomTextField(
-                title: context.tr(LocaleKeys.entrance_password_title),
-                hintText: context.tr(LocaleKeys.entrance_password_hint),
-                ctr: _entrancePasswordController,
-              ),
-            ],
+            ),
+            bottomNavigationBar: AddressBottomBar(
+              formKey: _formKey,
+              carts: widget.carts,
+            ),
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(
-          top: 8,
-          left: 16,
-          right: 16,
-          bottom: MediaQuery.viewPaddingOf(context).bottom + 8,
-        ),
-        child: CustomElevatedButton(
-          onTap: () {
-            if(_formKey.currentState!.validate()) {
-              final address = _addressController.text.trim();
-              final phone = _phoneNumberController.text.trim();
-              final receiverName = _receiverNameController.text.trim();
-              final homeNumber = _homeNumberController.text.trim();
-              final entrancePassword = _entrancePasswordController.text.trim();
-              final addressData = AddressModel(
-                address: address,
-                phoneNumber: phone,
-                receiverName: receiverName,
-                homeNumber: homeNumber,
-                entrancePassword: entrancePassword,
-              );
-              DBService.setAddressData(addressData);
-
-              final extra = { "address": addressData, "carts": widget.carts };
-              NavigationService.push(context, PaymentPage.path, extra: extra);
-            }
-          },
-          title: context.tr(LocaleKeys.continue_btn),
-        ),
-      ),
     );
+  }
+
+  void _handleMapCreated(KakaoMapController controller) {
+    _mapController = controller;
+    _isMapCreated = true;
+    final state = context.read<AddressBloc>().state;
+    if (state.selectedLocation != null) {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        if (_isMapCreated && _mapController != null) {
+          controller.setCenter(state.selectedLocation!);
+          controller.addMarker(
+            markers: [
+              Marker(
+                markerId: 'selected_location',
+                latLng: state.selectedLocation!,
+              ),
+            ],
+          );
+        }
+      });
+    }
+  }
+
+  void _handleMapTap(LatLng latLng) {
+    if (mounted) {
+      context.read<AddressBloc>().add(AddressLocationSelected(latLng));
+    }
+  }
+
+  void _updateControllers(AddressState state) {
+    if (_addressController.text != state.address) {
+      _addressController.text = state.address ?? '';
+    }
+    if (_phoneNumberController.text != state.phoneNumber) {
+      _phoneNumberController.text = state.phoneNumber ?? '';
+    }
+    if (_receiverNameController.text != state.receiverName) {
+      _receiverNameController.text = state.receiverName ?? '';
+    }
+    if (_homeNumberController.text != state.homeNumber) {
+      _homeNumberController.text = state.homeNumber ?? '';
+    }
+    if (_entrancePasswordController.text != state.entrancePassword) {
+      _entrancePasswordController.text = state.entrancePassword ?? '';
+    }
+  }
+
+  @override
+  void dispose() {
+    _mapController = null;
+    _isMapCreated = false;
+    _addressController.dispose();
+    _phoneNumberController.dispose();
+    _receiverNameController.dispose();
+    _homeNumberController.dispose();
+    _entrancePasswordController.dispose();
+    _addressBloc?.add(AddressDispose());
+    _addressBloc = null;
+    super.dispose();
   }
 }

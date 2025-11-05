@@ -43,6 +43,9 @@ dependencies:
   dotted_line: ^3.2.3
   tosspayments_widget_sdk_flutter: ^2.1.2
   kakao_map_plugin: ^0.3.7
+  kakao_flutter_sdk: ^1.9.7+3
+  geolocator: ^14.0.1
+  search_choices: ^2.3.1
 
 dev_dependencies:
   flutter_test:
