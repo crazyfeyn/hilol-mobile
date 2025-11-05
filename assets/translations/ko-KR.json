@@ -144,5 +144,22 @@
 
   "toss_bank": "Toss Bank",
   "cash": "Naqt",
-  "soon": "Tez kunda"
+  "soon": "Tez kunda",
+
+  "map_tap_instruction": "Yetkazib berish joyini tanlash uchun xaritani bosing\nyoki joriy joy tugmasidan foydalaning",
+  "loading_address": "Manzil yuklanmoqda...",
+  "location_selected": "Joy tanlandi",
+  "address_error_field_empty": "Iltimos, manzilni kiriting",
+  "address_error_select_on_map": "Iltimos, xaritadan joy tanlang",
+  "phone_number_error_field_empty": "Iltimos, telefon raqamingizni kiriting",
+  "full_name_error_field_empty": "Iltimos, qabul qiluvchi ismini kiriting",
+  
+  "location_permission_required": "Joylashuv ruxsati talab qilinadi",
+  "location_permission_denied": "Ushbu funktsiyadan foydalanish uchun sozlamalarda joylashuv ruxsatlarini yoqing",
+  "location_permission_denied_forever": "Joylashuv ruxsati doimiy ravishda rad etildi. Iltimos, ilova sozlamalarida yoqing",
+  "open_settings": "Sozlamalarni ochish",
+  "failed_get_location": "Joriy joyni olish muvaffaqiyatsiz tugadi",
+  "failed_get_address": "Manzil ma'lumotlarini olish muvaffaqiyatsiz tugadi",
+   "use_current_location": "Joriy joydan foydalanish",
+     "search_address_hint": "Search for address..."
 }

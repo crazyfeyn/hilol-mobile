@@ -72,10 +72,7 @@ class _ProfileViewState extends State<ProfileView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _buildInfoRow(
-                  'Business Name',
-                  'SHARIPOV AZIZBEK HAKIMJON UGLI',
-                ),
+                _buildInfoRow('Business Name', '주식회사 하나피 (Hanafi Co., Ltd.)'),
                 const SizedBox(height: 8),
                 _buildInfoRow('Business Registration Number', '1388605788'),
                 const SizedBox(height: 8),
