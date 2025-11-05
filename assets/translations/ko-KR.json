@@ -161,5 +161,7 @@
   "failed_get_location": "Joriy joyni olish muvaffaqiyatsiz tugadi",
   "failed_get_address": "Manzil ma'lumotlarini olish muvaffaqiyatsiz tugadi",
    "use_current_location": "Joriy joydan foydalanish",
-     "search_address_hint": "Search for address..."
+     "search_address_hint": "Search for address...",
+     "no_results_found": "No results found",
+     "search_address_title": "Search Address"
 }

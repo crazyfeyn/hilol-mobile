@@ -29,8 +29,12 @@ mixin _$AddressState {
   String? get entrancePassword => throw _privateConstructorUsedError;
   bool get isAddressValid => throw _privateConstructorUsedError;
   bool get isPhoneNumberValid => throw _privateConstructorUsedError;
-  bool get isReceiverNameValid =>
-      throw _privateConstructorUsedError; // Error handling
+  bool get isReceiverNameValid => throw _privateConstructorUsedError;
+  bool get isSearching => throw _privateConstructorUsedError;
+  List<PlaceSearchResult> get searchResults =>
+      throw _privateConstructorUsedError;
+  PlaceSearchResult? get selectedPlace => throw _privateConstructorUsedError;
+  String get searchQuery => throw _privateConstructorUsedError;
   String? get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of AddressState
@@ -61,6 +65,10 @@ abstract class $AddressStateCopyWith<$Res> {
     bool isAddressValid,
     bool isPhoneNumberValid,
     bool isReceiverNameValid,
+    bool isSearching,
+    List<PlaceSearchResult> searchResults,
+    PlaceSearchResult? selectedPlace,
+    String searchQuery,
     String? errorMessage,
   });
 }
@@ -93,6 +101,10 @@ class _$AddressStateCopyWithImpl<$Res, $Val extends AddressState>
     Object? isAddressValid = null,
     Object? isPhoneNumberValid = null,
     Object? isReceiverNameValid = null,
+    Object? isSearching = null,
+    Object? searchResults = null,
+    Object? selectedPlace = freezed,
+    Object? searchQuery = null,
     Object? errorMessage = freezed,
   }) {
     return _then(
@@ -162,6 +174,26 @@ class _$AddressStateCopyWithImpl<$Res, $Val extends AddressState>
                     ? _value.isReceiverNameValid
                     : isReceiverNameValid // ignore: cast_nullable_to_non_nullable
                         as bool,
+            isSearching:
+                null == isSearching
+                    ? _value.isSearching
+                    : isSearching // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            searchResults:
+                null == searchResults
+                    ? _value.searchResults
+                    : searchResults // ignore: cast_nullable_to_non_nullable
+                        as List<PlaceSearchResult>,
+            selectedPlace:
+                freezed == selectedPlace
+                    ? _value.selectedPlace
+                    : selectedPlace // ignore: cast_nullable_to_non_nullable
+                        as PlaceSearchResult?,
+            searchQuery:
+                null == searchQuery
+                    ? _value.searchQuery
+                    : searchQuery // ignore: cast_nullable_to_non_nullable
+                        as String,
             errorMessage:
                 freezed == errorMessage
                     ? _value.errorMessage
@@ -196,6 +228,10 @@ abstract class _$$AddressStateImplCopyWith<$Res>
     bool isAddressValid,
     bool isPhoneNumberValid,
     bool isReceiverNameValid,
+    bool isSearching,
+    List<PlaceSearchResult> searchResults,
+    PlaceSearchResult? selectedPlace,
+    String searchQuery,
     String? errorMessage,
   });
 }
@@ -227,6 +263,10 @@ class __$$AddressStateImplCopyWithImpl<$Res>
     Object? isAddressValid = null,
     Object? isPhoneNumberValid = null,
     Object? isReceiverNameValid = null,
+    Object? isSearching = null,
+    Object? searchResults = null,
+    Object? selectedPlace = freezed,
+    Object? searchQuery = null,
     Object? errorMessage = freezed,
   }) {
     return _then(
@@ -296,6 +336,26 @@ class __$$AddressStateImplCopyWithImpl<$Res>
                 ? _value.isReceiverNameValid
                 : isReceiverNameValid // ignore: cast_nullable_to_non_nullable
                     as bool,
+        isSearching:
+            null == isSearching
+                ? _value.isSearching
+                : isSearching // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        searchResults:
+            null == searchResults
+                ? _value._searchResults
+                : searchResults // ignore: cast_nullable_to_non_nullable
+                    as List<PlaceSearchResult>,
+        selectedPlace:
+            freezed == selectedPlace
+                ? _value.selectedPlace
+                : selectedPlace // ignore: cast_nullable_to_non_nullable
+                    as PlaceSearchResult?,
+        searchQuery:
+            null == searchQuery
+                ? _value.searchQuery
+                : searchQuery // ignore: cast_nullable_to_non_nullable
+                    as String,
         errorMessage:
             freezed == errorMessage
                 ? _value.errorMessage
@@ -323,8 +383,13 @@ class _$AddressStateImpl extends _AddressState {
     this.isAddressValid = false,
     this.isPhoneNumberValid = false,
     this.isReceiverNameValid = false,
+    this.isSearching = false,
+    final List<PlaceSearchResult> searchResults = const [],
+    this.selectedPlace = null,
+    this.searchQuery = '',
     this.errorMessage = null,
-  }) : super._();
+  }) : _searchResults = searchResults,
+       super._();
 
   @override
   @JsonKey()
@@ -365,14 +430,31 @@ class _$AddressStateImpl extends _AddressState {
   @override
   @JsonKey()
   final bool isReceiverNameValid;
-  // Error handling
+  @override
+  @JsonKey()
+  final bool isSearching;
+  final List<PlaceSearchResult> _searchResults;
+  @override
+  @JsonKey()
+  List<PlaceSearchResult> get searchResults {
+    if (_searchResults is EqualUnmodifiableListView) return _searchResults;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_searchResults);
+  }
+
+  @override
+  @JsonKey()
+  final PlaceSearchResult? selectedPlace;
+  @override
+  @JsonKey()
+  final String searchQuery;
   @override
   @JsonKey()
   final String? errorMessage;
 
   @override
   String toString() {
-    return 'AddressState(formzStatus: $formzStatus, isMapReady: $isMapReady, isLoadingAddress: $isLoadingAddress, isGettingLocation: $isGettingLocation, selectedLocation: $selectedLocation, address: $address, phoneNumber: $phoneNumber, receiverName: $receiverName, homeNumber: $homeNumber, entrancePassword: $entrancePassword, isAddressValid: $isAddressValid, isPhoneNumberValid: $isPhoneNumberValid, isReceiverNameValid: $isReceiverNameValid, errorMessage: $errorMessage)';
+    return 'AddressState(formzStatus: $formzStatus, isMapReady: $isMapReady, isLoadingAddress: $isLoadingAddress, isGettingLocation: $isGettingLocation, selectedLocation: $selectedLocation, address: $address, phoneNumber: $phoneNumber, receiverName: $receiverName, homeNumber: $homeNumber, entrancePassword: $entrancePassword, isAddressValid: $isAddressValid, isPhoneNumberValid: $isPhoneNumberValid, isReceiverNameValid: $isReceiverNameValid, isSearching: $isSearching, searchResults: $searchResults, selectedPlace: $selectedPlace, searchQuery: $searchQuery, errorMessage: $errorMessage)';
   }
 
   @override
@@ -405,6 +487,16 @@ class _$AddressStateImpl extends _AddressState {
                 other.isPhoneNumberValid == isPhoneNumberValid) &&
             (identical(other.isReceiverNameValid, isReceiverNameValid) ||
                 other.isReceiverNameValid == isReceiverNameValid) &&
+            (identical(other.isSearching, isSearching) ||
+                other.isSearching == isSearching) &&
+            const DeepCollectionEquality().equals(
+              other._searchResults,
+              _searchResults,
+            ) &&
+            (identical(other.selectedPlace, selectedPlace) ||
+                other.selectedPlace == selectedPlace) &&
+            (identical(other.searchQuery, searchQuery) ||
+                other.searchQuery == searchQuery) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage));
   }
@@ -425,6 +517,10 @@ class _$AddressStateImpl extends _AddressState {
     isAddressValid,
     isPhoneNumberValid,
     isReceiverNameValid,
+    isSearching,
+    const DeepCollectionEquality().hash(_searchResults),
+    selectedPlace,
+    searchQuery,
     errorMessage,
   );
 
@@ -452,6 +548,10 @@ abstract class _AddressState extends AddressState {
     final bool isAddressValid,
     final bool isPhoneNumberValid,
     final bool isReceiverNameValid,
+    final bool isSearching,
+    final List<PlaceSearchResult> searchResults,
+    final PlaceSearchResult? selectedPlace,
+    final String searchQuery,
     final String? errorMessage,
   }) = _$AddressStateImpl;
   const _AddressState._() : super._();
@@ -481,7 +581,15 @@ abstract class _AddressState extends AddressState {
   @override
   bool get isPhoneNumberValid;
   @override
-  bool get isReceiverNameValid; // Error handling
+  bool get isReceiverNameValid;
+  @override
+  bool get isSearching;
+  @override
+  List<PlaceSearchResult> get searchResults;
+  @override
+  PlaceSearchResult? get selectedPlace;
+  @override
+  String get searchQuery;
   @override
   String? get errorMessage;
 

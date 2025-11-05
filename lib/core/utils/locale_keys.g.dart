@@ -163,4 +163,6 @@ abstract class LocaleKeys {
   static const failed_get_address = 'failed_get_address';
   static const use_current_location = 'use_current_location';
   static const search_address_hint = 'search_address_hint';
+  static const no_results_found = 'no_results_found';
+  static const search_address_title = 'search_address_title';
 }

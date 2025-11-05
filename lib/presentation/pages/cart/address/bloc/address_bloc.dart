@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/data/models/address_model.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
+import 'package:commerce_mobile/data/models/place_search_model.dart';
 import 'package:commerce_mobile/data/repositories/address_repository_impl.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -57,19 +58,21 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       emit(state.copyWith(formzStatus: formzStatus, isGettingLocation: true));
 
       final result = await _repository.getCurrentLocation();
-
       if (result.isRight()) {
         final position = result.getOrElse(
           () => throw Exception("Unexpected error"),
         );
         final currentLocation = LatLng(position.latitude, position.longitude);
+        print('p[p[p[]]]');
         final addressResult = await _repository.reverseGeocode(currentLocation);
+        print('error');
 
         if (addressResult.isRight()) {
           final address = addressResult.getOrElse(
             () => throw Exception("Unexpected error"),
           );
           formzStatus = FormzSubmissionStatus.success;
+          print('success');
           emit(
             state.copyWith(
               formzStatus: formzStatus,
@@ -80,6 +83,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
             ),
           );
         } else {
+          print('might');
           formzStatus = FormzSubmissionStatus.failure;
           emit(
             state.copyWith(formzStatus: formzStatus, isGettingLocation: false),
@@ -153,6 +157,50 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       }
 
       emit(state.copyWith(formzStatus: formzStatus));
+    });
+
+    on<AddressSearchQueryChanged>((event, emit) async {
+      if (event.query.isEmpty) {
+        emit(
+          state.copyWith(
+            searchResults: [],
+            searchQuery: '',
+            isSearching: false,
+          ),
+        );
+        return;
+      }
+
+      emit(state.copyWith(searchQuery: event.query, isSearching: true));
+
+      final result = await _repository.searchAddress(event.query);
+
+      result.fold(
+        (error) =>
+            emit(state.copyWith(errorMessage: error, isSearching: false)),
+        (results) =>
+            emit(state.copyWith(searchResults: results, isSearching: false)),
+      );
+    });
+
+    on<AddressSearchPlaceSelected>((event, emit) {
+      final latLng = LatLng(event.place.y, event.place.x);
+      emit(
+        state.copyWith(
+          selectedPlace: event.place,
+          selectedLocation: latLng,
+          address:
+              event.place.roadAddressName.isNotEmpty
+                  ? event.place.roadAddressName
+                  : event.place.addressName,
+        ),
+      );
+    });
+
+    on<AddressSearchCleared>((event, emit) {
+      emit(
+        state.copyWith(searchResults: [], searchQuery: '', selectedPlace: null),
+      );
     });
 
     on<AddressDispose>((event, emit) => _repository.dispose());

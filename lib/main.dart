@@ -13,10 +13,10 @@ void main() async {
 
   KakaoSdk.init(
     nativeAppKey: '81ea026e7609e8ce87ace191465a40db',
-    javaScriptAppKey: '0401dbed276524d9b1885fed94f33c8a',
+    javaScriptAppKey: '8fdaaf1c7caf708637319641cd648590',
   );
 
-  AuthRepository.initialize(appKey: '0401dbed276524d9b1885fed94f33c8a');
+  AuthRepository.initialize(appKey: '8fdaaf1c7caf708637319641cd648590');
 
   await EasyLocalization.ensureInitialized();
   await DBService.ensureInitialized();

@@ -21,7 +21,11 @@ class AddressState with _$AddressState {
     @Default(false) bool isPhoneNumberValid,
     @Default(false) bool isReceiverNameValid,
 
-    // Error handling
+    @Default(false) bool isSearching,
+    @Default([]) List<PlaceSearchResult> searchResults,
+    @Default(null) PlaceSearchResult? selectedPlace,
+    @Default('') String searchQuery,
+
     @Default(null) String? errorMessage,
   }) = _AddressState;
 
