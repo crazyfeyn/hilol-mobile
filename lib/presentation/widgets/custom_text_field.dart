@@ -67,6 +67,13 @@ class CustomTextField extends StatelessWidget {
           textCapitalization: textCapitalization,
           style: AppStyles.bodyMDRegular,
           onChanged: onChanged,
+          contextMenuBuilder:
+              readOnly
+                  ? (context, editableTextState) {
+                    return const SizedBox.shrink();
+                  }
+                  : null,
+          enableInteractiveSelection: !readOnly,
           decoration: InputDecoration(
             fillColor: color,
             hintText: hintText,
@@ -76,7 +83,11 @@ class CustomTextField extends StatelessWidget {
                 suffixIcon != null
                     ? IconButton(
                       onPressed: onSuffix,
-                      icon: Icon(suffixIcon, size: 18, color: AppColors.black500),
+                      icon: Icon(
+                        suffixIcon,
+                        size: 18,
+                        color: AppColors.black500,
+                      ),
                     )
                     : null,
           ),

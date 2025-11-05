@@ -43,6 +43,8 @@ class _AddressViewState extends State<AddressView> {
   final _receiverNameController = TextEditingController();
   final _homeNumberController = TextEditingController();
   final _entrancePasswordController = TextEditingController();
+  final _searchController = TextEditingController();
+  final _searchFocusNode = FocusNode();
 
   KakaoMapController? _mapController;
   bool _isMapCreated = false;
@@ -61,96 +63,92 @@ class _AddressViewState extends State<AddressView> {
 
   @override
   Widget build(BuildContext context) {
-    return KeyboardErrorHandler(
-      child: BlocListener<AddressBloc, AddressState>(
-        listener: (context, state) {
-          _updateControllers(state);
-          if (state.selectedLocation != null &&
-              _mapController != null &&
-              _isMapCreated) {
-            _mapController!.setCenter(state.selectedLocation!);
-            _mapController!.clearMarker();
-            _mapController!.addMarker(
-              markers: [
-                Marker(
-                  markerId: 'selected_location',
-                  latLng: state.selectedLocation!,
-                ),
-              ],
-            );
+    return BlocListener<AddressBloc, AddressState>(
+      listener: (context, state) {
+        _updateControllers(state);
+        if (state.selectedLocation != null &&
+            _mapController != null &&
+            _isMapCreated) {
+          _mapController!.setCenter(state.selectedLocation!);
+          _mapController!.clearMarker();
+          _mapController!.addMarker(
+            markers: [
+              Marker(
+                markerId: 'selected_location',
+                latLng: state.selectedLocation!,
+              ),
+            ],
+          );
+        }
+      },
+      child: GestureDetector(
+        onTap: () {
+          final currentFocus = FocusScope.of(context);
+          if (!currentFocus.hasPrimaryFocus &&
+              currentFocus.focusedChild != null) {
+            FocusManager.instance.primaryFocus?.unfocus();
           }
         },
-        child: GestureDetector(
-          onTap: () {
-            final currentFocus = FocusScope.of(context);
-            if (!currentFocus.hasPrimaryFocus &&
-                currentFocus.focusedChild != null) {
-              FocusManager.instance.primaryFocus?.unfocus();
-            }
-          },
-          behavior: HitTestBehavior.translucent,
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text(context.tr(LocaleKeys.deliver_address)),
-              actions: [
-                BlocBuilder<AddressBloc, AddressState>(
-                  builder: (context, state) {
-                    return IconButton(
-                      icon:
-                          state.isGettingLocation
-                              ? SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                ),
-                              )
-                              : const Icon(Icons.my_location),
-                      onPressed:
-                          state.isGettingLocation
-                              ? null
-                              : () => context.read<AddressBloc>().add(
-                                AddressCurrentLocationRequested(),
-                              ),
-                      tooltip: context.tr(LocaleKeys.use_current_location),
-                    );
-                  },
-                ),
-              ],
-            ),
-            body: SafeArea(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      AddressMapSection(
-                        onMapCreated: _handleMapCreated,
-                        onMapTap: _handleMapTap,
-                      ),
-                      const SizedBox(height: 16),
-                      const LocationIndicator(),
-                      const SizedBox(height: 16),
-                      AddressFormSection(
-                        addressController: _addressController,
-                        phoneNumberController: _phoneNumberController,
-                        receiverNameController: _receiverNameController,
-                        homeNumberController: _homeNumberController,
-                        entrancePasswordController: _entrancePasswordController,
-                      ),
-                    ],
-                  ),
+        behavior: HitTestBehavior.translucent,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(context.tr(LocaleKeys.deliver_address)),
+            actions: [
+              BlocBuilder<AddressBloc, AddressState>(
+                builder: (context, state) {
+                  return IconButton(
+                    icon:
+                        state.isGettingLocation
+                            ? SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                            : const Icon(Icons.my_location),
+                    onPressed:
+                        state.isGettingLocation
+                            ? null
+                            : () => context.read<AddressBloc>().add(
+                              AddressCurrentLocationRequested(),
+                            ),
+                    tooltip: context.tr(LocaleKeys.use_current_location),
+                  );
+                },
+              ),
+            ],
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    AddressMapSection(
+                      onMapCreated: _handleMapCreated,
+                      onMapTap: _handleMapTap,
+                    ),
+                    const SizedBox(height: 16),
+                    const LocationIndicator(),
+                    const SizedBox(height: 16),
+
+                    AddressFormSection(
+                      addressController: _addressController,
+                      phoneNumberController: _phoneNumberController,
+                      receiverNameController: _receiverNameController,
+                      homeNumberController: _homeNumberController,
+                      entrancePasswordController: _entrancePasswordController,
+                      searchController: _searchController,
+                      searchFocusNode: _searchFocusNode,
+                    ),
+                  ],
                 ),
               ),
             ),
-            bottomNavigationBar: AddressBottomBar(
-              formKey: _formKey,
-              carts: widget.carts,
-            ),
+          ),
+          bottomNavigationBar: AddressBottomBar(
+            formKey: _formKey,
+            carts: widget.carts,
           ),
         ),
       ),

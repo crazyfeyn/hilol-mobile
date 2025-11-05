@@ -51,3 +51,37 @@ class AddressSubmitted extends AddressEvent {
 class AddressErrorShown extends AddressEvent {}
 
 class AddressDispose extends AddressEvent {}
+
+class AddressSearchQueryChanged extends AddressEvent {
+  final String query;
+  AddressSearchQueryChanged(this.query);
+
+  List<Object?> get props => [query];
+}
+
+// When search results are successfully fetched
+class AddressSearchResultsLoaded extends AddressEvent {
+  final List<PlaceSearchResult> results;
+  AddressSearchResultsLoaded(this.results);
+
+  List<Object?> get props => [results];
+}
+
+// When an error occurs while searching
+class AddressSearchErrorOccurred extends AddressEvent {
+  final String message;
+  AddressSearchErrorOccurred(this.message);
+
+  List<Object?> get props => [message];
+}
+
+// When user selects a search result (place)
+class AddressSearchPlaceSelected extends AddressEvent {
+  final PlaceSearchResult place;
+  AddressSearchPlaceSelected(this.place);
+
+  List<Object?> get props => [place];
+}
+
+// When user clears the search field
+class AddressSearchCleared extends AddressEvent {}
