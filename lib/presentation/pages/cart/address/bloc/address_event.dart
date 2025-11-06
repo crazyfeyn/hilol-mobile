@@ -75,7 +75,6 @@ class AddressSearchErrorOccurred extends AddressEvent {
   List<Object?> get props => [message];
 }
 
-// When user selects a search result (place)
 class AddressSearchPlaceSelected extends AddressEvent {
   final PlaceSearchResult place;
   AddressSearchPlaceSelected(this.place);
@@ -83,5 +82,31 @@ class AddressSearchPlaceSelected extends AddressEvent {
   List<Object?> get props => [place];
 }
 
-// When user clears the search field
 class AddressSearchCleared extends AddressEvent {}
+
+class AddressLocationImageUploadRequested extends AddressEvent {
+  final int orderId;
+  final File imageFile;
+
+  AddressLocationImageUploadRequested(this.orderId, this.imageFile);
+
+  List<Object?> get props => [orderId, imageFile];
+}
+
+class AddressLocationImageUploadSuccess extends AddressEvent {
+  final UploadLocationImageModel uploadResponse;
+
+  AddressLocationImageUploadSuccess(this.uploadResponse);
+
+  List<Object?> get props => [uploadResponse];
+}
+
+class AddressLocationImageUploadFailure extends AddressEvent {
+  final String errorMessage;
+
+  AddressLocationImageUploadFailure(this.errorMessage);
+
+  List<Object?> get props => [errorMessage];
+}
+
+class AddressLocationImageUploadCleared extends AddressEvent {}

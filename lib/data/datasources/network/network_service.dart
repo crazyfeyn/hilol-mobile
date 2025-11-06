@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'dart:convert';
 import 'package:commerce_mobile/core/services/lang_service.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
@@ -7,6 +7,7 @@ import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:uuid/uuid.dart';
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 class NetworkService {
   static bool _isTester = true;
@@ -37,9 +38,17 @@ class NetworkService {
   }
 
   /* Http Requests */
-  static Future<T?> get<T>(String api, CancelToken cancelToken, [Map<String, dynamic>? params]) async {
+  static Future<T?> get<T>(
+    String api,
+    CancelToken cancelToken, [
+    Map<String, dynamic>? params,
+  ]) async {
     try {
-      var response = await _dio.get(api, queryParameters: params, cancelToken: cancelToken);
+      var response = await _dio.get(
+        api,
+        queryParameters: params,
+        cancelToken: cancelToken,
+      );
       return response.data;
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
@@ -56,9 +65,19 @@ class NetworkService {
     }
   }
 
-  static Future<T?> post<T>(String api, CancelToken cancelToken, [Object? data, Map<String, dynamic>? params]) async {
+  static Future<T?> post<T>(
+    String api,
+    CancelToken cancelToken, [
+    Object? data,
+    Map<String, dynamic>? params,
+  ]) async {
     try {
-      var response = await _dio.post(api, data: data, queryParameters: params, cancelToken: cancelToken);
+      var response = await _dio.post(
+        api,
+        data: data,
+        queryParameters: params,
+        cancelToken: cancelToken,
+      );
       return response.data;
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
@@ -75,7 +94,11 @@ class NetworkService {
     }
   }
 
-  static Future<T?> put<T>(String api, CancelToken cancelToken, [Object? data]) async {
+  static Future<T?> put<T>(
+    String api,
+    CancelToken cancelToken, [
+    Object? data,
+  ]) async {
     try {
       var response = await _dio.put(api, data: data, cancelToken: cancelToken);
       return response.data;
@@ -94,9 +117,115 @@ class NetworkService {
     }
   }
 
-  static Future<T?> delete<T>(String api, CancelToken cancelToken, [Object? data, Map<String, dynamic>? params]) async {
+  static Future<T?> delete<T>(
+    String api,
+    CancelToken cancelToken, [
+    Object? data,
+    Map<String, dynamic>? params,
+  ]) async {
     try {
-      var response = await _dio.delete(api, data: data, queryParameters: params, cancelToken: cancelToken);
+      var response = await _dio.delete(
+        api,
+        data: data,
+        queryParameters: params,
+        cancelToken: cancelToken,
+      );
+      return response.data;
+    } on DioException catch (e) {
+      throw NetworkException.fromDioError(e);
+    } on SocketException catch (_) {
+      throw NetworkException(
+        LocaleKeys.check_internet_connection.tr(),
+        NetworkExceptionType.noInternet,
+      );
+    } catch (e) {
+      throw NetworkException(
+        LocaleKeys.dio_unknown_message.tr(args: [e.toString()]),
+        NetworkExceptionType.unknown,
+      );
+    }
+  }
+
+  //? Multipart Upload Methods
+  static http.MultipartRequest createMultipartRequest(
+    String endpoint,
+    CancelToken cancelToken,
+    Map<String, String> fields, {
+    Map<String, String>? headers,
+  }) {
+    // Create the base URL with query parameters
+    final baseUrl = Uri.parse('$getService$endpoint');
+    final queryParams = {...fields};
+
+    // Create the final URL with query parameters
+    final url = Uri(
+      scheme: baseUrl.scheme,
+      host: baseUrl.host,
+      port: baseUrl.port,
+      path: baseUrl.path,
+      queryParameters: {...baseUrl.queryParameters, ...queryParams},
+    );
+
+    // Create the request with the final URL
+    final request = http.MultipartRequest('POST', url);
+
+    // Add headers
+    final allHeaders = {...getHeaders, ...headers ?? {}};
+    request.headers.addAll(allHeaders);
+
+    return request;
+  }
+
+  static Future<http.MultipartFile> createMultipartFile(
+    String fieldName,
+    Stream<List<int>> stream,
+    int length, {
+    String? filename,
+  }) async {
+    return http.MultipartFile(fieldName, stream, length, filename: filename);
+  }
+
+  static Future<Map<String, dynamic>> sendMultipartRequest(
+    http.MultipartRequest request,
+  ) async {
+    try {
+      final response = await request.send();
+      final responseString = await response.stream.bytesToString();
+
+      if (response.statusCode == 200) {
+        return json.decode(responseString);
+      } else {
+        throw NetworkException(
+          'Upload failed with status: ${response.statusCode}',
+          NetworkExceptionType.serverError,
+        );
+      }
+    } catch (e) {
+      throw NetworkException(
+        'Upload request failed: $e',
+        NetworkExceptionType.noInternet,
+      );
+    }
+  }
+
+  /* Alternative: Dio Multipart Upload (Recommended) */
+  static Future<T?> postMultipart<T>(
+    String api,
+    CancelToken cancelToken,
+    FormData formData, [
+    Map<String, dynamic>? params,
+    Map<String, String>? additionalHeaders,
+  ]) async {
+    try {
+      final headers = {...getHeaders, ...additionalHeaders ?? {}};
+
+      var response = await _dio.post(
+        api,
+        data: formData,
+        queryParameters: params,
+        cancelToken: cancelToken,
+        options: Options(headers: headers, contentType: 'multipart/form-data'),
+      );
       return response.data;
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
@@ -126,11 +255,17 @@ class NetworkService {
   static final String apiGetAllCategories = "/api/v1/product-category/all";
   static final String apiGetAllProducts = "/api/v1/product/get-all";
   static final String apiGetProductById = "/api/v1/product/get";
-  static final String apiGetProductsByCategory = "/api/v1/product/get-by-category";
+  static final String apiGetProductsByCategory =
+      "/api/v1/product/get-by-category";
   static final String apiFileDownload = "/api/v1/file/download";
+  static const String apiOrderUploadLocationImage =
+      '/api/v1/order/upload-location-image';
 
   /* Http Params */
-  static Map<String, dynamic> paramsRefreshToken(String clientId, String refreshToken) {
+  static Map<String, dynamic> paramsRefreshToken(
+    String clientId,
+    String refreshToken,
+  ) {
     return {"clientId": clientId, "refreshToken": refreshToken};
   }
 
@@ -138,7 +273,10 @@ class NetworkService {
     return FormData.fromMap({"image": image});
   }
 
-  static Map<String, dynamic> paramsUserInfo(String firstname, String lastname) {
-    return { "firstname": firstname, "lastname": lastname };
+  static Map<String, dynamic> paramsUserInfo(
+    String firstname,
+    String lastname,
+  ) {
+    return {"firstname": firstname, "lastname": lastname};
   }
 }

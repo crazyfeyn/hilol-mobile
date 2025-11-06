@@ -1,5 +1,3 @@
-// lib/presentation/pages/cart/address/widgets/address_map_section.dart
-
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/presentation/pages/cart/address/bloc/address_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';

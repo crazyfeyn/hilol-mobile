@@ -1,10 +1,7 @@
-// To parse this JSON data, do
-//
-//     final addressModel = addressModelFromMap(jsonString);
-
 import 'dart:convert';
 
-AddressModel addressModelFromMap(String str) => AddressModel.fromMap(json.decode(str));
+AddressModel addressModelFromMap(String str) =>
+    AddressModel.fromMap(json.decode(str));
 
 String addressModelToMap(AddressModel data) => json.encode(data.toMap());
 
@@ -35,16 +32,15 @@ class AddressModel {
     String? homeNumber,
     String? entrancePassword,
     String? phoneNumber,
-  }) =>
-      AddressModel(
-        latitute: latitute ?? this.latitute,
-        longitude: longitude ?? this.longitude,
-        address: address ?? this.address,
-        receiverName: receiverName ?? this.receiverName,
-        homeNumber: homeNumber ?? this.homeNumber,
-        entrancePassword: entrancePassword ?? this.entrancePassword,
-        phoneNumber: phoneNumber ?? this.phoneNumber,
-      );
+  }) => AddressModel(
+    latitute: latitute ?? this.latitute,
+    longitude: longitude ?? this.longitude,
+    address: address ?? this.address,
+    receiverName: receiverName ?? this.receiverName,
+    homeNumber: homeNumber ?? this.homeNumber,
+    entrancePassword: entrancePassword ?? this.entrancePassword,
+    phoneNumber: phoneNumber ?? this.phoneNumber,
+  );
 
   factory AddressModel.fromMap(Map<String, dynamic> json) => AddressModel(
     latitute: json["latitute"]?.toDouble(),

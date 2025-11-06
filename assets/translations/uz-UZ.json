@@ -164,5 +164,14 @@
    "use_current_location": "Joriy joydan foydalanish",
      "search_address_hint": "Search for address...",
      "no_results_found": "No results found",
-     "search_address_title": "Search Address"
+     "search_address_title": "Search Address",
+  "location_image": "Location Image",
+  "location_image_upload_success": "Location image uploaded successfully!",
+  "choose_from_gallery": "Choose from Gallery",
+  "take_photo": "Take Photo",
+  "clear_image": "Clear Image",
+  "uploading_image": "Uploading image...",
+  "upload_successful": "Upload successful!",
+  "failed_to_pick_image": "Failed to pick image",
+  "failed_to_take_photo": "Failed to take photo"
 }
