@@ -165,4 +165,13 @@ abstract class LocaleKeys {
   static const search_address_hint = 'search_address_hint';
   static const no_results_found = 'no_results_found';
   static const search_address_title = 'search_address_title';
+  static const location_image = 'location_image';
+  static const location_image_upload_success = 'location_image_upload_success';
+  static const choose_from_gallery = 'choose_from_gallery';
+  static const take_photo = 'take_photo';
+  static const clear_image = 'clear_image';
+  static const uploading_image = 'uploading_image';
+  static const upload_successful = 'upload_successful';
+  static const failed_to_pick_image = 'failed_to_pick_image';
+  static const failed_to_take_photo = 'failed_to_take_photo';
 }

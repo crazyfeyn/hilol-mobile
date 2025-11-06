@@ -50,6 +50,7 @@ class AddressBottomBar extends StatelessWidget {
 
   void _handleContinue(BuildContext context, AddressState state) {
     if (formKey.currentState!.validate()) {
+      print('smth');
       context.read<AddressBloc>().add(AddressSubmitted(carts));
 
       final addressData = AddressModel(

@@ -21,6 +21,11 @@ mixin _$AddressState {
   bool get isMapReady => throw _privateConstructorUsedError;
   bool get isLoadingAddress => throw _privateConstructorUsedError;
   bool get isGettingLocation => throw _privateConstructorUsedError;
+  bool get isUploadingImage => throw _privateConstructorUsedError;
+  UploadLocationImageModel? get uploadResponse =>
+      throw _privateConstructorUsedError;
+  String? get uploadErrorMessage => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get uploadStatus => throw _privateConstructorUsedError;
   LatLng? get selectedLocation => throw _privateConstructorUsedError;
   String? get address => throw _privateConstructorUsedError;
   String? get phoneNumber => throw _privateConstructorUsedError;
@@ -56,6 +61,10 @@ abstract class $AddressStateCopyWith<$Res> {
     bool isMapReady,
     bool isLoadingAddress,
     bool isGettingLocation,
+    bool isUploadingImage,
+    UploadLocationImageModel? uploadResponse,
+    String? uploadErrorMessage,
+    FormzSubmissionStatus uploadStatus,
     LatLng? selectedLocation,
     String? address,
     String? phoneNumber,
@@ -92,6 +101,10 @@ class _$AddressStateCopyWithImpl<$Res, $Val extends AddressState>
     Object? isMapReady = null,
     Object? isLoadingAddress = null,
     Object? isGettingLocation = null,
+    Object? isUploadingImage = null,
+    Object? uploadResponse = freezed,
+    Object? uploadErrorMessage = freezed,
+    Object? uploadStatus = null,
     Object? selectedLocation = freezed,
     Object? address = freezed,
     Object? phoneNumber = freezed,
@@ -129,6 +142,26 @@ class _$AddressStateCopyWithImpl<$Res, $Val extends AddressState>
                     ? _value.isGettingLocation
                     : isGettingLocation // ignore: cast_nullable_to_non_nullable
                         as bool,
+            isUploadingImage:
+                null == isUploadingImage
+                    ? _value.isUploadingImage
+                    : isUploadingImage // ignore: cast_nullable_to_non_nullable
+                        as bool,
+            uploadResponse:
+                freezed == uploadResponse
+                    ? _value.uploadResponse
+                    : uploadResponse // ignore: cast_nullable_to_non_nullable
+                        as UploadLocationImageModel?,
+            uploadErrorMessage:
+                freezed == uploadErrorMessage
+                    ? _value.uploadErrorMessage
+                    : uploadErrorMessage // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            uploadStatus:
+                null == uploadStatus
+                    ? _value.uploadStatus
+                    : uploadStatus // ignore: cast_nullable_to_non_nullable
+                        as FormzSubmissionStatus,
             selectedLocation:
                 freezed == selectedLocation
                     ? _value.selectedLocation
@@ -219,6 +252,10 @@ abstract class _$$AddressStateImplCopyWith<$Res>
     bool isMapReady,
     bool isLoadingAddress,
     bool isGettingLocation,
+    bool isUploadingImage,
+    UploadLocationImageModel? uploadResponse,
+    String? uploadErrorMessage,
+    FormzSubmissionStatus uploadStatus,
     LatLng? selectedLocation,
     String? address,
     String? phoneNumber,
@@ -254,6 +291,10 @@ class __$$AddressStateImplCopyWithImpl<$Res>
     Object? isMapReady = null,
     Object? isLoadingAddress = null,
     Object? isGettingLocation = null,
+    Object? isUploadingImage = null,
+    Object? uploadResponse = freezed,
+    Object? uploadErrorMessage = freezed,
+    Object? uploadStatus = null,
     Object? selectedLocation = freezed,
     Object? address = freezed,
     Object? phoneNumber = freezed,
@@ -291,6 +332,26 @@ class __$$AddressStateImplCopyWithImpl<$Res>
                 ? _value.isGettingLocation
                 : isGettingLocation // ignore: cast_nullable_to_non_nullable
                     as bool,
+        isUploadingImage:
+            null == isUploadingImage
+                ? _value.isUploadingImage
+                : isUploadingImage // ignore: cast_nullable_to_non_nullable
+                    as bool,
+        uploadResponse:
+            freezed == uploadResponse
+                ? _value.uploadResponse
+                : uploadResponse // ignore: cast_nullable_to_non_nullable
+                    as UploadLocationImageModel?,
+        uploadErrorMessage:
+            freezed == uploadErrorMessage
+                ? _value.uploadErrorMessage
+                : uploadErrorMessage // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        uploadStatus:
+            null == uploadStatus
+                ? _value.uploadStatus
+                : uploadStatus // ignore: cast_nullable_to_non_nullable
+                    as FormzSubmissionStatus,
         selectedLocation:
             freezed == selectedLocation
                 ? _value.selectedLocation
@@ -374,6 +435,10 @@ class _$AddressStateImpl extends _AddressState {
     this.isMapReady = false,
     this.isLoadingAddress = false,
     this.isGettingLocation = false,
+    this.isUploadingImage = false,
+    this.uploadResponse = null,
+    this.uploadErrorMessage = null,
+    this.uploadStatus = FormzSubmissionStatus.initial,
     this.selectedLocation = null,
     this.address = null,
     this.phoneNumber = null,
@@ -403,6 +468,18 @@ class _$AddressStateImpl extends _AddressState {
   @override
   @JsonKey()
   final bool isGettingLocation;
+  @override
+  @JsonKey()
+  final bool isUploadingImage;
+  @override
+  @JsonKey()
+  final UploadLocationImageModel? uploadResponse;
+  @override
+  @JsonKey()
+  final String? uploadErrorMessage;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus uploadStatus;
   @override
   @JsonKey()
   final LatLng? selectedLocation;
@@ -454,7 +531,7 @@ class _$AddressStateImpl extends _AddressState {
 
   @override
   String toString() {
-    return 'AddressState(formzStatus: $formzStatus, isMapReady: $isMapReady, isLoadingAddress: $isLoadingAddress, isGettingLocation: $isGettingLocation, selectedLocation: $selectedLocation, address: $address, phoneNumber: $phoneNumber, receiverName: $receiverName, homeNumber: $homeNumber, entrancePassword: $entrancePassword, isAddressValid: $isAddressValid, isPhoneNumberValid: $isPhoneNumberValid, isReceiverNameValid: $isReceiverNameValid, isSearching: $isSearching, searchResults: $searchResults, selectedPlace: $selectedPlace, searchQuery: $searchQuery, errorMessage: $errorMessage)';
+    return 'AddressState(formzStatus: $formzStatus, isMapReady: $isMapReady, isLoadingAddress: $isLoadingAddress, isGettingLocation: $isGettingLocation, isUploadingImage: $isUploadingImage, uploadResponse: $uploadResponse, uploadErrorMessage: $uploadErrorMessage, uploadStatus: $uploadStatus, selectedLocation: $selectedLocation, address: $address, phoneNumber: $phoneNumber, receiverName: $receiverName, homeNumber: $homeNumber, entrancePassword: $entrancePassword, isAddressValid: $isAddressValid, isPhoneNumberValid: $isPhoneNumberValid, isReceiverNameValid: $isReceiverNameValid, isSearching: $isSearching, searchResults: $searchResults, selectedPlace: $selectedPlace, searchQuery: $searchQuery, errorMessage: $errorMessage)';
   }
 
   @override
@@ -470,6 +547,16 @@ class _$AddressStateImpl extends _AddressState {
                 other.isLoadingAddress == isLoadingAddress) &&
             (identical(other.isGettingLocation, isGettingLocation) ||
                 other.isGettingLocation == isGettingLocation) &&
+            (identical(other.isUploadingImage, isUploadingImage) ||
+                other.isUploadingImage == isUploadingImage) &&
+            const DeepCollectionEquality().equals(
+              other.uploadResponse,
+              uploadResponse,
+            ) &&
+            (identical(other.uploadErrorMessage, uploadErrorMessage) ||
+                other.uploadErrorMessage == uploadErrorMessage) &&
+            (identical(other.uploadStatus, uploadStatus) ||
+                other.uploadStatus == uploadStatus) &&
             (identical(other.selectedLocation, selectedLocation) ||
                 other.selectedLocation == selectedLocation) &&
             (identical(other.address, address) || other.address == address) &&
@@ -502,12 +589,16 @@ class _$AddressStateImpl extends _AddressState {
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     runtimeType,
     formzStatus,
     isMapReady,
     isLoadingAddress,
     isGettingLocation,
+    isUploadingImage,
+    const DeepCollectionEquality().hash(uploadResponse),
+    uploadErrorMessage,
+    uploadStatus,
     selectedLocation,
     address,
     phoneNumber,
@@ -522,7 +613,7 @@ class _$AddressStateImpl extends _AddressState {
     selectedPlace,
     searchQuery,
     errorMessage,
-  );
+  ]);
 
   /// Create a copy of AddressState
   /// with the given fields replaced by the non-null parameter values.
@@ -539,6 +630,10 @@ abstract class _AddressState extends AddressState {
     final bool isMapReady,
     final bool isLoadingAddress,
     final bool isGettingLocation,
+    final bool isUploadingImage,
+    final UploadLocationImageModel? uploadResponse,
+    final String? uploadErrorMessage,
+    final FormzSubmissionStatus uploadStatus,
     final LatLng? selectedLocation,
     final String? address,
     final String? phoneNumber,
@@ -564,6 +659,14 @@ abstract class _AddressState extends AddressState {
   bool get isLoadingAddress;
   @override
   bool get isGettingLocation;
+  @override
+  bool get isUploadingImage;
+  @override
+  UploadLocationImageModel? get uploadResponse;
+  @override
+  String? get uploadErrorMessage;
+  @override
+  FormzSubmissionStatus get uploadStatus;
   @override
   LatLng? get selectedLocation;
   @override

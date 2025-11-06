@@ -9,6 +9,11 @@ class AddressState with _$AddressState {
     @Default(false) bool isLoadingAddress,
     @Default(false) bool isGettingLocation,
 
+    @Default(false) bool isUploadingImage,
+    @Default(null) UploadLocationImageModel? uploadResponse,
+    @Default(null) String? uploadErrorMessage,
+    @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus uploadStatus,
+
     @Default(null) LatLng? selectedLocation,
 
     @Default(null) String? address,
