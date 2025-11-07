@@ -174,4 +174,14 @@ abstract class LocaleKeys {
   static const upload_successful = 'upload_successful';
   static const failed_to_pick_image = 'failed_to_pick_image';
   static const failed_to_take_photo = 'failed_to_take_photo';
+  static const skip = 'skip';
+  static const optional_step = 'optional_step';
+  static const location_image_description = 'location_image_description';
+  static const no_image_selected = 'no_image_selected';
+  static const choose_gallery = 'choose_gallery';
+  static const remove_image = 'remove_image';
+  static const uploading = 'uploading';
+  static const upload_and_continue = 'upload_and_continue';
+  static const skip_and_continue = 'skip_and_continue';
+  static const creating_order = 'creating_order';
 }

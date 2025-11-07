@@ -1,5 +1,5 @@
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/presentation/pages/cart/address/bloc/address_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/address/bloc/address_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

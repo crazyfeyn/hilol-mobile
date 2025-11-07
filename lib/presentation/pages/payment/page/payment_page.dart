@@ -3,8 +3,8 @@ import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
-import 'package:commerce_mobile/presentation/pages/cart/payment/bloc/payment_bloc.dart';
-import 'package:commerce_mobile/presentation/pages/cart/payment/widget/toss_pay_bottom-sheet.dart';
+import 'package:commerce_mobile/presentation/pages/payment/bloc/payment_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/payment/widget/toss_pay_bottom-sheet.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -103,16 +103,25 @@ class _PaymentViewState extends State<PaymentView> {
                           final isSelect = state.method == method.method;
                           return GestureDetector(
                             onTap: () {
-                              if(method.isSoon) return;
+                              if (method.isSoon) return;
                               bloc.add(PaymentChangeMethod(method.method));
                             },
                             child: Container(
                               height: 72,
                               width: 128,
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8,),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 8,
+                              ),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                border: Border.all(width: 1, color: isSelect ? AppColors.primary600 : Colors.grey),
+                                border: Border.all(
+                                  width: 1,
+                                  color:
+                                      isSelect
+                                          ? AppColors.primary600
+                                          : Colors.grey,
+                                ),
                               ),
                               child: Column(
                                 spacing: 4,
@@ -120,12 +129,20 @@ class _PaymentViewState extends State<PaymentView> {
                                 children: [
                                   Expanded(
                                     child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Icon(method.icon),
-                                        if(method.isSoon)
-                                          Text(context.tr(LocaleKeys.soon), style: AppStyles.labelSmRegular.copyWith(color: AppColors.black400)),
+                                        if (method.isSoon)
+                                          Text(
+                                            context.tr(LocaleKeys.soon),
+                                            style: AppStyles.labelSmRegular
+                                                .copyWith(
+                                                  color: AppColors.black400,
+                                                ),
+                                          ),
                                       ],
                                     ),
                                   ),
@@ -138,7 +155,8 @@ class _PaymentViewState extends State<PaymentView> {
                             ),
                           );
                         },
-                        separatorBuilder: (context, index) => SizedBox(width: 12),
+                        separatorBuilder:
+                            (context, index) => SizedBox(width: 12),
                       ),
                     ),
                   ],
@@ -155,8 +173,11 @@ class _PaymentViewState extends State<PaymentView> {
             ),
             child: CustomElevatedButton(
               onTap: () async {
-                if(state.method == PaymentMethod.tossBank) {
-                  TossPayBottomSheet.bottomSheet(context, _onTotalPrice(state.carts));
+                if (state.method == PaymentMethod.tossBank) {
+                  TossPayBottomSheet.bottomSheet(
+                    context,
+                    _onTotalPrice(state.carts),
+                  );
                 }
               },
               title: context.tr(LocaleKeys.order_btn),
@@ -169,11 +190,10 @@ class _PaymentViewState extends State<PaymentView> {
 
   double _onTotalPrice(List<CartModel> others) {
     double totalPrice = 0.0;
-    for(var element in others) {
+    for (var element in others) {
       totalPrice += (element.price ?? 0) * (element.count ?? 0);
     }
 
     return totalPrice;
   }
 }
-

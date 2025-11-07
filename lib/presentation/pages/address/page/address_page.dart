@@ -1,10 +1,11 @@
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
-import 'package:commerce_mobile/presentation/pages/cart/address/bloc/address_bloc.dart';
-import 'package:commerce_mobile/presentation/pages/cart/address/widget/address_form_section.dart';
-import 'package:commerce_mobile/presentation/pages/cart/address/widget/adress_bottom_bar.dart';
-import 'package:commerce_mobile/presentation/pages/cart/address/widget/adress_map_section.dart';
-import 'package:commerce_mobile/presentation/pages/cart/address/widget/location_indicator.dart';
+import 'package:commerce_mobile/presentation/pages/address/bloc/address_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/address/widget/address_form_section.dart';
+import 'package:commerce_mobile/presentation/pages/address/widget/adress_bottom_bar.dart';
+import 'package:commerce_mobile/presentation/pages/address/widget/adress_map_section.dart';
+import 'package:commerce_mobile/presentation/pages/address/widget/location_indicator.dart';
+import 'package:commerce_mobile/presentation/pages/order/bloc/order_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +20,11 @@ class AddressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AddressBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => AddressBloc()),
+        BlocProvider(create: (context) => OrderBloc()),
+      ],
       child: AddressView(carts: carts),
     );
   }
@@ -48,14 +52,18 @@ class _AddressViewState extends State<AddressView> {
   KakaoMapController? _mapController;
   bool _isMapCreated = false;
 
-  AddressBloc? _addressBloc;
+  late AddressBloc _addressBloc;
+  late OrderBloc _orderBloc;
 
   @override
   void initState() {
     super.initState();
+    _addressBloc = context.read<AddressBloc>();
+    _orderBloc = context.read<OrderBloc>();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        context.read<AddressBloc>().add(AddressMapInitialized());
+        _addressBloc.add(AddressMapInitialized());
       }
     });
   }
@@ -98,7 +106,7 @@ class _AddressViewState extends State<AddressView> {
                   return IconButton(
                     icon:
                         state.isGettingLocation
-                            ? SizedBox(
+                            ? const SizedBox(
                               width: 20,
                               height: 20,
                               child: CircularProgressIndicator(strokeWidth: 2),
@@ -130,7 +138,6 @@ class _AddressViewState extends State<AddressView> {
                     const SizedBox(height: 16),
                     const LocationIndicator(),
                     const SizedBox(height: 16),
-
                     AddressFormSection(
                       addressController: _addressController,
                       phoneNumberController: _phoneNumberController,
@@ -208,8 +215,11 @@ class _AddressViewState extends State<AddressView> {
     _receiverNameController.dispose();
     _homeNumberController.dispose();
     _entrancePasswordController.dispose();
-    _addressBloc?.add(AddressDispose());
-    _addressBloc = null;
+    _searchController.dispose();
+    _searchFocusNode.dispose();
+    _addressBloc.add(AddressDispose());
+    _orderBloc.add(const OrderEvent.dispose());
+
     super.dispose();
   }
 }

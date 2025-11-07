@@ -165,15 +165,25 @@
   "search_address_hint": "Search for address...",
   "no_results_found": "No results found",
   "search_address_title": "Search Address",
-  "location_image": "Location Image",
   "location_image_upload_success": "Location image uploaded successfully!",
   "choose_from_gallery": "Choose from Gallery",
-  "take_photo": "Take Photo",
   "clear_image": "Clear Image",
   "uploading_image": "Uploading image...",
   "upload_successful": "Upload successful!",
   "failed_to_pick_image": "Failed to pick image",
-  "failed_to_take_photo": "Failed to take photo"
+  "failed_to_take_photo": "Failed to take photo",
+  "location_image": "Joylashuv rasmi",
+  "skip": "O‘tkazib yuborish",
+  "optional_step": "Ixtiyoriy qadam",
+  "location_image_description": "Buyurtmani aniq joylashuvda yetkazib berish uchun joyning fotosuratini yuklang. Bu qadam majburiy emas.",
+  "no_image_selected": "Rasm tanlanmagan",
+  "take_photo": "Rasmga olish",
+  "choose_gallery": "Galereyadan tanlash",
+  "remove_image": "Rasmni o‘chirish",
+  "uploading": "Yuklanmoqda...",
+  "upload_and_continue": "Yuklab davom etish",
+  "skip_and_continue": "O‘tkazib davom etish",
+  "creating_order": "Buyurtma yaratilmoqda..."
   
 
 }

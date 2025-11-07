@@ -12,6 +12,7 @@ import 'package:commerce_mobile/data/repositories/address_repository_impl.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:uuid/uuid.dart';
 
 part 'address_event.dart';
 part 'address_states.dart';
@@ -204,7 +205,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
 
     on<AddressLocationImageUploadRequested>((event, emit) async {
       // Generate unique request UUID
-      final requestUUID = 'upload_${DateTime.now().millisecondsSinceEpoch}';
+      final requestUUID = const Uuid().v4();
 
       emit(
         state.copyWith(

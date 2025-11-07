@@ -5,6 +5,7 @@ import 'package:commerce_mobile/data/datasources/network/cancel_token_manager.da
 import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:commerce_mobile/data/datasources/network/network_service.dart';
 import 'package:commerce_mobile/data/models/adress_location_image_model.dart';
+import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/data/models/place_search_model.dart';
 import 'package:commerce_mobile/domain/repositories/adress_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -152,12 +153,18 @@ class AddressRepositoryImpl extends AddressRepository {
     try {
       final api = NetworkService.apiOrderUploadLocationImage;
       final cancelToken = cancelTokenManager.getToken(api);
+
+      // ✅ Add X-Request-UUID as query parameter
       var request = NetworkService.createMultipartRequest(
         api,
         cancelToken,
-        {'orderId': orderId.toString()},
-        headers: {'X-Request-UUID': requestUUID},
+        {
+          'orderId': orderId.toString(),
+          'X-Request-UUID': requestUUID, // ✅ Add UUID to query params
+        },
+        headers: {'X-Request-UUID': requestUUID}, // Keep in headers too
       );
+
       var fileStream = imageFile.openRead();
       var fileLength = await imageFile.length();
 
@@ -170,6 +177,11 @@ class AddressRepositoryImpl extends AddressRepository {
               'location_image_${DateTime.now().millisecondsSinceEpoch}.jpg',
         ),
       );
+
+      print('📤 Upload URL: ${request.url}');
+      print('📤 Headers: ${request.headers}');
+      print('📤 Files: ${request.files.map((f) => f.field).toList()}');
+
       final response = await NetworkService.sendMultipartRequest(request);
       final result = UploadLocationImageModel.fromJson(response);
       return Right(result);
@@ -179,6 +191,44 @@ class AddressRepositoryImpl extends AddressRepository {
       }
       return Left(e.toString());
     } catch (e) {
+      GlobalSnackBar.showError('Failed to upload image: ${e.toString()}');
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, OrderData>> createOrder({
+    required OrderModel orderModel,
+    required String requestUUID,
+  }) async {
+    try {
+      final api = NetworkService.apiOrderCreate;
+      final cancelToken = cancelTokenManager.getToken(api);
+
+      final response = await NetworkService.post(
+        api,
+        cancelToken,
+        orderModel.toJson(),
+        {'X-Request-UUID': requestUUID},
+      );
+
+      final result = OrderResponse.fromJson(response);
+
+      if (result.success && result.data != null) {
+        return Right(result.data!);
+      } else if (result.error != null) {
+        GlobalSnackBar.showError(result.error!.message);
+        return Left(result.error!.message);
+      } else {
+        return const Left('Unknown error occurred');
+      }
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {
+        GlobalSnackBar.showError(e.message);
+      }
+      return Left(e.toString());
+    } catch (e) {
+      GlobalSnackBar.showError('Failed to create order: ${e.toString()}');
       return Left(e.toString());
     }
   }

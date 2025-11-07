@@ -549,10 +549,8 @@ class _$AddressStateImpl extends _AddressState {
                 other.isGettingLocation == isGettingLocation) &&
             (identical(other.isUploadingImage, isUploadingImage) ||
                 other.isUploadingImage == isUploadingImage) &&
-            const DeepCollectionEquality().equals(
-              other.uploadResponse,
-              uploadResponse,
-            ) &&
+            (identical(other.uploadResponse, uploadResponse) ||
+                other.uploadResponse == uploadResponse) &&
             (identical(other.uploadErrorMessage, uploadErrorMessage) ||
                 other.uploadErrorMessage == uploadErrorMessage) &&
             (identical(other.uploadStatus, uploadStatus) ||
@@ -596,7 +594,7 @@ class _$AddressStateImpl extends _AddressState {
     isLoadingAddress,
     isGettingLocation,
     isUploadingImage,
-    const DeepCollectionEquality().hash(uploadResponse),
+    uploadResponse,
     uploadErrorMessage,
     uploadStatus,
     selectedLocation,

@@ -153,11 +153,9 @@ class NetworkService {
     Map<String, String> fields, {
     Map<String, String>? headers,
   }) {
-    // Create the base URL with query parameters
     final baseUrl = Uri.parse('$getService$endpoint');
     final queryParams = {...fields};
 
-    // Create the final URL with query parameters
     final url = Uri(
       scheme: baseUrl.scheme,
       host: baseUrl.host,
@@ -166,11 +164,19 @@ class NetworkService {
       queryParameters: {...baseUrl.queryParameters, ...queryParams},
     );
 
-    // Create the request with the final URL
     final request = http.MultipartRequest('POST', url);
 
-    // Add headers
-    final allHeaders = {...getHeaders, ...headers ?? {}};
+    // ✅ Build headers manually without auto-generated UUID
+    final langCode = LangService.currentLocale;
+    final accessToken = DBService.getAccessToken();
+
+    final baseHeaders = {
+      "X-Device-Type": Platform.operatingSystem,
+      "Authorization": "Bearer $accessToken",
+      "X-Client-Lang": langCode,
+    };
+
+    final allHeaders = {...baseHeaders, ...headers ?? {}};
     request.headers.addAll(allHeaders);
 
     return request;
@@ -192,15 +198,21 @@ class NetworkService {
       final response = await request.send();
       final responseString = await response.stream.bytesToString();
 
+      print('📥 Response Status: ${response.statusCode}');
+      print('📥 Response Body: $responseString');
+
       if (response.statusCode == 200) {
         return json.decode(responseString);
       } else {
+        // ✅ Log the error response
+        print('❌ Server Error Response: $responseString');
         throw NetworkException(
-          'Upload failed with status: ${response.statusCode}',
+          'Upload failed with status: ${response.statusCode}\nResponse: $responseString',
           NetworkExceptionType.serverError,
         );
       }
     } catch (e) {
+      print('❌ Upload Exception: $e');
       throw NetworkException(
         'Upload request failed: $e',
         NetworkExceptionType.noInternet,
@@ -260,6 +272,7 @@ class NetworkService {
   static final String apiFileDownload = "/api/v1/file/download";
   static const String apiOrderUploadLocationImage =
       '/api/v1/order/upload-location-image';
+  static final String apiOrderCreate = "/api/v1/order/create";
 
   /* Http Params */
   static Map<String, dynamic> paramsRefreshToken(
