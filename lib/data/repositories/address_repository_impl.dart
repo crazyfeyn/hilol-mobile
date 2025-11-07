@@ -13,6 +13,7 @@ import 'package:geolocator/geolocator.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:http_parser/http_parser.dart';
 
 class AddressRepositoryImpl extends AddressRepository {
   late final CancelTokenManager cancelTokenManager;
@@ -154,34 +155,26 @@ class AddressRepositoryImpl extends AddressRepository {
       final api = NetworkService.apiOrderUploadLocationImage;
       final cancelToken = cancelTokenManager.getToken(api);
 
-      // ✅ Add X-Request-UUID as query parameter
       var request = NetworkService.createMultipartRequest(
         api,
         cancelToken,
-        {
-          'orderId': orderId.toString(),
-          'X-Request-UUID': requestUUID, // ✅ Add UUID to query params
-        },
-        headers: {'X-Request-UUID': requestUUID}, // Keep in headers too
+        {'orderId': orderId.toString(), 'X-Request-UUID': requestUUID},
+        headers: {'X-Request-UUID': requestUUID},
       );
 
       var fileStream = imageFile.openRead();
       var fileLength = await imageFile.length();
 
       request.files.add(
-        await NetworkService.createMultipartFile(
+        http.MultipartFile(
           'file',
           fileStream,
           fileLength,
           filename:
               'location_image_${DateTime.now().millisecondsSinceEpoch}.jpg',
+          contentType: MediaType('image', 'jpeg'),
         ),
       );
-
-      print('📤 Upload URL: ${request.url}');
-      print('📤 Headers: ${request.headers}');
-      print('📤 Files: ${request.files.map((f) => f.field).toList()}');
-
       final response = await NetworkService.sendMultipartRequest(request);
       final result = UploadLocationImageModel.fromJson(response);
       return Right(result);
