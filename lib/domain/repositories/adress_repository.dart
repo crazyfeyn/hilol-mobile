@@ -10,10 +10,6 @@ abstract class AddressRepository {
   Future<Either<String, Position>> getCurrentLocation();
   Future<Either<String, String>> reverseGeocode(LatLng latLng);
   Future<Either<String, List<PlaceSearchResult>>> searchAddress(String query);
-  Future<Either<String, UploadLocationImageModel>> uploadLocationImage({
-    required int orderId,
-    required File imageFile,
-    required String requestUUID,
-  });
+  Future<Either<String, UploadLocationImageModel>> uploadLocationImage(int orderId, File imageFile);
   void dispose();
 }

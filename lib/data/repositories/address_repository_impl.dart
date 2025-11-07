@@ -144,33 +144,11 @@ class AddressRepositoryImpl extends AddressRepository {
   }
 
   @override
-  Future<Either<String, UploadLocationImageModel>> uploadLocationImage({
-    required int orderId,
-    required File imageFile,
-    required String requestUUID,
-  }) async {
+  Future<Either<String, UploadLocationImageModel>> uploadLocationImage(int orderId, File imageFile) async {
     try {
       final api = NetworkService.apiOrderUploadLocationImage;
       final cancelToken = cancelTokenManager.getToken(api);
-      var request = NetworkService.createMultipartRequest(
-        api,
-        cancelToken,
-        {'orderId': orderId.toString()},
-        headers: {'X-Request-UUID': requestUUID},
-      );
-      var fileStream = imageFile.openRead();
-      var fileLength = await imageFile.length();
-
-      request.files.add(
-        await NetworkService.createMultipartFile(
-          'file',
-          fileStream,
-          fileLength,
-          filename:
-              'location_image_${DateTime.now().millisecondsSinceEpoch}.jpg',
-        ),
-      );
-      final response = await NetworkService.sendMultipartRequest(request);
+      final response = await NetworkService.multipartImage(api, cancelToken, imageFile.path, { "orderId": orderId });
       final result = UploadLocationImageModel.fromJson(response);
       return Right(result);
     } on NetworkException catch (e) {

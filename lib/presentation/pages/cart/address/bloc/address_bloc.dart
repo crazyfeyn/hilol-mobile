@@ -203,9 +203,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     });
 
     on<AddressLocationImageUploadRequested>((event, emit) async {
-      // Generate unique request UUID
-      final requestUUID = 'upload_${DateTime.now().millisecondsSinceEpoch}';
-
       emit(
         state.copyWith(
           isUploadingImage: true,
@@ -215,11 +212,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         ),
       );
 
-      final result = await _repository.uploadLocationImage(
-        orderId: event.orderId,
-        imageFile: event.imageFile,
-        requestUUID: requestUUID,
-      );
+      final result = await _repository.uploadLocationImage(event.orderId, event.imageFile);
 
       result.fold(
         // Upload failed
