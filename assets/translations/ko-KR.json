@@ -172,5 +172,15 @@
   "uploading_image": "Uploading image...",
   "upload_successful": "Upload successful!",
   "failed_to_pick_image": "Failed to pick image",
-  "failed_to_take_photo": "Failed to take photo"
+  "failed_to_take_photo": "Failed to take photo",
+  "skip": "O‘tkazib yuborish",
+  "optional_step": "Ixtiyoriy qadam",
+  "location_image_description": "Buyurtmani aniq joylashuvda yetkazib berish uchun joyning fotosuratini yuklang. Bu qadam majburiy emas.",
+  "no_image_selected": "Rasm tanlanmagan",
+  "choose_gallery": "Galereyadan tanlash",
+  "remove_image": "Rasmni o‘chirish",
+  "uploading": "Yuklanmoqda...",
+  "upload_and_continue": "Yuklab davom etish",
+  "skip_and_continue": "O‘tkazib davom etish",
+  "creating_order": "Buyurtma yaratilmoqda..."
 }

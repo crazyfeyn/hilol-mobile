@@ -4,7 +4,7 @@ import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/presentation/pages/cart/address/page/address_page.dart';
+import 'package:commerce_mobile/presentation/pages/address/page/address_page.dart';
 import 'package:commerce_mobile/presentation/pages/cart/cart/bloc/cart_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/cart/cart/widget/total_price_cart.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';

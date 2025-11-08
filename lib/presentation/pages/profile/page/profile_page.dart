@@ -301,11 +301,11 @@ class _ProfileViewState extends State<ProfileView> {
                   ProfileCard(
                     icon: CupertinoIcons.bag,
                     title: context.tr(LocaleKeys.my_orders),
-                    onTap:
-                        () => NavigationService.push(
-                          context,
-                          OrderHistoryPage.path,
-                        ),
+                    // onTap:
+                    //     () => NavigationService.push(
+                    //       context,
+                    //       OrderHistoryPage.path,
+                    //     ),
                   ),
 
                   const SizedBox(height: 16),

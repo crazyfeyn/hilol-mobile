@@ -1,12 +1,12 @@
 import 'package:commerce_mobile/data/models/cart_model.dart';
-import 'package:commerce_mobile/presentation/pages/cart/address/page/address_page.dart';
+import 'package:commerce_mobile/presentation/pages/address/page/address_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/confirm_code/page/confirm_code_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/forget_pass/page/forget_pass_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/reset_pass/page/reset_pass_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_up/page/sign_up_page.dart';
 import 'package:commerce_mobile/presentation/pages/cart/cart/page/cart_page.dart';
-import 'package:commerce_mobile/presentation/pages/cart/payment/page/payment_page.dart';
+import 'package:commerce_mobile/presentation/pages/payment/page/payment_page.dart';
 import 'package:commerce_mobile/presentation/pages/history/pages/order_history_page.dart';
 import 'package:commerce_mobile/presentation/pages/history/pages/order_product_detail_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/details/page/details_page.dart';
@@ -76,44 +76,52 @@ class AppRouter {
         routes: [
           GoRoute(
             path: HomePage.path,
-            pageBuilder: (context, state) => const MaterialPage(child: HomePage()),
+            pageBuilder:
+                (context, state) => const MaterialPage(child: HomePage()),
           ),
           GoRoute(
             path: CartPage.path,
-            pageBuilder: (context, state) => const MaterialPage(child: CartPage()),
+            pageBuilder:
+                (context, state) => const MaterialPage(child: CartPage()),
           ),
           GoRoute(
             path: ProfilePage.path,
-            pageBuilder: (context, state) => const MaterialPage(child: ProfilePage()),
+            pageBuilder:
+                (context, state) => const MaterialPage(child: ProfilePage()),
           ),
         ],
       ),
       GoRoute(
         path: ProductDetailsPage.path,
-        pageBuilder: (context, state) => MaterialPage(child: ProductDetailsPage(extra: state.extra as Map<String, dynamic>)),
+        pageBuilder:
+            (context, state) => MaterialPage(
+              child: ProductDetailsPage(
+                extra: state.extra as Map<String, dynamic>,
+              ),
+            ),
       ),
       GoRoute(
         path: EditPage.path,
         pageBuilder: (context, state) => const MaterialPage(child: EditPage()),
       ),
-      GoRoute(
-        path: OrderHistoryPage.path,
-        pageBuilder:
-            (context, state) => const MaterialPage(child: OrderHistoryPage()),
-      ),
+      // GoRoute(
+      //   path: OrderHistoryPage.path,
+      //   pageBuilder:
+      //       (context, state) => const MaterialPage(child: OrderHistoryPage()),
+      // ),
 
-      GoRoute(
-        path: OrderProductModelDetailPage.path,
-        pageBuilder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>;
-          return MaterialPage(
-            child: OrderProductModelDetailPage(
-              product: extra['product'],
-              order: extra['order'],
-            ),
-          );
-        },
-      ),
+      // GoRoute(
+      //   path: OrderProductModelDetailPage.path,
+      //   pageBuilder: (context, state) {
+      //     final extra = state.extra as Map<String, dynamic>;
+      //     return MaterialPage(
+      //       child: OrderProductModelDetailPage(
+      //         product: extra['product'],
+      //         order: extra['order'],
+      //       ),
+      //     );
+      //   },
+      // ),
       GoRoute(
         path: SignUpPage.path,
         pageBuilder:
@@ -122,11 +130,17 @@ class AppRouter {
 
       GoRoute(
         path: AddressPage.path,
-        pageBuilder: (context, state) => MaterialPage(child: AddressPage(carts: state.extra as List<CartModel>)),
+        pageBuilder:
+            (context, state) => MaterialPage(
+              child: AddressPage(carts: state.extra as List<CartModel>),
+            ),
       ),
       GoRoute(
         path: PaymentPage.path,
-        pageBuilder: (context, state) => MaterialPage(child: PaymentPage(extra: state.extra as Map<String, dynamic>)),
+        pageBuilder:
+            (context, state) => MaterialPage(
+              child: PaymentPage(extra: state.extra as Map<String, dynamic>),
+            ),
       ),
     ],
   );

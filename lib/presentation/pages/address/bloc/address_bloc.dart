@@ -12,6 +12,7 @@ import 'package:commerce_mobile/data/repositories/address_repository_impl.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:uuid/uuid.dart';
 
 part 'address_event.dart';
 part 'address_states.dart';
@@ -203,6 +204,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     });
 
     on<AddressLocationImageUploadRequested>((event, emit) async {
+      // Generate unique request UUID
+      final requestUUID = const Uuid().v4();
+
       emit(
         state.copyWith(
           isUploadingImage: true,
@@ -212,7 +216,11 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         ),
       );
 
-      final result = await _repository.uploadLocationImage(event.orderId, event.imageFile);
+      final result = await _repository.uploadLocationImage(
+        orderId: event.orderId,
+        imageFile: event.imageFile,
+        requestUUID: requestUUID,
+      );
 
       result.fold(
         // Upload failed
@@ -242,8 +250,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     });
 
     on<AddressLocationImageUploadSuccess>((event, emit) {
-      // You can add additional success handling here if needed
-      // For example, update order status or show success message
       emit(
         state.copyWith(
           uploadResponse: event.uploadResponse,
@@ -253,7 +259,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     });
 
     on<AddressLocationImageUploadFailure>((event, emit) {
-      // You can add additional error handling here if needed
       emit(
         state.copyWith(
           uploadErrorMessage: event.errorMessage,

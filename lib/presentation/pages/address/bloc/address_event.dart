@@ -59,7 +59,6 @@ class AddressSearchQueryChanged extends AddressEvent {
   List<Object?> get props => [query];
 }
 
-// When search results are successfully fetched
 class AddressSearchResultsLoaded extends AddressEvent {
   final List<PlaceSearchResult> results;
   AddressSearchResultsLoaded(this.results);
@@ -67,7 +66,6 @@ class AddressSearchResultsLoaded extends AddressEvent {
   List<Object?> get props => [results];
 }
 
-// When an error occurs while searching
 class AddressSearchErrorOccurred extends AddressEvent {
   final String message;
   AddressSearchErrorOccurred(this.message);
