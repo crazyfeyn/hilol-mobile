@@ -8,7 +8,7 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 abstract class AddressRepository {
   Future<Either<String, Position>> getCurrentLocation();
-  Future<Either<String, String>> reverseGeocode(LatLng latLng);
+  Future<Either<String, Map<String, dynamic>>> reverseGeocode(LatLng latLng);
   Future<Either<String, List<PlaceSearchResult>>> searchAddress(String query);
   Future<Either<String, UploadLocationImageModel>> uploadLocationImage({
     required File imageFile,

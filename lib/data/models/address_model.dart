@@ -13,6 +13,9 @@ class AddressModel {
   final String? homeNumber;
   final String? entrancePassword;
   final String? phoneNumber;
+  final String? city;
+  final String? region;
+  final String? street;
 
   AddressModel({
     this.latitute,
@@ -22,6 +25,9 @@ class AddressModel {
     this.homeNumber,
     this.entrancePassword,
     this.phoneNumber,
+    this.city,
+    this.region,
+    this.street,
   });
 
   AddressModel copyWith({
@@ -32,6 +38,9 @@ class AddressModel {
     String? homeNumber,
     String? entrancePassword,
     String? phoneNumber,
+    String? city,
+    String? region,
+    String? street,
   }) => AddressModel(
     latitute: latitute ?? this.latitute,
     longitude: longitude ?? this.longitude,
@@ -40,6 +49,9 @@ class AddressModel {
     homeNumber: homeNumber ?? this.homeNumber,
     entrancePassword: entrancePassword ?? this.entrancePassword,
     phoneNumber: phoneNumber ?? this.phoneNumber,
+    city: city ?? this.city,
+    region: region ?? this.region,
+    street: street ?? this.street,
   );
 
   factory AddressModel.fromMap(Map<String, dynamic> json) => AddressModel(
@@ -50,6 +62,9 @@ class AddressModel {
     homeNumber: json["home_number"],
     entrancePassword: json["entrance_password"],
     phoneNumber: json["phone_number"],
+    city: json["city"],
+    region: json["region"],
+    street: json["street"],
   );
 
   Map<String, dynamic> toMap() => {
@@ -60,5 +75,8 @@ class AddressModel {
     "home_number": homeNumber,
     "entrance_password": entrancePassword,
     "phone_number": phoneNumber,
+    "city": city,
+    "region": region,
+    "street": street,
   };
 }
