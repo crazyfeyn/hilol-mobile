@@ -24,12 +24,6 @@ mixin _$OrderEvent {
     required TResult Function(OrderModel orderModel) validateOrder,
     required TResult Function() resetOrder,
     required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
     required TResult Function(List<CartModel> cartItems) calculateTotal,
     required TResult Function() clearError,
     required TResult Function() dispose,
@@ -40,11 +34,6 @@ mixin _$OrderEvent {
     TResult? Function(OrderModel orderModel)? validateOrder,
     TResult? Function()? resetOrder,
     TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
     TResult? Function(List<CartModel> cartItems)? calculateTotal,
     TResult? Function()? clearError,
     TResult? Function()? dispose,
@@ -55,11 +44,6 @@ mixin _$OrderEvent {
     TResult Function(OrderModel orderModel)? validateOrder,
     TResult Function()? resetOrder,
     TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
     TResult Function(List<CartModel> cartItems)? calculateTotal,
     TResult Function()? clearError,
     TResult Function()? dispose,
@@ -71,15 +55,6 @@ mixin _$OrderEvent {
     required TResult Function(OrderValidationRequested value) validateOrder,
     required TResult Function(OrderResetRequested value) resetOrder,
     required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
     required TResult Function(OrderTotalCalculated value) calculateTotal,
     required TResult Function(OrderErrorCleared value) clearError,
     required TResult Function(OrderDisposed value) dispose,
@@ -90,12 +65,6 @@ mixin _$OrderEvent {
     TResult? Function(OrderValidationRequested value)? validateOrder,
     TResult? Function(OrderResetRequested value)? resetOrder,
     TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
     TResult? Function(OrderTotalCalculated value)? calculateTotal,
     TResult? Function(OrderErrorCleared value)? clearError,
     TResult? Function(OrderDisposed value)? dispose,
@@ -106,11 +75,6 @@ mixin _$OrderEvent {
     TResult Function(OrderValidationRequested value)? validateOrder,
     TResult Function(OrderResetRequested value)? resetOrder,
     TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
     TResult Function(OrderTotalCalculated value)? calculateTotal,
     TResult Function(OrderErrorCleared value)? clearError,
     TResult Function(OrderDisposed value)? dispose,
@@ -233,12 +197,6 @@ class _$OrderCreateRequestedImpl implements OrderCreateRequested {
     required TResult Function(OrderModel orderModel) validateOrder,
     required TResult Function() resetOrder,
     required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
     required TResult Function(List<CartModel> cartItems) calculateTotal,
     required TResult Function() clearError,
     required TResult Function() dispose,
@@ -253,11 +211,6 @@ class _$OrderCreateRequestedImpl implements OrderCreateRequested {
     TResult? Function(OrderModel orderModel)? validateOrder,
     TResult? Function()? resetOrder,
     TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
     TResult? Function(List<CartModel> cartItems)? calculateTotal,
     TResult? Function()? clearError,
     TResult? Function()? dispose,
@@ -272,11 +225,6 @@ class _$OrderCreateRequestedImpl implements OrderCreateRequested {
     TResult Function(OrderModel orderModel)? validateOrder,
     TResult Function()? resetOrder,
     TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
     TResult Function(List<CartModel> cartItems)? calculateTotal,
     TResult Function()? clearError,
     TResult Function()? dispose,
@@ -295,15 +243,6 @@ class _$OrderCreateRequestedImpl implements OrderCreateRequested {
     required TResult Function(OrderValidationRequested value) validateOrder,
     required TResult Function(OrderResetRequested value) resetOrder,
     required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
     required TResult Function(OrderTotalCalculated value) calculateTotal,
     required TResult Function(OrderErrorCleared value) clearError,
     required TResult Function(OrderDisposed value) dispose,
@@ -318,12 +257,6 @@ class _$OrderCreateRequestedImpl implements OrderCreateRequested {
     TResult? Function(OrderValidationRequested value)? validateOrder,
     TResult? Function(OrderResetRequested value)? resetOrder,
     TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
     TResult? Function(OrderTotalCalculated value)? calculateTotal,
     TResult? Function(OrderErrorCleared value)? clearError,
     TResult? Function(OrderDisposed value)? dispose,
@@ -338,11 +271,6 @@ class _$OrderCreateRequestedImpl implements OrderCreateRequested {
     TResult Function(OrderValidationRequested value)? validateOrder,
     TResult Function(OrderResetRequested value)? resetOrder,
     TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
     TResult Function(OrderTotalCalculated value)? calculateTotal,
     TResult Function(OrderErrorCleared value)? clearError,
     TResult Function(OrderDisposed value)? dispose,
@@ -450,12 +378,6 @@ class _$OrderValidationRequestedImpl implements OrderValidationRequested {
     required TResult Function(OrderModel orderModel) validateOrder,
     required TResult Function() resetOrder,
     required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
     required TResult Function(List<CartModel> cartItems) calculateTotal,
     required TResult Function() clearError,
     required TResult Function() dispose,
@@ -470,11 +392,6 @@ class _$OrderValidationRequestedImpl implements OrderValidationRequested {
     TResult? Function(OrderModel orderModel)? validateOrder,
     TResult? Function()? resetOrder,
     TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
     TResult? Function(List<CartModel> cartItems)? calculateTotal,
     TResult? Function()? clearError,
     TResult? Function()? dispose,
@@ -489,11 +406,6 @@ class _$OrderValidationRequestedImpl implements OrderValidationRequested {
     TResult Function(OrderModel orderModel)? validateOrder,
     TResult Function()? resetOrder,
     TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
     TResult Function(List<CartModel> cartItems)? calculateTotal,
     TResult Function()? clearError,
     TResult Function()? dispose,
@@ -512,15 +424,6 @@ class _$OrderValidationRequestedImpl implements OrderValidationRequested {
     required TResult Function(OrderValidationRequested value) validateOrder,
     required TResult Function(OrderResetRequested value) resetOrder,
     required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
     required TResult Function(OrderTotalCalculated value) calculateTotal,
     required TResult Function(OrderErrorCleared value) clearError,
     required TResult Function(OrderDisposed value) dispose,
@@ -535,12 +438,6 @@ class _$OrderValidationRequestedImpl implements OrderValidationRequested {
     TResult? Function(OrderValidationRequested value)? validateOrder,
     TResult? Function(OrderResetRequested value)? resetOrder,
     TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
     TResult? Function(OrderTotalCalculated value)? calculateTotal,
     TResult? Function(OrderErrorCleared value)? clearError,
     TResult? Function(OrderDisposed value)? dispose,
@@ -555,11 +452,6 @@ class _$OrderValidationRequestedImpl implements OrderValidationRequested {
     TResult Function(OrderValidationRequested value)? validateOrder,
     TResult Function(OrderResetRequested value)? resetOrder,
     TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
     TResult Function(OrderTotalCalculated value)? calculateTotal,
     TResult Function(OrderErrorCleared value)? clearError,
     TResult Function(OrderDisposed value)? dispose,
@@ -635,12 +527,6 @@ class _$OrderResetRequestedImpl implements OrderResetRequested {
     required TResult Function(OrderModel orderModel) validateOrder,
     required TResult Function() resetOrder,
     required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
     required TResult Function(List<CartModel> cartItems) calculateTotal,
     required TResult Function() clearError,
     required TResult Function() dispose,
@@ -655,11 +541,6 @@ class _$OrderResetRequestedImpl implements OrderResetRequested {
     TResult? Function(OrderModel orderModel)? validateOrder,
     TResult? Function()? resetOrder,
     TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
     TResult? Function(List<CartModel> cartItems)? calculateTotal,
     TResult? Function()? clearError,
     TResult? Function()? dispose,
@@ -674,11 +555,6 @@ class _$OrderResetRequestedImpl implements OrderResetRequested {
     TResult Function(OrderModel orderModel)? validateOrder,
     TResult Function()? resetOrder,
     TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
     TResult Function(List<CartModel> cartItems)? calculateTotal,
     TResult Function()? clearError,
     TResult Function()? dispose,
@@ -697,15 +573,6 @@ class _$OrderResetRequestedImpl implements OrderResetRequested {
     required TResult Function(OrderValidationRequested value) validateOrder,
     required TResult Function(OrderResetRequested value) resetOrder,
     required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
     required TResult Function(OrderTotalCalculated value) calculateTotal,
     required TResult Function(OrderErrorCleared value) clearError,
     required TResult Function(OrderDisposed value) dispose,
@@ -720,12 +587,6 @@ class _$OrderResetRequestedImpl implements OrderResetRequested {
     TResult? Function(OrderValidationRequested value)? validateOrder,
     TResult? Function(OrderResetRequested value)? resetOrder,
     TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
     TResult? Function(OrderTotalCalculated value)? calculateTotal,
     TResult? Function(OrderErrorCleared value)? clearError,
     TResult? Function(OrderDisposed value)? dispose,
@@ -740,11 +601,6 @@ class _$OrderResetRequestedImpl implements OrderResetRequested {
     TResult Function(OrderValidationRequested value)? validateOrder,
     TResult Function(OrderResetRequested value)? resetOrder,
     TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
     TResult Function(OrderTotalCalculated value)? calculateTotal,
     TResult Function(OrderErrorCleared value)? clearError,
     TResult Function(OrderDisposed value)? dispose,
@@ -810,12 +666,6 @@ class _$OrderRetryRequestedImpl implements OrderRetryRequested {
     required TResult Function(OrderModel orderModel) validateOrder,
     required TResult Function() resetOrder,
     required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
     required TResult Function(List<CartModel> cartItems) calculateTotal,
     required TResult Function() clearError,
     required TResult Function() dispose,
@@ -830,11 +680,6 @@ class _$OrderRetryRequestedImpl implements OrderRetryRequested {
     TResult? Function(OrderModel orderModel)? validateOrder,
     TResult? Function()? resetOrder,
     TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
     TResult? Function(List<CartModel> cartItems)? calculateTotal,
     TResult? Function()? clearError,
     TResult? Function()? dispose,
@@ -849,11 +694,6 @@ class _$OrderRetryRequestedImpl implements OrderRetryRequested {
     TResult Function(OrderModel orderModel)? validateOrder,
     TResult Function()? resetOrder,
     TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
     TResult Function(List<CartModel> cartItems)? calculateTotal,
     TResult Function()? clearError,
     TResult Function()? dispose,
@@ -872,15 +712,6 @@ class _$OrderRetryRequestedImpl implements OrderRetryRequested {
     required TResult Function(OrderValidationRequested value) validateOrder,
     required TResult Function(OrderResetRequested value) resetOrder,
     required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
     required TResult Function(OrderTotalCalculated value) calculateTotal,
     required TResult Function(OrderErrorCleared value) clearError,
     required TResult Function(OrderDisposed value) dispose,
@@ -895,12 +726,6 @@ class _$OrderRetryRequestedImpl implements OrderRetryRequested {
     TResult? Function(OrderValidationRequested value)? validateOrder,
     TResult? Function(OrderResetRequested value)? resetOrder,
     TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
     TResult? Function(OrderTotalCalculated value)? calculateTotal,
     TResult? Function(OrderErrorCleared value)? clearError,
     TResult? Function(OrderDisposed value)? dispose,
@@ -915,11 +740,6 @@ class _$OrderRetryRequestedImpl implements OrderRetryRequested {
     TResult Function(OrderValidationRequested value)? validateOrder,
     TResult Function(OrderResetRequested value)? resetOrder,
     TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
     TResult Function(OrderTotalCalculated value)? calculateTotal,
     TResult Function(OrderErrorCleared value)? clearError,
     TResult Function(OrderDisposed value)? dispose,
@@ -934,1089 +754,6 @@ class _$OrderRetryRequestedImpl implements OrderRetryRequested {
 
 abstract class OrderRetryRequested implements OrderEvent {
   const factory OrderRetryRequested() = _$OrderRetryRequestedImpl;
-}
-
-/// @nodoc
-abstract class _$$OrderReceiverNameChangedImplCopyWith<$Res> {
-  factory _$$OrderReceiverNameChangedImplCopyWith(
-    _$OrderReceiverNameChangedImpl value,
-    $Res Function(_$OrderReceiverNameChangedImpl) then,
-  ) = __$$OrderReceiverNameChangedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String receiverName});
-}
-
-/// @nodoc
-class __$$OrderReceiverNameChangedImplCopyWithImpl<$Res>
-    extends _$OrderEventCopyWithImpl<$Res, _$OrderReceiverNameChangedImpl>
-    implements _$$OrderReceiverNameChangedImplCopyWith<$Res> {
-  __$$OrderReceiverNameChangedImplCopyWithImpl(
-    _$OrderReceiverNameChangedImpl _value,
-    $Res Function(_$OrderReceiverNameChangedImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? receiverName = null}) {
-    return _then(
-      _$OrderReceiverNameChangedImpl(
-        receiverName:
-            null == receiverName
-                ? _value.receiverName
-                : receiverName // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$OrderReceiverNameChangedImpl implements OrderReceiverNameChanged {
-  const _$OrderReceiverNameChangedImpl({required this.receiverName});
-
-  @override
-  final String receiverName;
-
-  @override
-  String toString() {
-    return 'OrderEvent.receiverNameChanged(receiverName: $receiverName)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$OrderReceiverNameChangedImpl &&
-            (identical(other.receiverName, receiverName) ||
-                other.receiverName == receiverName));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, receiverName);
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$OrderReceiverNameChangedImplCopyWith<_$OrderReceiverNameChangedImpl>
-  get copyWith => __$$OrderReceiverNameChangedImplCopyWithImpl<
-    _$OrderReceiverNameChangedImpl
-  >(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(OrderModel orderModel, String requestUUID)
-    createOrder,
-    required TResult Function(OrderModel orderModel) validateOrder,
-    required TResult Function() resetOrder,
-    required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
-    required TResult Function(List<CartModel> cartItems) calculateTotal,
-    required TResult Function() clearError,
-    required TResult Function() dispose,
-  }) {
-    return receiverNameChanged(receiverName);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(OrderModel orderModel, String requestUUID)? createOrder,
-    TResult? Function(OrderModel orderModel)? validateOrder,
-    TResult? Function()? resetOrder,
-    TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
-    TResult? Function(List<CartModel> cartItems)? calculateTotal,
-    TResult? Function()? clearError,
-    TResult? Function()? dispose,
-  }) {
-    return receiverNameChanged?.call(receiverName);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OrderModel orderModel, String requestUUID)? createOrder,
-    TResult Function(OrderModel orderModel)? validateOrder,
-    TResult Function()? resetOrder,
-    TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
-    TResult Function(List<CartModel> cartItems)? calculateTotal,
-    TResult Function()? clearError,
-    TResult Function()? dispose,
-    required TResult orElse(),
-  }) {
-    if (receiverNameChanged != null) {
-      return receiverNameChanged(receiverName);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OrderCreateRequested value) createOrder,
-    required TResult Function(OrderValidationRequested value) validateOrder,
-    required TResult Function(OrderResetRequested value) resetOrder,
-    required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
-    required TResult Function(OrderTotalCalculated value) calculateTotal,
-    required TResult Function(OrderErrorCleared value) clearError,
-    required TResult Function(OrderDisposed value) dispose,
-  }) {
-    return receiverNameChanged(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(OrderCreateRequested value)? createOrder,
-    TResult? Function(OrderValidationRequested value)? validateOrder,
-    TResult? Function(OrderResetRequested value)? resetOrder,
-    TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
-    TResult? Function(OrderTotalCalculated value)? calculateTotal,
-    TResult? Function(OrderErrorCleared value)? clearError,
-    TResult? Function(OrderDisposed value)? dispose,
-  }) {
-    return receiverNameChanged?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OrderCreateRequested value)? createOrder,
-    TResult Function(OrderValidationRequested value)? validateOrder,
-    TResult Function(OrderResetRequested value)? resetOrder,
-    TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
-    TResult Function(OrderTotalCalculated value)? calculateTotal,
-    TResult Function(OrderErrorCleared value)? clearError,
-    TResult Function(OrderDisposed value)? dispose,
-    required TResult orElse(),
-  }) {
-    if (receiverNameChanged != null) {
-      return receiverNameChanged(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class OrderReceiverNameChanged implements OrderEvent {
-  const factory OrderReceiverNameChanged({required final String receiverName}) =
-      _$OrderReceiverNameChangedImpl;
-
-  String get receiverName;
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OrderReceiverNameChangedImplCopyWith<_$OrderReceiverNameChangedImpl>
-  get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$OrderReceiverPhoneChangedImplCopyWith<$Res> {
-  factory _$$OrderReceiverPhoneChangedImplCopyWith(
-    _$OrderReceiverPhoneChangedImpl value,
-    $Res Function(_$OrderReceiverPhoneChangedImpl) then,
-  ) = __$$OrderReceiverPhoneChangedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String receiverPhone});
-}
-
-/// @nodoc
-class __$$OrderReceiverPhoneChangedImplCopyWithImpl<$Res>
-    extends _$OrderEventCopyWithImpl<$Res, _$OrderReceiverPhoneChangedImpl>
-    implements _$$OrderReceiverPhoneChangedImplCopyWith<$Res> {
-  __$$OrderReceiverPhoneChangedImplCopyWithImpl(
-    _$OrderReceiverPhoneChangedImpl _value,
-    $Res Function(_$OrderReceiverPhoneChangedImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? receiverPhone = null}) {
-    return _then(
-      _$OrderReceiverPhoneChangedImpl(
-        receiverPhone:
-            null == receiverPhone
-                ? _value.receiverPhone
-                : receiverPhone // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$OrderReceiverPhoneChangedImpl implements OrderReceiverPhoneChanged {
-  const _$OrderReceiverPhoneChangedImpl({required this.receiverPhone});
-
-  @override
-  final String receiverPhone;
-
-  @override
-  String toString() {
-    return 'OrderEvent.receiverPhoneChanged(receiverPhone: $receiverPhone)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$OrderReceiverPhoneChangedImpl &&
-            (identical(other.receiverPhone, receiverPhone) ||
-                other.receiverPhone == receiverPhone));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, receiverPhone);
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$OrderReceiverPhoneChangedImplCopyWith<_$OrderReceiverPhoneChangedImpl>
-  get copyWith => __$$OrderReceiverPhoneChangedImplCopyWithImpl<
-    _$OrderReceiverPhoneChangedImpl
-  >(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(OrderModel orderModel, String requestUUID)
-    createOrder,
-    required TResult Function(OrderModel orderModel) validateOrder,
-    required TResult Function() resetOrder,
-    required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
-    required TResult Function(List<CartModel> cartItems) calculateTotal,
-    required TResult Function() clearError,
-    required TResult Function() dispose,
-  }) {
-    return receiverPhoneChanged(receiverPhone);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(OrderModel orderModel, String requestUUID)? createOrder,
-    TResult? Function(OrderModel orderModel)? validateOrder,
-    TResult? Function()? resetOrder,
-    TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
-    TResult? Function(List<CartModel> cartItems)? calculateTotal,
-    TResult? Function()? clearError,
-    TResult? Function()? dispose,
-  }) {
-    return receiverPhoneChanged?.call(receiverPhone);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OrderModel orderModel, String requestUUID)? createOrder,
-    TResult Function(OrderModel orderModel)? validateOrder,
-    TResult Function()? resetOrder,
-    TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
-    TResult Function(List<CartModel> cartItems)? calculateTotal,
-    TResult Function()? clearError,
-    TResult Function()? dispose,
-    required TResult orElse(),
-  }) {
-    if (receiverPhoneChanged != null) {
-      return receiverPhoneChanged(receiverPhone);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OrderCreateRequested value) createOrder,
-    required TResult Function(OrderValidationRequested value) validateOrder,
-    required TResult Function(OrderResetRequested value) resetOrder,
-    required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
-    required TResult Function(OrderTotalCalculated value) calculateTotal,
-    required TResult Function(OrderErrorCleared value) clearError,
-    required TResult Function(OrderDisposed value) dispose,
-  }) {
-    return receiverPhoneChanged(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(OrderCreateRequested value)? createOrder,
-    TResult? Function(OrderValidationRequested value)? validateOrder,
-    TResult? Function(OrderResetRequested value)? resetOrder,
-    TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
-    TResult? Function(OrderTotalCalculated value)? calculateTotal,
-    TResult? Function(OrderErrorCleared value)? clearError,
-    TResult? Function(OrderDisposed value)? dispose,
-  }) {
-    return receiverPhoneChanged?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OrderCreateRequested value)? createOrder,
-    TResult Function(OrderValidationRequested value)? validateOrder,
-    TResult Function(OrderResetRequested value)? resetOrder,
-    TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
-    TResult Function(OrderTotalCalculated value)? calculateTotal,
-    TResult Function(OrderErrorCleared value)? clearError,
-    TResult Function(OrderDisposed value)? dispose,
-    required TResult orElse(),
-  }) {
-    if (receiverPhoneChanged != null) {
-      return receiverPhoneChanged(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class OrderReceiverPhoneChanged implements OrderEvent {
-  const factory OrderReceiverPhoneChanged({
-    required final String receiverPhone,
-  }) = _$OrderReceiverPhoneChangedImpl;
-
-  String get receiverPhone;
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OrderReceiverPhoneChangedImplCopyWith<_$OrderReceiverPhoneChangedImpl>
-  get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$OrderReceiverAddressChangedImplCopyWith<$Res> {
-  factory _$$OrderReceiverAddressChangedImplCopyWith(
-    _$OrderReceiverAddressChangedImpl value,
-    $Res Function(_$OrderReceiverAddressChangedImpl) then,
-  ) = __$$OrderReceiverAddressChangedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String receiverAddress});
-}
-
-/// @nodoc
-class __$$OrderReceiverAddressChangedImplCopyWithImpl<$Res>
-    extends _$OrderEventCopyWithImpl<$Res, _$OrderReceiverAddressChangedImpl>
-    implements _$$OrderReceiverAddressChangedImplCopyWith<$Res> {
-  __$$OrderReceiverAddressChangedImplCopyWithImpl(
-    _$OrderReceiverAddressChangedImpl _value,
-    $Res Function(_$OrderReceiverAddressChangedImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? receiverAddress = null}) {
-    return _then(
-      _$OrderReceiverAddressChangedImpl(
-        receiverAddress:
-            null == receiverAddress
-                ? _value.receiverAddress
-                : receiverAddress // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$OrderReceiverAddressChangedImpl implements OrderReceiverAddressChanged {
-  const _$OrderReceiverAddressChangedImpl({required this.receiverAddress});
-
-  @override
-  final String receiverAddress;
-
-  @override
-  String toString() {
-    return 'OrderEvent.receiverAddressChanged(receiverAddress: $receiverAddress)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$OrderReceiverAddressChangedImpl &&
-            (identical(other.receiverAddress, receiverAddress) ||
-                other.receiverAddress == receiverAddress));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, receiverAddress);
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$OrderReceiverAddressChangedImplCopyWith<_$OrderReceiverAddressChangedImpl>
-  get copyWith => __$$OrderReceiverAddressChangedImplCopyWithImpl<
-    _$OrderReceiverAddressChangedImpl
-  >(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(OrderModel orderModel, String requestUUID)
-    createOrder,
-    required TResult Function(OrderModel orderModel) validateOrder,
-    required TResult Function() resetOrder,
-    required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
-    required TResult Function(List<CartModel> cartItems) calculateTotal,
-    required TResult Function() clearError,
-    required TResult Function() dispose,
-  }) {
-    return receiverAddressChanged(receiverAddress);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(OrderModel orderModel, String requestUUID)? createOrder,
-    TResult? Function(OrderModel orderModel)? validateOrder,
-    TResult? Function()? resetOrder,
-    TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
-    TResult? Function(List<CartModel> cartItems)? calculateTotal,
-    TResult? Function()? clearError,
-    TResult? Function()? dispose,
-  }) {
-    return receiverAddressChanged?.call(receiverAddress);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OrderModel orderModel, String requestUUID)? createOrder,
-    TResult Function(OrderModel orderModel)? validateOrder,
-    TResult Function()? resetOrder,
-    TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
-    TResult Function(List<CartModel> cartItems)? calculateTotal,
-    TResult Function()? clearError,
-    TResult Function()? dispose,
-    required TResult orElse(),
-  }) {
-    if (receiverAddressChanged != null) {
-      return receiverAddressChanged(receiverAddress);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OrderCreateRequested value) createOrder,
-    required TResult Function(OrderValidationRequested value) validateOrder,
-    required TResult Function(OrderResetRequested value) resetOrder,
-    required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
-    required TResult Function(OrderTotalCalculated value) calculateTotal,
-    required TResult Function(OrderErrorCleared value) clearError,
-    required TResult Function(OrderDisposed value) dispose,
-  }) {
-    return receiverAddressChanged(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(OrderCreateRequested value)? createOrder,
-    TResult? Function(OrderValidationRequested value)? validateOrder,
-    TResult? Function(OrderResetRequested value)? resetOrder,
-    TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
-    TResult? Function(OrderTotalCalculated value)? calculateTotal,
-    TResult? Function(OrderErrorCleared value)? clearError,
-    TResult? Function(OrderDisposed value)? dispose,
-  }) {
-    return receiverAddressChanged?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OrderCreateRequested value)? createOrder,
-    TResult Function(OrderValidationRequested value)? validateOrder,
-    TResult Function(OrderResetRequested value)? resetOrder,
-    TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
-    TResult Function(OrderTotalCalculated value)? calculateTotal,
-    TResult Function(OrderErrorCleared value)? clearError,
-    TResult Function(OrderDisposed value)? dispose,
-    required TResult orElse(),
-  }) {
-    if (receiverAddressChanged != null) {
-      return receiverAddressChanged(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class OrderReceiverAddressChanged implements OrderEvent {
-  const factory OrderReceiverAddressChanged({
-    required final String receiverAddress,
-  }) = _$OrderReceiverAddressChangedImpl;
-
-  String get receiverAddress;
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OrderReceiverAddressChangedImplCopyWith<_$OrderReceiverAddressChangedImpl>
-  get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$OrderAdditionalInfoChangedImplCopyWith<$Res> {
-  factory _$$OrderAdditionalInfoChangedImplCopyWith(
-    _$OrderAdditionalInfoChangedImpl value,
-    $Res Function(_$OrderAdditionalInfoChangedImpl) then,
-  ) = __$$OrderAdditionalInfoChangedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String additionalInfo});
-}
-
-/// @nodoc
-class __$$OrderAdditionalInfoChangedImplCopyWithImpl<$Res>
-    extends _$OrderEventCopyWithImpl<$Res, _$OrderAdditionalInfoChangedImpl>
-    implements _$$OrderAdditionalInfoChangedImplCopyWith<$Res> {
-  __$$OrderAdditionalInfoChangedImplCopyWithImpl(
-    _$OrderAdditionalInfoChangedImpl _value,
-    $Res Function(_$OrderAdditionalInfoChangedImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? additionalInfo = null}) {
-    return _then(
-      _$OrderAdditionalInfoChangedImpl(
-        additionalInfo:
-            null == additionalInfo
-                ? _value.additionalInfo
-                : additionalInfo // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$OrderAdditionalInfoChangedImpl implements OrderAdditionalInfoChanged {
-  const _$OrderAdditionalInfoChangedImpl({required this.additionalInfo});
-
-  @override
-  final String additionalInfo;
-
-  @override
-  String toString() {
-    return 'OrderEvent.additionalInfoChanged(additionalInfo: $additionalInfo)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$OrderAdditionalInfoChangedImpl &&
-            (identical(other.additionalInfo, additionalInfo) ||
-                other.additionalInfo == additionalInfo));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, additionalInfo);
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$OrderAdditionalInfoChangedImplCopyWith<_$OrderAdditionalInfoChangedImpl>
-  get copyWith => __$$OrderAdditionalInfoChangedImplCopyWithImpl<
-    _$OrderAdditionalInfoChangedImpl
-  >(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(OrderModel orderModel, String requestUUID)
-    createOrder,
-    required TResult Function(OrderModel orderModel) validateOrder,
-    required TResult Function() resetOrder,
-    required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
-    required TResult Function(List<CartModel> cartItems) calculateTotal,
-    required TResult Function() clearError,
-    required TResult Function() dispose,
-  }) {
-    return additionalInfoChanged(additionalInfo);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(OrderModel orderModel, String requestUUID)? createOrder,
-    TResult? Function(OrderModel orderModel)? validateOrder,
-    TResult? Function()? resetOrder,
-    TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
-    TResult? Function(List<CartModel> cartItems)? calculateTotal,
-    TResult? Function()? clearError,
-    TResult? Function()? dispose,
-  }) {
-    return additionalInfoChanged?.call(additionalInfo);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OrderModel orderModel, String requestUUID)? createOrder,
-    TResult Function(OrderModel orderModel)? validateOrder,
-    TResult Function()? resetOrder,
-    TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
-    TResult Function(List<CartModel> cartItems)? calculateTotal,
-    TResult Function()? clearError,
-    TResult Function()? dispose,
-    required TResult orElse(),
-  }) {
-    if (additionalInfoChanged != null) {
-      return additionalInfoChanged(additionalInfo);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OrderCreateRequested value) createOrder,
-    required TResult Function(OrderValidationRequested value) validateOrder,
-    required TResult Function(OrderResetRequested value) resetOrder,
-    required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
-    required TResult Function(OrderTotalCalculated value) calculateTotal,
-    required TResult Function(OrderErrorCleared value) clearError,
-    required TResult Function(OrderDisposed value) dispose,
-  }) {
-    return additionalInfoChanged(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(OrderCreateRequested value)? createOrder,
-    TResult? Function(OrderValidationRequested value)? validateOrder,
-    TResult? Function(OrderResetRequested value)? resetOrder,
-    TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
-    TResult? Function(OrderTotalCalculated value)? calculateTotal,
-    TResult? Function(OrderErrorCleared value)? clearError,
-    TResult? Function(OrderDisposed value)? dispose,
-  }) {
-    return additionalInfoChanged?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OrderCreateRequested value)? createOrder,
-    TResult Function(OrderValidationRequested value)? validateOrder,
-    TResult Function(OrderResetRequested value)? resetOrder,
-    TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
-    TResult Function(OrderTotalCalculated value)? calculateTotal,
-    TResult Function(OrderErrorCleared value)? clearError,
-    TResult Function(OrderDisposed value)? dispose,
-    required TResult orElse(),
-  }) {
-    if (additionalInfoChanged != null) {
-      return additionalInfoChanged(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class OrderAdditionalInfoChanged implements OrderEvent {
-  const factory OrderAdditionalInfoChanged({
-    required final String additionalInfo,
-  }) = _$OrderAdditionalInfoChangedImpl;
-
-  String get additionalInfo;
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OrderAdditionalInfoChangedImplCopyWith<_$OrderAdditionalInfoChangedImpl>
-  get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$OrderProductsChangedImplCopyWith<$Res> {
-  factory _$$OrderProductsChangedImplCopyWith(
-    _$OrderProductsChangedImpl value,
-    $Res Function(_$OrderProductsChangedImpl) then,
-  ) = __$$OrderProductsChangedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<OrderProductRequest> products});
-}
-
-/// @nodoc
-class __$$OrderProductsChangedImplCopyWithImpl<$Res>
-    extends _$OrderEventCopyWithImpl<$Res, _$OrderProductsChangedImpl>
-    implements _$$OrderProductsChangedImplCopyWith<$Res> {
-  __$$OrderProductsChangedImplCopyWithImpl(
-    _$OrderProductsChangedImpl _value,
-    $Res Function(_$OrderProductsChangedImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? products = null}) {
-    return _then(
-      _$OrderProductsChangedImpl(
-        products:
-            null == products
-                ? _value._products
-                : products // ignore: cast_nullable_to_non_nullable
-                    as List<OrderProductRequest>,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$OrderProductsChangedImpl implements OrderProductsChanged {
-  const _$OrderProductsChangedImpl({
-    required final List<OrderProductRequest> products,
-  }) : _products = products;
-
-  final List<OrderProductRequest> _products;
-  @override
-  List<OrderProductRequest> get products {
-    if (_products is EqualUnmodifiableListView) return _products;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_products);
-  }
-
-  @override
-  String toString() {
-    return 'OrderEvent.productsChanged(products: $products)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$OrderProductsChangedImpl &&
-            const DeepCollectionEquality().equals(other._products, _products));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_products));
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$OrderProductsChangedImplCopyWith<_$OrderProductsChangedImpl>
-  get copyWith =>
-      __$$OrderProductsChangedImplCopyWithImpl<_$OrderProductsChangedImpl>(
-        this,
-        _$identity,
-      );
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(OrderModel orderModel, String requestUUID)
-    createOrder,
-    required TResult Function(OrderModel orderModel) validateOrder,
-    required TResult Function() resetOrder,
-    required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
-    required TResult Function(List<CartModel> cartItems) calculateTotal,
-    required TResult Function() clearError,
-    required TResult Function() dispose,
-  }) {
-    return productsChanged(products);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(OrderModel orderModel, String requestUUID)? createOrder,
-    TResult? Function(OrderModel orderModel)? validateOrder,
-    TResult? Function()? resetOrder,
-    TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
-    TResult? Function(List<CartModel> cartItems)? calculateTotal,
-    TResult? Function()? clearError,
-    TResult? Function()? dispose,
-  }) {
-    return productsChanged?.call(products);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OrderModel orderModel, String requestUUID)? createOrder,
-    TResult Function(OrderModel orderModel)? validateOrder,
-    TResult Function()? resetOrder,
-    TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
-    TResult Function(List<CartModel> cartItems)? calculateTotal,
-    TResult Function()? clearError,
-    TResult Function()? dispose,
-    required TResult orElse(),
-  }) {
-    if (productsChanged != null) {
-      return productsChanged(products);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(OrderCreateRequested value) createOrder,
-    required TResult Function(OrderValidationRequested value) validateOrder,
-    required TResult Function(OrderResetRequested value) resetOrder,
-    required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
-    required TResult Function(OrderTotalCalculated value) calculateTotal,
-    required TResult Function(OrderErrorCleared value) clearError,
-    required TResult Function(OrderDisposed value) dispose,
-  }) {
-    return productsChanged(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(OrderCreateRequested value)? createOrder,
-    TResult? Function(OrderValidationRequested value)? validateOrder,
-    TResult? Function(OrderResetRequested value)? resetOrder,
-    TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
-    TResult? Function(OrderTotalCalculated value)? calculateTotal,
-    TResult? Function(OrderErrorCleared value)? clearError,
-    TResult? Function(OrderDisposed value)? dispose,
-  }) {
-    return productsChanged?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(OrderCreateRequested value)? createOrder,
-    TResult Function(OrderValidationRequested value)? validateOrder,
-    TResult Function(OrderResetRequested value)? resetOrder,
-    TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
-    TResult Function(OrderTotalCalculated value)? calculateTotal,
-    TResult Function(OrderErrorCleared value)? clearError,
-    TResult Function(OrderDisposed value)? dispose,
-    required TResult orElse(),
-  }) {
-    if (productsChanged != null) {
-      return productsChanged(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class OrderProductsChanged implements OrderEvent {
-  const factory OrderProductsChanged({
-    required final List<OrderProductRequest> products,
-  }) = _$OrderProductsChangedImpl;
-
-  List<OrderProductRequest> get products;
-
-  /// Create a copy of OrderEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OrderProductsChangedImplCopyWith<_$OrderProductsChangedImpl>
-  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -2109,12 +846,6 @@ class _$OrderTotalCalculatedImpl implements OrderTotalCalculated {
     required TResult Function(OrderModel orderModel) validateOrder,
     required TResult Function() resetOrder,
     required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
     required TResult Function(List<CartModel> cartItems) calculateTotal,
     required TResult Function() clearError,
     required TResult Function() dispose,
@@ -2129,11 +860,6 @@ class _$OrderTotalCalculatedImpl implements OrderTotalCalculated {
     TResult? Function(OrderModel orderModel)? validateOrder,
     TResult? Function()? resetOrder,
     TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
     TResult? Function(List<CartModel> cartItems)? calculateTotal,
     TResult? Function()? clearError,
     TResult? Function()? dispose,
@@ -2148,11 +874,6 @@ class _$OrderTotalCalculatedImpl implements OrderTotalCalculated {
     TResult Function(OrderModel orderModel)? validateOrder,
     TResult Function()? resetOrder,
     TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
     TResult Function(List<CartModel> cartItems)? calculateTotal,
     TResult Function()? clearError,
     TResult Function()? dispose,
@@ -2171,15 +892,6 @@ class _$OrderTotalCalculatedImpl implements OrderTotalCalculated {
     required TResult Function(OrderValidationRequested value) validateOrder,
     required TResult Function(OrderResetRequested value) resetOrder,
     required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
     required TResult Function(OrderTotalCalculated value) calculateTotal,
     required TResult Function(OrderErrorCleared value) clearError,
     required TResult Function(OrderDisposed value) dispose,
@@ -2194,12 +906,6 @@ class _$OrderTotalCalculatedImpl implements OrderTotalCalculated {
     TResult? Function(OrderValidationRequested value)? validateOrder,
     TResult? Function(OrderResetRequested value)? resetOrder,
     TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
     TResult? Function(OrderTotalCalculated value)? calculateTotal,
     TResult? Function(OrderErrorCleared value)? clearError,
     TResult? Function(OrderDisposed value)? dispose,
@@ -2214,11 +920,6 @@ class _$OrderTotalCalculatedImpl implements OrderTotalCalculated {
     TResult Function(OrderValidationRequested value)? validateOrder,
     TResult Function(OrderResetRequested value)? resetOrder,
     TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
     TResult Function(OrderTotalCalculated value)? calculateTotal,
     TResult Function(OrderErrorCleared value)? clearError,
     TResult Function(OrderDisposed value)? dispose,
@@ -2293,12 +994,6 @@ class _$OrderErrorClearedImpl implements OrderErrorCleared {
     required TResult Function(OrderModel orderModel) validateOrder,
     required TResult Function() resetOrder,
     required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
     required TResult Function(List<CartModel> cartItems) calculateTotal,
     required TResult Function() clearError,
     required TResult Function() dispose,
@@ -2313,11 +1008,6 @@ class _$OrderErrorClearedImpl implements OrderErrorCleared {
     TResult? Function(OrderModel orderModel)? validateOrder,
     TResult? Function()? resetOrder,
     TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
     TResult? Function(List<CartModel> cartItems)? calculateTotal,
     TResult? Function()? clearError,
     TResult? Function()? dispose,
@@ -2332,11 +1022,6 @@ class _$OrderErrorClearedImpl implements OrderErrorCleared {
     TResult Function(OrderModel orderModel)? validateOrder,
     TResult Function()? resetOrder,
     TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
     TResult Function(List<CartModel> cartItems)? calculateTotal,
     TResult Function()? clearError,
     TResult Function()? dispose,
@@ -2355,15 +1040,6 @@ class _$OrderErrorClearedImpl implements OrderErrorCleared {
     required TResult Function(OrderValidationRequested value) validateOrder,
     required TResult Function(OrderResetRequested value) resetOrder,
     required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
     required TResult Function(OrderTotalCalculated value) calculateTotal,
     required TResult Function(OrderErrorCleared value) clearError,
     required TResult Function(OrderDisposed value) dispose,
@@ -2378,12 +1054,6 @@ class _$OrderErrorClearedImpl implements OrderErrorCleared {
     TResult? Function(OrderValidationRequested value)? validateOrder,
     TResult? Function(OrderResetRequested value)? resetOrder,
     TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
     TResult? Function(OrderTotalCalculated value)? calculateTotal,
     TResult? Function(OrderErrorCleared value)? clearError,
     TResult? Function(OrderDisposed value)? dispose,
@@ -2398,11 +1068,6 @@ class _$OrderErrorClearedImpl implements OrderErrorCleared {
     TResult Function(OrderValidationRequested value)? validateOrder,
     TResult Function(OrderResetRequested value)? resetOrder,
     TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
     TResult Function(OrderTotalCalculated value)? calculateTotal,
     TResult Function(OrderErrorCleared value)? clearError,
     TResult Function(OrderDisposed value)? dispose,
@@ -2467,12 +1132,6 @@ class _$OrderDisposedImpl implements OrderDisposed {
     required TResult Function(OrderModel orderModel) validateOrder,
     required TResult Function() resetOrder,
     required TResult Function() retryOrder,
-    required TResult Function(String receiverName) receiverNameChanged,
-    required TResult Function(String receiverPhone) receiverPhoneChanged,
-    required TResult Function(String receiverAddress) receiverAddressChanged,
-    required TResult Function(String additionalInfo) additionalInfoChanged,
-    required TResult Function(List<OrderProductRequest> products)
-    productsChanged,
     required TResult Function(List<CartModel> cartItems) calculateTotal,
     required TResult Function() clearError,
     required TResult Function() dispose,
@@ -2487,11 +1146,6 @@ class _$OrderDisposedImpl implements OrderDisposed {
     TResult? Function(OrderModel orderModel)? validateOrder,
     TResult? Function()? resetOrder,
     TResult? Function()? retryOrder,
-    TResult? Function(String receiverName)? receiverNameChanged,
-    TResult? Function(String receiverPhone)? receiverPhoneChanged,
-    TResult? Function(String receiverAddress)? receiverAddressChanged,
-    TResult? Function(String additionalInfo)? additionalInfoChanged,
-    TResult? Function(List<OrderProductRequest> products)? productsChanged,
     TResult? Function(List<CartModel> cartItems)? calculateTotal,
     TResult? Function()? clearError,
     TResult? Function()? dispose,
@@ -2506,11 +1160,6 @@ class _$OrderDisposedImpl implements OrderDisposed {
     TResult Function(OrderModel orderModel)? validateOrder,
     TResult Function()? resetOrder,
     TResult Function()? retryOrder,
-    TResult Function(String receiverName)? receiverNameChanged,
-    TResult Function(String receiverPhone)? receiverPhoneChanged,
-    TResult Function(String receiverAddress)? receiverAddressChanged,
-    TResult Function(String additionalInfo)? additionalInfoChanged,
-    TResult Function(List<OrderProductRequest> products)? productsChanged,
     TResult Function(List<CartModel> cartItems)? calculateTotal,
     TResult Function()? clearError,
     TResult Function()? dispose,
@@ -2529,15 +1178,6 @@ class _$OrderDisposedImpl implements OrderDisposed {
     required TResult Function(OrderValidationRequested value) validateOrder,
     required TResult Function(OrderResetRequested value) resetOrder,
     required TResult Function(OrderRetryRequested value) retryOrder,
-    required TResult Function(OrderReceiverNameChanged value)
-    receiverNameChanged,
-    required TResult Function(OrderReceiverPhoneChanged value)
-    receiverPhoneChanged,
-    required TResult Function(OrderReceiverAddressChanged value)
-    receiverAddressChanged,
-    required TResult Function(OrderAdditionalInfoChanged value)
-    additionalInfoChanged,
-    required TResult Function(OrderProductsChanged value) productsChanged,
     required TResult Function(OrderTotalCalculated value) calculateTotal,
     required TResult Function(OrderErrorCleared value) clearError,
     required TResult Function(OrderDisposed value) dispose,
@@ -2552,12 +1192,6 @@ class _$OrderDisposedImpl implements OrderDisposed {
     TResult? Function(OrderValidationRequested value)? validateOrder,
     TResult? Function(OrderResetRequested value)? resetOrder,
     TResult? Function(OrderRetryRequested value)? retryOrder,
-    TResult? Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult? Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult? Function(OrderReceiverAddressChanged value)?
-    receiverAddressChanged,
-    TResult? Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult? Function(OrderProductsChanged value)? productsChanged,
     TResult? Function(OrderTotalCalculated value)? calculateTotal,
     TResult? Function(OrderErrorCleared value)? clearError,
     TResult? Function(OrderDisposed value)? dispose,
@@ -2572,11 +1206,6 @@ class _$OrderDisposedImpl implements OrderDisposed {
     TResult Function(OrderValidationRequested value)? validateOrder,
     TResult Function(OrderResetRequested value)? resetOrder,
     TResult Function(OrderRetryRequested value)? retryOrder,
-    TResult Function(OrderReceiverNameChanged value)? receiverNameChanged,
-    TResult Function(OrderReceiverPhoneChanged value)? receiverPhoneChanged,
-    TResult Function(OrderReceiverAddressChanged value)? receiverAddressChanged,
-    TResult Function(OrderAdditionalInfoChanged value)? additionalInfoChanged,
-    TResult Function(OrderProductsChanged value)? productsChanged,
     TResult Function(OrderTotalCalculated value)? calculateTotal,
     TResult Function(OrderErrorCleared value)? clearError,
     TResult Function(OrderDisposed value)? dispose,

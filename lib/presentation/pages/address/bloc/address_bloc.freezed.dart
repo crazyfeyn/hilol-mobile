@@ -32,6 +32,9 @@ mixin _$AddressState {
   String? get receiverName => throw _privateConstructorUsedError;
   String? get homeNumber => throw _privateConstructorUsedError;
   String? get entrancePassword => throw _privateConstructorUsedError;
+  String? get city => throw _privateConstructorUsedError;
+  String? get region => throw _privateConstructorUsedError;
+  String? get street => throw _privateConstructorUsedError;
   bool get isAddressValid => throw _privateConstructorUsedError;
   bool get isPhoneNumberValid => throw _privateConstructorUsedError;
   bool get isReceiverNameValid => throw _privateConstructorUsedError;
@@ -71,6 +74,9 @@ abstract class $AddressStateCopyWith<$Res> {
     String? receiverName,
     String? homeNumber,
     String? entrancePassword,
+    String? city,
+    String? region,
+    String? street,
     bool isAddressValid,
     bool isPhoneNumberValid,
     bool isReceiverNameValid,
@@ -111,6 +117,9 @@ class _$AddressStateCopyWithImpl<$Res, $Val extends AddressState>
     Object? receiverName = freezed,
     Object? homeNumber = freezed,
     Object? entrancePassword = freezed,
+    Object? city = freezed,
+    Object? region = freezed,
+    Object? street = freezed,
     Object? isAddressValid = null,
     Object? isPhoneNumberValid = null,
     Object? isReceiverNameValid = null,
@@ -192,6 +201,21 @@ class _$AddressStateCopyWithImpl<$Res, $Val extends AddressState>
                     ? _value.entrancePassword
                     : entrancePassword // ignore: cast_nullable_to_non_nullable
                         as String?,
+            city:
+                freezed == city
+                    ? _value.city
+                    : city // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            region:
+                freezed == region
+                    ? _value.region
+                    : region // ignore: cast_nullable_to_non_nullable
+                        as String?,
+            street:
+                freezed == street
+                    ? _value.street
+                    : street // ignore: cast_nullable_to_non_nullable
+                        as String?,
             isAddressValid:
                 null == isAddressValid
                     ? _value.isAddressValid
@@ -262,6 +286,9 @@ abstract class _$$AddressStateImplCopyWith<$Res>
     String? receiverName,
     String? homeNumber,
     String? entrancePassword,
+    String? city,
+    String? region,
+    String? street,
     bool isAddressValid,
     bool isPhoneNumberValid,
     bool isReceiverNameValid,
@@ -301,6 +328,9 @@ class __$$AddressStateImplCopyWithImpl<$Res>
     Object? receiverName = freezed,
     Object? homeNumber = freezed,
     Object? entrancePassword = freezed,
+    Object? city = freezed,
+    Object? region = freezed,
+    Object? street = freezed,
     Object? isAddressValid = null,
     Object? isPhoneNumberValid = null,
     Object? isReceiverNameValid = null,
@@ -382,6 +412,21 @@ class __$$AddressStateImplCopyWithImpl<$Res>
                 ? _value.entrancePassword
                 : entrancePassword // ignore: cast_nullable_to_non_nullable
                     as String?,
+        city:
+            freezed == city
+                ? _value.city
+                : city // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        region:
+            freezed == region
+                ? _value.region
+                : region // ignore: cast_nullable_to_non_nullable
+                    as String?,
+        street:
+            freezed == street
+                ? _value.street
+                : street // ignore: cast_nullable_to_non_nullable
+                    as String?,
         isAddressValid:
             null == isAddressValid
                 ? _value.isAddressValid
@@ -445,6 +490,9 @@ class _$AddressStateImpl extends _AddressState {
     this.receiverName = null,
     this.homeNumber = null,
     this.entrancePassword = null,
+    this.city = null,
+    this.region = null,
+    this.street = null,
     this.isAddressValid = false,
     this.isPhoneNumberValid = false,
     this.isReceiverNameValid = false,
@@ -500,6 +548,15 @@ class _$AddressStateImpl extends _AddressState {
   final String? entrancePassword;
   @override
   @JsonKey()
+  final String? city;
+  @override
+  @JsonKey()
+  final String? region;
+  @override
+  @JsonKey()
+  final String? street;
+  @override
+  @JsonKey()
   final bool isAddressValid;
   @override
   @JsonKey()
@@ -531,7 +588,7 @@ class _$AddressStateImpl extends _AddressState {
 
   @override
   String toString() {
-    return 'AddressState(formzStatus: $formzStatus, isMapReady: $isMapReady, isLoadingAddress: $isLoadingAddress, isGettingLocation: $isGettingLocation, isUploadingImage: $isUploadingImage, uploadResponse: $uploadResponse, uploadErrorMessage: $uploadErrorMessage, uploadStatus: $uploadStatus, selectedLocation: $selectedLocation, address: $address, phoneNumber: $phoneNumber, receiverName: $receiverName, homeNumber: $homeNumber, entrancePassword: $entrancePassword, isAddressValid: $isAddressValid, isPhoneNumberValid: $isPhoneNumberValid, isReceiverNameValid: $isReceiverNameValid, isSearching: $isSearching, searchResults: $searchResults, selectedPlace: $selectedPlace, searchQuery: $searchQuery, errorMessage: $errorMessage)';
+    return 'AddressState(formzStatus: $formzStatus, isMapReady: $isMapReady, isLoadingAddress: $isLoadingAddress, isGettingLocation: $isGettingLocation, isUploadingImage: $isUploadingImage, uploadResponse: $uploadResponse, uploadErrorMessage: $uploadErrorMessage, uploadStatus: $uploadStatus, selectedLocation: $selectedLocation, address: $address, phoneNumber: $phoneNumber, receiverName: $receiverName, homeNumber: $homeNumber, entrancePassword: $entrancePassword, city: $city, region: $region, street: $street, isAddressValid: $isAddressValid, isPhoneNumberValid: $isPhoneNumberValid, isReceiverNameValid: $isReceiverNameValid, isSearching: $isSearching, searchResults: $searchResults, selectedPlace: $selectedPlace, searchQuery: $searchQuery, errorMessage: $errorMessage)';
   }
 
   @override
@@ -566,6 +623,9 @@ class _$AddressStateImpl extends _AddressState {
                 other.homeNumber == homeNumber) &&
             (identical(other.entrancePassword, entrancePassword) ||
                 other.entrancePassword == entrancePassword) &&
+            (identical(other.city, city) || other.city == city) &&
+            (identical(other.region, region) || other.region == region) &&
+            (identical(other.street, street) || other.street == street) &&
             (identical(other.isAddressValid, isAddressValid) ||
                 other.isAddressValid == isAddressValid) &&
             (identical(other.isPhoneNumberValid, isPhoneNumberValid) ||
@@ -603,6 +663,9 @@ class _$AddressStateImpl extends _AddressState {
     receiverName,
     homeNumber,
     entrancePassword,
+    city,
+    region,
+    street,
     isAddressValid,
     isPhoneNumberValid,
     isReceiverNameValid,
@@ -638,6 +701,9 @@ abstract class _AddressState extends AddressState {
     final String? receiverName,
     final String? homeNumber,
     final String? entrancePassword,
+    final String? city,
+    final String? region,
+    final String? street,
     final bool isAddressValid,
     final bool isPhoneNumberValid,
     final bool isReceiverNameValid,
@@ -677,6 +743,12 @@ abstract class _AddressState extends AddressState {
   String? get homeNumber;
   @override
   String? get entrancePassword;
+  @override
+  String? get city;
+  @override
+  String? get region;
+  @override
+  String? get street;
   @override
   bool get isAddressValid;
   @override

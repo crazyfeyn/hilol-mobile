@@ -22,6 +22,10 @@ class AddressState with _$AddressState {
     @Default(null) String? homeNumber,
     @Default(null) String? entrancePassword,
 
+    @Default(null) String? city,
+    @Default(null) String? region,
+    @Default(null) String? street,
+
     @Default(false) bool isAddressValid,
     @Default(false) bool isPhoneNumberValid,
     @Default(false) bool isReceiverNameValid,

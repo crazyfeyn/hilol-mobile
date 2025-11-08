@@ -21,11 +21,11 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     on<OrderValidationRequested>(_onValidateOrder);
     on<OrderResetRequested>(_onResetOrder);
     on<OrderRetryRequested>(_onRetryOrder);
-    on<OrderReceiverNameChanged>(_onReceiverNameChanged);
-    on<OrderReceiverPhoneChanged>(_onReceiverPhoneChanged);
-    on<OrderReceiverAddressChanged>(_onReceiverAddressChanged);
-    on<OrderAdditionalInfoChanged>(_onAdditionalInfoChanged);
-    on<OrderProductsChanged>(_onProductsChanged);
+    // on<OrderReceiverNameChanged>(_onReceiverNameChanged);
+    // on<OrderReceiverPhoneChanged>(_onReceiverPhoneChanged);
+    // on<OrderReceiverAddressChanged>(_onReceiverAddressChanged);
+    // on<OrderAdditionalInfoChanged>(_onAdditionalInfoChanged);
+    // on<OrderProductsChanged>(_onProductsChanged);
     // on<OrderTotalCalculated>(_onCalculateTotal);
     on<OrderErrorCleared>(_onClearError);
     on<OrderDisposed>(_onDispose);
@@ -143,93 +143,6 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         OrderEvent.createOrder(
           orderModel: _lastFailedOrder!,
           requestUUID: _lastRequestUUID!,
-        ),
-      );
-    }
-  }
-
-  void _onReceiverNameChanged(
-    OrderReceiverNameChanged event,
-    Emitter<OrderState> emit,
-  ) {
-    final currentOrder = state.orderModel;
-    if (currentOrder != null) {
-      final updatedOrder = currentOrder.copyWith(
-        receiverName: event.receiverName,
-      );
-      emit(
-        state.copyWith(
-          orderModel: updatedOrder,
-          hasReceiverInfo:
-              event.receiverName.isNotEmpty &&
-              updatedOrder.receiverPhone.isNotEmpty,
-        ),
-      );
-    }
-  }
-
-  void _onReceiverPhoneChanged(
-    OrderReceiverPhoneChanged event,
-    Emitter<OrderState> emit,
-  ) {
-    final currentOrder = state.orderModel;
-    if (currentOrder != null) {
-      final updatedOrder = currentOrder.copyWith(
-        receiverPhone: event.receiverPhone,
-      );
-      emit(
-        state.copyWith(
-          orderModel: updatedOrder,
-          hasReceiverInfo:
-              updatedOrder.receiverName.isNotEmpty &&
-              event.receiverPhone.isNotEmpty,
-        ),
-      );
-    }
-  }
-
-  void _onReceiverAddressChanged(
-    OrderReceiverAddressChanged event,
-    Emitter<OrderState> emit,
-  ) {
-    final currentOrder = state.orderModel;
-    if (currentOrder != null) {
-      final updatedOrder = currentOrder.copyWith(
-        receiverAddress: event.receiverAddress,
-      );
-      emit(
-        state.copyWith(
-          orderModel: updatedOrder,
-          hasAddress: event.receiverAddress.isNotEmpty,
-        ),
-      );
-    }
-  }
-
-  void _onAdditionalInfoChanged(
-    OrderAdditionalInfoChanged event,
-    Emitter<OrderState> emit,
-  ) {
-    final currentOrder = state.orderModel;
-    if (currentOrder != null) {
-      final updatedOrder = currentOrder.copyWith(
-        additionalInfo: event.additionalInfo,
-      );
-      emit(state.copyWith(orderModel: updatedOrder));
-    }
-  }
-
-  void _onProductsChanged(
-    OrderProductsChanged event,
-    Emitter<OrderState> emit,
-  ) {
-    final currentOrder = state.orderModel;
-    if (currentOrder != null) {
-      final updatedOrder = currentOrder.copyWith(products: event.products);
-      emit(
-        state.copyWith(
-          orderModel: updatedOrder,
-          hasProducts: event.products.isNotEmpty,
         ),
       );
     }

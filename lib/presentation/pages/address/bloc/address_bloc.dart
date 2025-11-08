@@ -39,16 +39,19 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       final result = await _repository.reverseGeocode(event.latLng);
 
       if (result.isRight()) {
-        final address = result.getOrElse(
+        final locationData = result.getOrElse(
           () => throw Exception("Unexpected error"),
         );
         formzStatus = FormzSubmissionStatus.success;
         emit(
           state.copyWith(
             formzStatus: formzStatus,
-            address: address,
+            address: locationData['fullAddress'],
+            city: locationData['city'], // ✅
+            region: locationData['region'], // ✅
+            street: locationData['street'], // ✅
             isLoadingAddress: false,
-            isAddressValid: address.isNotEmpty,
+            isAddressValid: (locationData['fullAddress'] as String).isNotEmpty,
           ),
         );
       } else {
@@ -70,7 +73,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         final addressResult = await _repository.reverseGeocode(currentLocation);
 
         if (addressResult.isRight()) {
-          final address = addressResult.getOrElse(
+          final locationData = addressResult.getOrElse(
             () => throw Exception("Unexpected error"),
           );
           formzStatus = FormzSubmissionStatus.success;
@@ -78,9 +81,13 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
             state.copyWith(
               formzStatus: formzStatus,
               selectedLocation: currentLocation,
-              address: address,
+              address: locationData['fullAddress'],
+              city: locationData['city'], // ✅
+              region: locationData['region'], // ✅
+              street: locationData['street'], // ✅
               isGettingLocation: false,
-              isAddressValid: address.isNotEmpty,
+              isAddressValid:
+                  (locationData['fullAddress'] as String).isNotEmpty,
             ),
           );
         } else {
@@ -95,32 +102,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
           state.copyWith(formzStatus: formzStatus, isGettingLocation: false),
         );
       }
-    });
-
-    on<AddressChanged>((event, emit) {
-      emit(
-        state.copyWith(
-          address: event.address,
-          isAddressValid:
-              event.address.isNotEmpty && state.selectedLocation != null,
-        ),
-      );
-    });
-
-    on<AddressPhoneNumberChanged>((event, emit) {
-      emit(state.copyWith(phoneNumber: event.phoneNumber));
-    });
-
-    on<AddressReceiverNameChanged>((event, emit) {
-      emit(state.copyWith(receiverName: event.receiverName));
-    });
-
-    on<AddressHomeNumberChanged>((event, emit) {
-      emit(state.copyWith(homeNumber: event.homeNumber));
-    });
-
-    on<AddressEntrancePasswordChanged>((event, emit) {
-      emit(state.copyWith(entrancePassword: event.entrancePassword));
     });
 
     on<AddressSubmitted>((event, emit) async {
@@ -148,6 +129,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
           entrancePassword: state.entrancePassword,
           latitute: state.selectedLocation!.latitude,
           longitude: state.selectedLocation!.longitude,
+          city: state.city, // ✅
+          region: state.region, // ✅
+          street: state.street, // ✅
         );
 
         await DBService.setAddressData(addressData);
@@ -157,6 +141,32 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       }
 
       emit(state.copyWith(formzStatus: formzStatus));
+    });
+
+    on<AddressChanged>((event, emit) {
+      emit(
+        state.copyWith(
+          address: event.address,
+          isAddressValid:
+              event.address.isNotEmpty && state.selectedLocation != null,
+        ),
+      );
+    });
+
+    on<AddressPhoneNumberChanged>((event, emit) {
+      emit(state.copyWith(phoneNumber: event.phoneNumber));
+    });
+
+    on<AddressReceiverNameChanged>((event, emit) {
+      emit(state.copyWith(receiverName: event.receiverName));
+    });
+
+    on<AddressHomeNumberChanged>((event, emit) {
+      emit(state.copyWith(homeNumber: event.homeNumber));
+    });
+
+    on<AddressEntrancePasswordChanged>((event, emit) {
+      emit(state.copyWith(entrancePassword: event.entrancePassword));
     });
 
     on<AddressSearchQueryChanged>((event, emit) async {

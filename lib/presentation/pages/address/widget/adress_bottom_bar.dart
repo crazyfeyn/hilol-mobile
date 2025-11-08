@@ -105,6 +105,7 @@ class AddressBottomBar extends StatelessWidget {
     );
   }
 
+  // In address_bottom_bar.dart
   void _handleContinue(BuildContext context, AddressState state) {
     if (formKey.currentState!.validate()) {
       context.read<AddressBloc>().add(AddressSubmitted(carts));
@@ -119,13 +120,27 @@ class AddressBottomBar extends StatelessWidget {
               )
               .toList();
 
+      // ✅ Create OrderLocation with correct field names
+      final orderLocation = OrderLocation(
+        city: state.city ?? '',
+        region: state.region ?? '',
+        street: state.street ?? '',
+        altitude:
+            state.selectedLocation?.latitude ??
+            0.0, // Note: uses 'altitude' not 'latitude'
+        longitude: state.selectedLocation?.longitude ?? 0.0,
+      );
+
+      // ✅ Include location in OrderModel
       final orderModel = OrderModel(
         products: products,
         receiverName: state.receiverName ?? '',
         receiverPhone: state.phoneNumber ?? '',
         receiverAddress: state.address ?? '',
         additionalInfo: _buildAdditionalInfo(state),
+        location: orderLocation, // ✅ Now provided!
       );
+
       context.read<OrderBloc>().add(
         OrderEvent.validateOrder(orderModel: orderModel),
       );

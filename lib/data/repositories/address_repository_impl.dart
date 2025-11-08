@@ -62,7 +62,9 @@ class AddressRepositoryImpl extends AddressRepository {
   }
 
   @override
-  Future<Either<String, String>> reverseGeocode(LatLng latLng) async {
+  Future<Either<String, Map<String, dynamic>>> reverseGeocode(
+    LatLng latLng,
+  ) async {
     try {
       final url = Uri.parse(
         'https://dapi.kakao.com/v2/local/geo/coord2address.json?x=${latLng.longitude}&y=${latLng.latitude}&input_coord=WGS84',
@@ -77,13 +79,22 @@ class AddressRepositoryImpl extends AddressRepository {
         final data = json.decode(response.body);
         print(data['documents']);
         final documents = data['documents'];
+
         if (documents != null && documents.isNotEmpty) {
           final address = documents[0]['address'];
           final roadAddress = documents[0]['road_address'];
 
+          String city = '';
+          String region = '';
+          String street = '';
+          String fullAddress = '';
+
           if (roadAddress != null) {
             // Use road address (preferred)
-            final roadName = roadAddress['road_name'] ?? '';
+            city = roadAddress['region_1depth_name'] ?? '';
+            region = roadAddress['region_2depth_name'] ?? '';
+            street = roadAddress['road_name'] ?? '';
+
             final buildingNo = roadAddress['main_building_no'] ?? '';
             final subBuildingNo = roadAddress['sub_building_no'] ?? '';
 
@@ -92,26 +103,36 @@ class AddressRepositoryImpl extends AddressRepository {
               buildingNumber = '$buildingNo-$subBuildingNo';
             }
 
-            final addressString =
-                '${roadAddress['region_1depth_name']} ${roadAddress['region_2depth_name']} ${roadAddress['region_3depth_name']} $roadName $buildingNumber'
+            fullAddress =
+                '${roadAddress['region_1depth_name']} '
+                        '${roadAddress['region_2depth_name']} '
+                        '${roadAddress['region_3depth_name']} '
+                        '$street $buildingNumber'
                     .trim();
-            return Right(addressString);
           } else if (address != null) {
             // Fallback to jibun address
+            city = address['region_1depth_name'] ?? '';
+            region = address['region_2depth_name'] ?? '';
+            street = address['region_3depth_name'] ?? '';
+
             final mainAddressNo = address['main_address_no'] ?? '';
             final subAddressNo = address['sub_address_no'] ?? '';
 
-            // ✅ Include sub_address_no if it exists
             String addressNumber = mainAddressNo;
             if (subAddressNo.isNotEmpty && subAddressNo != '0') {
               addressNumber = '$mainAddressNo-$subAddressNo';
             }
 
-            final addressString =
-                '${address['region_1depth_name']} ${address['region_2depth_name']} ${address['region_3depth_name']} $addressNumber'
-                    .trim();
-            return Right(addressString);
+            fullAddress = '$city $region $street $addressNumber'.trim();
           }
+
+          // ✅ Return structured data
+          return Right({
+            'fullAddress': fullAddress,
+            'city': city,
+            'region': region,
+            'street': street,
+          });
         }
         return const Left('주소를 찾을 수 없습니다');
       } else {
@@ -241,17 +262,17 @@ class AddressRepositoryImpl extends AddressRepository {
       final cancelToken = cancelTokenManager.getToken(api);
 
       print('📦 Creating order with UUID: $requestUUID');
+      print('📦 Order data: ${orderModel.toJson()}');
 
-      // ✅ CRITICAL: Pass UUID as 5th parameter (customHeaders), NOT 4th (params)
       final response = await NetworkService.post(
         api,
         cancelToken,
         orderModel.toJson(),
-        null,
-        {'X-Request-UUID': requestUUID},
+        null, // No query params
+        {'X-Request-UUID': requestUUID}, // Custom headers
       );
 
-      print('📥 Order create response: $response');
+      print('📥 Response: $response');
 
       final result = OrderResponse.fromJson(response);
 
@@ -263,13 +284,8 @@ class AddressRepositoryImpl extends AddressRepository {
       } else {
         return const Left('Unknown error occurred');
       }
-    } on NetworkException catch (e) {
-      if (e.type != NetworkExceptionType.cancelled) {
-        GlobalSnackBar.showError(e.message);
-      }
-      return Left(e.toString());
     } catch (e) {
-      print('❌ Create order error: $e');
+      print('❌ Error: $e');
       GlobalSnackBar.showError('Failed to create order: ${e.toString()}');
       return Left(e.toString());
     }

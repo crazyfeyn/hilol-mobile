@@ -4,6 +4,7 @@ class OrderModel {
   final String receiverAddress;
   final String additionalInfo;
   final String receiverName;
+  final OrderLocation location; // ✅ Added missing field
 
   OrderModel({
     required this.products,
@@ -11,6 +12,7 @@ class OrderModel {
     required this.receiverAddress,
     required this.additionalInfo,
     required this.receiverName,
+    required this.location,
   });
 
   Map<String, dynamic> toJson() {
@@ -20,6 +22,7 @@ class OrderModel {
       'receiverAddress': receiverAddress,
       'additionalInfo': additionalInfo,
       'receiverName': receiverName,
+      'location': location.toJson(), // ✅ Added
     };
   }
 
@@ -29,6 +32,7 @@ class OrderModel {
     String? receiverAddress,
     String? additionalInfo,
     String? receiverName,
+    OrderLocation? location,
   }) {
     return OrderModel(
       products: products ?? this.products,
@@ -36,6 +40,7 @@ class OrderModel {
       receiverAddress: receiverAddress ?? this.receiverAddress,
       additionalInfo: additionalInfo ?? this.additionalInfo,
       receiverName: receiverName ?? this.receiverName,
+      location: location ?? this.location,
     );
   }
 }
@@ -54,6 +59,58 @@ class OrderProductRequest {
     return OrderProductRequest(
       productId: productId ?? this.productId,
       amount: amount ?? this.amount,
+    );
+  }
+}
+
+class OrderLocation {
+  final String city;
+  final String region;
+  final String street;
+  final double altitude;
+  final double longitude;
+
+  OrderLocation({
+    required this.city,
+    required this.region,
+    required this.street,
+    required this.altitude,
+    required this.longitude,
+  });
+
+  factory OrderLocation.fromJson(Map<String, dynamic> json) {
+    return OrderLocation(
+      city: json['city'] ?? '',
+      region: json['region'] ?? '',
+      street: json['street'] ?? '',
+      altitude: (json['altitude'] ?? 0).toDouble(),
+      longitude: (json['longitude'] ?? 0).toDouble(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'city': city,
+      'region': region,
+      'street': street,
+      'altitude': altitude,
+      'longitude': longitude,
+    };
+  }
+
+  OrderLocation copyWith({
+    String? city,
+    String? region,
+    String? street,
+    double? altitude,
+    double? longitude,
+  }) {
+    return OrderLocation(
+      city: city ?? this.city,
+      region: region ?? this.region,
+      street: street ?? this.street,
+      altitude: altitude ?? this.altitude,
+      longitude: longitude ?? this.longitude,
     );
   }
 }
@@ -127,10 +184,10 @@ class OrderData {
       receiverName: json['receiverName'] ?? '',
       products:
           (json['products'] as List<dynamic>?)
-              ?.map((product) => OrderProductData.fromJson(product))
+              ?.map((p) => OrderProductData.fromJson(p))
               .toList() ??
           [],
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
     );
   }
 
@@ -144,7 +201,7 @@ class OrderData {
       'receiverAddress': receiverAddress,
       'receiverPhone': receiverPhone,
       'receiverName': receiverName,
-      'products': products.map((product) => product.toJson()).toList(),
+      'products': products.map((p) => p.toJson()).toList(),
       'createdAt': createdAt.toIso8601String(),
     };
   }
@@ -214,24 +271,6 @@ class OrderProductData {
       'measurementId': measurementId,
     };
   }
-
-  OrderProductData copyWith({
-    int? orderId,
-    int? productId,
-    double? price,
-    String? currency,
-    int? amount,
-    int? measurementId,
-  }) {
-    return OrderProductData(
-      orderId: orderId ?? this.orderId,
-      productId: productId ?? this.productId,
-      price: price ?? this.price,
-      currency: currency ?? this.currency,
-      amount: amount ?? this.amount,
-      measurementId: measurementId ?? this.measurementId,
-    );
-  }
 }
 
 class ApiError {
@@ -263,19 +302,5 @@ class ApiError {
       'httpStatus': httpStatus,
       'details': details,
     };
-  }
-
-  ApiError copyWith({
-    int? code,
-    String? message,
-    int? httpStatus,
-    String? details,
-  }) {
-    return ApiError(
-      code: code ?? this.code,
-      message: message ?? this.message,
-      httpStatus: httpStatus ?? this.httpStatus,
-      details: details ?? this.details,
-    );
   }
 }
