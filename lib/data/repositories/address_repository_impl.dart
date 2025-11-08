@@ -247,8 +247,8 @@ class AddressRepositoryImpl extends AddressRepository {
         api,
         cancelToken,
         orderModel.toJson(),
-        null, // 4th param: query params (null = no query params)
-        {'X-Request-UUID': requestUUID}, // 5th param: custom headers
+        null,
+        {'X-Request-UUID': requestUUID},
       );
 
       print('📥 Order create response: $response');
