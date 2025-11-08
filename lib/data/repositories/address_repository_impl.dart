@@ -177,40 +177,46 @@ class AddressRepositoryImpl extends AddressRepository {
       final api = NetworkService.apiOrderUploadLocationImage;
       final cancelToken = cancelTokenManager.getToken(api);
 
-      // ✅ Detect MIME type
+      // ✅ Detect MIME type from file
       final detectedMime = lookupMimeType(imageFile.path) ?? 'image/jpeg';
       final parts = detectedMime.split('/');
       final mediaType = MediaType(parts[0], parts[1]);
 
+      print('📸 File path: ${imageFile.path}');
       print('📸 Detected MIME: $detectedMime');
-      print('📸 MediaType: ${mediaType.type}/${mediaType.subtype}');
-      print('📸 File: ${basename(imageFile.path)}');
+      print('📸 MediaType parts: type="${parts[0]}" subtype="${parts[1]}"');
 
-      // ✅ Create MultipartFile with correct Content-Type
+      // ✅ CRITICAL: Create MultipartFile with explicit contentType
       final multipartFile = await MultipartFile.fromFile(
         imageFile.path,
         filename: basename(imageFile.path),
         contentType:
-            mediaType, // Sets file part Content-Type to image/jpeg or image/png
+            mediaType, // This MUST set Content-Type: image/jpeg or image/png
       );
 
-      print('📸 MultipartFile contentType: ${multipartFile.contentType}');
+      // ✅ Verify it was set
+      print(
+        '📸 MultipartFile.contentType: ${multipartFile.contentType?.mimeType}',
+      );
+      print('📸 Expected: image/jpeg or image/png');
 
       final formData = FormData.fromMap({'file': multipartFile});
+
       final additionalHeaders = {'X-Request-UUID': requestUUID};
 
-      print('📤 Uploading to orderId: $orderId');
-      print('📤 Request UUID: $requestUUID');
+      print('📤 Uploading orderId=$orderId with UUID=$requestUUID');
 
+      // ✅ postMultipart will set overall Content-Type to multipart/form-data
+      // But the file PART will have Content-Type: image/jpeg
       final response = await NetworkService.postMultipart(
         api,
         cancelToken,
         formData,
-        {'orderId': orderId}, // query parameter
-        additionalHeaders, // custom headers
+        {'orderId': orderId},
+        additionalHeaders,
       );
 
-      print('📥 Upload response: $response');
+      print('📥 Response: $response');
 
       if (response != null) {
         final result = UploadLocationImageModel.fromJson(response);
@@ -218,11 +224,6 @@ class AddressRepositoryImpl extends AddressRepository {
       } else {
         return const Left('Upload failed: empty response');
       }
-    } on NetworkException catch (e) {
-      if (e.type != NetworkExceptionType.cancelled) {
-        GlobalSnackBar.showError(e.message);
-      }
-      return Left(e.toString());
     } catch (e) {
       print('❌ Upload error: $e');
       GlobalSnackBar.showError('Upload failed: ${e.toString()}');
