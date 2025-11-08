@@ -6,6 +6,7 @@ AddressModel addressModelFromMap(String str) =>
 String addressModelToMap(AddressModel data) => json.encode(data.toMap());
 
 class AddressModel {
+  final int? id;
   final double? latitute;
   final double? longitude;
   final String? address;
@@ -18,6 +19,7 @@ class AddressModel {
   final String? street;
 
   AddressModel({
+    this.id,
     this.latitute,
     this.longitude,
     this.address,
@@ -41,6 +43,7 @@ class AddressModel {
     String? city,
     String? region,
     String? street,
+    int? id,
   }) => AddressModel(
     latitute: latitute ?? this.latitute,
     longitude: longitude ?? this.longitude,
@@ -52,23 +55,29 @@ class AddressModel {
     city: city ?? this.city,
     region: region ?? this.region,
     street: street ?? this.street,
+    id: id ?? this.id,
   );
 
-  factory AddressModel.fromMap(Map<String, dynamic> json) => AddressModel(
-    latitute: json["latitute"]?.toDouble(),
-    longitude: json["longitude"]?.toDouble(),
-    address: json["address"],
-    receiverName: json["receiver_name"],
-    homeNumber: json["home_number"],
-    entrancePassword: json["entrance_password"],
-    phoneNumber: json["phone_number"],
-    city: json["city"],
-    region: json["region"],
-    street: json["street"],
-  );
+  factory AddressModel.fromMap(Map<String, dynamic> json) {
+    final model = AddressModel(
+      id: json['id'],
+      latitute: json["latitude"]?.toDouble(),
+      longitude: json["longitude"]?.toDouble(),
+      address: json["address"],
+      receiverName: json["receiver_name"],
+      homeNumber: json["home_number"],
+      entrancePassword: json["entrance_password"],
+      phoneNumber: json["phone_number"],
+      city: json["city"],
+      region: json["region"],
+      street: json["street"],
+    );
+    return model;
+  }
 
   Map<String, dynamic> toMap() => {
-    "latitute": latitute,
+    "id": id,
+    "latitude": latitute,
     "longitude": longitude,
     "address": address,
     "receiver_name": receiverName,

@@ -95,7 +95,7 @@ class AddressBottomBar extends StatelessWidget {
                 title:
                     isLoading
                         ? context.tr(LocaleKeys.creating_order)
-                        : context.tr(LocaleKeys.continue_btn),
+                        : context.tr(LocaleKeys.make_order),
                 isLoading: isLoading,
               );
             },
@@ -119,26 +119,21 @@ class AddressBottomBar extends StatelessWidget {
                 ),
               )
               .toList();
-
-      // ✅ Create OrderLocation with correct field names
       final orderLocation = OrderLocation(
         city: state.city ?? '',
         region: state.region ?? '',
         street: state.street ?? '',
-        altitude:
-            state.selectedLocation?.latitude ??
-            0.0, // Note: uses 'altitude' not 'latitude'
+        altitude: state.selectedLocation?.latitude ?? 0.0,
         longitude: state.selectedLocation?.longitude ?? 0.0,
       );
 
-      // ✅ Include location in OrderModel
       final orderModel = OrderModel(
         products: products,
         receiverName: state.receiverName ?? '',
         receiverPhone: state.phoneNumber ?? '',
         receiverAddress: state.address ?? '',
         additionalInfo: _buildAdditionalInfo(state),
-        location: orderLocation, // ✅ Now provided!
+        location: orderLocation,
       );
 
       context.read<OrderBloc>().add(

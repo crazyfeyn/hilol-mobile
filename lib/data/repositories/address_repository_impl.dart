@@ -77,7 +77,6 @@ class AddressRepositoryImpl extends AddressRepository {
 
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
-        print(data['documents']);
         final documents = data['documents'];
 
         if (documents != null && documents.isNotEmpty) {
@@ -90,7 +89,6 @@ class AddressRepositoryImpl extends AddressRepository {
           String fullAddress = '';
 
           if (roadAddress != null) {
-            // Use road address (preferred)
             city = roadAddress['region_1depth_name'] ?? '';
             region = roadAddress['region_2depth_name'] ?? '';
             street = roadAddress['road_name'] ?? '';
@@ -110,7 +108,6 @@ class AddressRepositoryImpl extends AddressRepository {
                         '$street $buildingNumber'
                     .trim();
           } else if (address != null) {
-            // Fallback to jibun address
             city = address['region_1depth_name'] ?? '';
             region = address['region_2depth_name'] ?? '';
             street = address['region_3depth_name'] ?? '';
@@ -125,8 +122,6 @@ class AddressRepositoryImpl extends AddressRepository {
 
             fullAddress = '$city $region $street $addressNumber'.trim();
           }
-
-          // ✅ Return structured data
           return Right({
             'fullAddress': fullAddress,
             'city': city,
@@ -202,33 +197,13 @@ class AddressRepositoryImpl extends AddressRepository {
       final detectedMime = lookupMimeType(imageFile.path) ?? 'image/jpeg';
       final parts = detectedMime.split('/');
       final mediaType = MediaType(parts[0], parts[1]);
-
-      print('📸 File path: ${imageFile.path}');
-      print('📸 Detected MIME: $detectedMime');
-      print('📸 MediaType parts: type="${parts[0]}" subtype="${parts[1]}"');
-
-      // ✅ CRITICAL: Create MultipartFile with explicit contentType
       final multipartFile = await MultipartFile.fromFile(
         imageFile.path,
         filename: basename(imageFile.path),
-        contentType:
-            mediaType, // This MUST set Content-Type: image/jpeg or image/png
+        contentType: mediaType,
       );
-
-      // ✅ Verify it was set
-      print(
-        '📸 MultipartFile.contentType: ${multipartFile.contentType?.mimeType}',
-      );
-      print('📸 Expected: image/jpeg or image/png');
-
       final formData = FormData.fromMap({'file': multipartFile});
-
       final additionalHeaders = {'X-Request-UUID': requestUUID};
-
-      print('📤 Uploading orderId=$orderId with UUID=$requestUUID');
-
-      // ✅ postMultipart will set overall Content-Type to multipart/form-data
-      // But the file PART will have Content-Type: image/jpeg
       final response = await NetworkService.postMultipart(
         api,
         cancelToken,
@@ -236,9 +211,6 @@ class AddressRepositoryImpl extends AddressRepository {
         {'orderId': orderId},
         additionalHeaders,
       );
-
-      print('📥 Response: $response');
-
       if (response != null) {
         final result = UploadLocationImageModel.fromJson(response);
         return Right(result);
@@ -246,7 +218,6 @@ class AddressRepositoryImpl extends AddressRepository {
         return const Left('Upload failed: empty response');
       }
     } catch (e) {
-      print('❌ Upload error: $e');
       GlobalSnackBar.showError('Upload failed: ${e.toString()}');
       return Left(e.toString());
     }
@@ -260,19 +231,13 @@ class AddressRepositoryImpl extends AddressRepository {
     try {
       final api = NetworkService.apiOrderCreate;
       final cancelToken = cancelTokenManager.getToken(api);
-
-      print('📦 Creating order with UUID: $requestUUID');
-      print('📦 Order data: ${orderModel.toJson()}');
-
       final response = await NetworkService.post(
         api,
         cancelToken,
         orderModel.toJson(),
-        null, // No query params
-        {'X-Request-UUID': requestUUID}, // Custom headers
+        null,
+        {'X-Request-UUID': requestUUID},
       );
-
-      print('📥 Response: $response');
 
       final result = OrderResponse.fromJson(response);
 
@@ -285,7 +250,6 @@ class AddressRepositoryImpl extends AddressRepository {
         return const Left('Unknown error occurred');
       }
     } catch (e) {
-      print('❌ Error: $e');
       GlobalSnackBar.showError('Failed to create order: ${e.toString()}');
       return Left(e.toString());
     }
