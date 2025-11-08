@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
+import 'package:commerce_mobile/data/datasources/database/address_db.dart';
 import 'package:commerce_mobile/data/models/address_model.dart';
 import 'package:commerce_mobile/data/models/adress_location_image_model.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
@@ -129,12 +130,13 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
           entrancePassword: state.entrancePassword,
           latitute: state.selectedLocation!.latitude,
           longitude: state.selectedLocation!.longitude,
-          city: state.city, // ✅
-          region: state.region, // ✅
-          street: state.street, // ✅
+          city: state.city,
+          region: state.region,
+          street: state.street,
         );
 
-        await DBService.setAddressData(addressData);
+        // await DBService.setAddressData(addressData);
+        await AddressDB.setAddress(addressData);
         formzStatus = FormzSubmissionStatus.success;
       } catch (e) {
         formzStatus = FormzSubmissionStatus.failure;
@@ -292,22 +294,46 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     _loadInitialData();
   }
 
-  void _loadInitialData() {
+  void _loadInitialData() async {
     final user = DBService.getUserData();
-    final address = DBService.getAddressData();
-
+    final address = await AddressDB.fetchAddress();
     add(AddressPhoneNumberChanged("+${user?.phone ?? ""}"));
-    if (address?.address != null) {
-      add(AddressChanged(address!.address!));
-    }
-    if (address?.receiverName != null) {
-      add(AddressReceiverNameChanged(address!.receiverName!));
-    }
-    if (address?.homeNumber != null) {
-      add(AddressHomeNumberChanged(address!.homeNumber!));
-    }
-    if (address?.entrancePassword != null) {
-      add(AddressEntrancePasswordChanged(address!.entrancePassword!));
+    if (address != null) {
+      print('[][][]');
+      print('Address loaded: ${address.address}');
+      print('City: ${address.city}');
+      print('Region: ${address.region}');
+      print('Street: ${address.street}');
+      if (address.address != null && address.address!.isNotEmpty) {
+        add(AddressChanged(address.address!));
+      }
+      if (address.receiverName != null && address.receiverName!.isNotEmpty) {
+        add(AddressReceiverNameChanged(address.receiverName!));
+      }
+      if (address.homeNumber != null && address.homeNumber!.isNotEmpty) {
+        add(AddressHomeNumberChanged(address.homeNumber!));
+      }
+      if (address.entrancePassword != null &&
+          address.entrancePassword!.isNotEmpty) {
+        add(AddressEntrancePasswordChanged(address.entrancePassword!));
+      }
+      if (address.latitute != null && address.longitude != null) {
+        final location = LatLng(address.latitute!, address.longitude!);
+        emit(
+          state.copyWith(
+            selectedLocation: location,
+            address: address.address,
+            city: address.city,
+            region: address.region,
+            street: address.street,
+            isAddressValid:
+                address.address != null && address.address!.isNotEmpty,
+          ),
+        );
+        add(AddressLocationSelected(location));
+      }
+    } else {
+      print('No saved address found in database');
     }
   }
 }

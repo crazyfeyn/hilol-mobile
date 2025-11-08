@@ -59,6 +59,13 @@ class LocationImageView extends StatefulWidget {
 class _LocationImageViewState extends State<LocationImageView> {
   File? _selectedImage;
   final ImagePicker _picker = ImagePicker();
+  late AddressBloc _addressBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _addressBloc = context.read<AddressBloc>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -340,7 +347,7 @@ class _LocationImageViewState extends State<LocationImageView> {
 
   @override
   void dispose() {
-    context.read<AddressBloc>().add(AddressLocationImageUploadCleared());
+    _addressBloc.add(AddressLocationImageUploadCleared());
     super.dispose();
   }
 }

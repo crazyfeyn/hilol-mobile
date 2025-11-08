@@ -184,4 +184,5 @@ abstract class LocaleKeys {
   static const upload_and_continue = 'upload_and_continue';
   static const skip_and_continue = 'skip_and_continue';
   static const creating_order = 'creating_order';
+  static const make_order = 'make_order';
 }
