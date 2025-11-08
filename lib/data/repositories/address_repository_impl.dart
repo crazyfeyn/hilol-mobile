@@ -146,11 +146,10 @@ class AddressRepositoryImpl extends AddressRepository {
   }
 
   @override
-  Future<Either<String, UploadLocationImageModel>> uploadLocationImage({
-    required int orderId,
-    required File imageFile,
-    required String requestUUID,
-  }) async {
+  Future<Either<String, UploadLocationImageModel>> uploadLocationImage(
+    int orderId,
+    File imageFile,
+  ) async {
     try {
       final api = NetworkService.apiOrderUploadLocationImage;
       final cancelToken = cancelTokenManager.getToken(api);

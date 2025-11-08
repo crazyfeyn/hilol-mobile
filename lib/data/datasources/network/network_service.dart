@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:convert';
 import 'package:commerce_mobile/core/services/lang_service.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
@@ -7,15 +6,14 @@ import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:uuid/uuid.dart';
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
 
 class NetworkService {
-  static bool _isTester = true;
-  static final _serverDev = "http://131.153.18.44:8080";
-  static final _serverProd = "http://131.153.18.44:8080";
+  static bool isTester = true;
+  static final _serverDev = "https://hilol-market.kr";
+  static final _serverProd = "https://hilol-market.kr";
 
   static String get getService {
-    if (_isTester) return _serverDev;
+    if (isTester) return _serverDev;
     return _serverProd;
   }
 
@@ -153,9 +151,11 @@ class NetworkService {
     Map<String, String> fields, {
     Map<String, String>? headers,
   }) {
+    // Create the base URL with query parameters
     final baseUrl = Uri.parse('$getService$endpoint');
     final queryParams = {...fields};
 
+    // Create the final URL with query parameters
     final url = Uri(
       scheme: baseUrl.scheme,
       host: baseUrl.host,
@@ -164,19 +164,11 @@ class NetworkService {
       queryParameters: {...baseUrl.queryParameters, ...queryParams},
     );
 
+    // Create the request with the final URL
     final request = http.MultipartRequest('POST', url);
 
-    // ✅ Build headers manually without auto-generated UUID
-    final langCode = LangService.currentLocale;
-    final accessToken = DBService.getAccessToken();
-
-    final baseHeaders = {
-      "X-Device-Type": Platform.operatingSystem,
-      "Authorization": "Bearer $accessToken",
-      "X-Client-Lang": langCode,
-    };
-
-    final allHeaders = {...baseHeaders, ...headers ?? {}};
+    // Add headers
+    final allHeaders = {...getHeaders, ...headers ?? {}};
     request.headers.addAll(allHeaders);
 
     return request;
@@ -198,21 +190,15 @@ class NetworkService {
       final response = await request.send();
       final responseString = await response.stream.bytesToString();
 
-      print('📥 Response Status: ${response.statusCode}');
-      print('📥 Response Body: $responseString');
-
       if (response.statusCode == 200) {
         return json.decode(responseString);
       } else {
-        // ✅ Log the error response
-        print('❌ Server Error Response: $responseString');
         throw NetworkException(
-          'Upload failed with status: ${response.statusCode}\nResponse: $responseString',
+          'Upload failed with status: ${response.statusCode}',
           NetworkExceptionType.serverError,
         );
       }
     } catch (e) {
-      print('❌ Upload Exception: $e');
       throw NetworkException(
         'Upload request failed: $e',
         NetworkExceptionType.noInternet,
