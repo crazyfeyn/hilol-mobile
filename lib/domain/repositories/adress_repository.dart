@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:commerce_mobile/data/models/adress_location_image_model.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/data/models/place_search_model.dart';
@@ -12,8 +11,8 @@ abstract class AddressRepository {
   Future<Either<String, String>> reverseGeocode(LatLng latLng);
   Future<Either<String, List<PlaceSearchResult>>> searchAddress(String query);
   Future<Either<String, UploadLocationImageModel>> uploadLocationImage({
-    required int orderId,
     required File imageFile,
+    required int orderId,
     required String requestUUID,
   });
   Future<Either<String, OrderData>> createOrder({

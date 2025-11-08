@@ -250,8 +250,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     });
 
     on<AddressLocationImageUploadSuccess>((event, emit) {
-      // You can add additional success handling here if needed
-      // For example, update order status or show success message
       emit(
         state.copyWith(
           uploadResponse: event.uploadResponse,
@@ -261,7 +259,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     });
 
     on<AddressLocationImageUploadFailure>((event, emit) {
-      // You can add additional error handling here if needed
       emit(
         state.copyWith(
           uploadErrorMessage: event.errorMessage,

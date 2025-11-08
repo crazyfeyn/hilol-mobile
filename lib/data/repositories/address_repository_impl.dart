@@ -9,11 +9,15 @@ import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/data/models/place_search_model.dart';
 import 'package:commerce_mobile/domain/repositories/adress_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:dio/dio.dart';
 import 'package:geolocator/geolocator.dart';
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:http_parser/http_parser.dart';
+// ignore: depend_on_referenced_packages
+import 'package:mime/mime.dart';
+import 'package:path/path.dart' show basename;
 
 class AddressRepositoryImpl extends AddressRepository {
   late final CancelTokenManager cancelTokenManager;
@@ -76,17 +80,35 @@ class AddressRepositoryImpl extends AddressRepository {
         if (documents != null && documents.isNotEmpty) {
           final address = documents[0]['address'];
           final roadAddress = documents[0]['road_address'];
+
           if (roadAddress != null) {
+            // Use road address (preferred)
             final roadName = roadAddress['road_name'] ?? '';
             final buildingNo = roadAddress['main_building_no'] ?? '';
+            final subBuildingNo = roadAddress['sub_building_no'] ?? '';
+
+            String buildingNumber = buildingNo;
+            if (subBuildingNo.isNotEmpty && subBuildingNo != '0') {
+              buildingNumber = '$buildingNo-$subBuildingNo';
+            }
+
             final addressString =
-                '${roadAddress['region_1depth_name']} ${roadAddress['region_2depth_name']} ${roadAddress['region_3depth_name']} $roadName $buildingNo'
+                '${roadAddress['region_1depth_name']} ${roadAddress['region_2depth_name']} ${roadAddress['region_3depth_name']} $roadName $buildingNumber'
                     .trim();
             return Right(addressString);
           } else if (address != null) {
+            // Fallback to jibun address
             final mainAddressNo = address['main_address_no'] ?? '';
+            final subAddressNo = address['sub_address_no'] ?? '';
+
+            // ✅ Include sub_address_no if it exists
+            String addressNumber = mainAddressNo;
+            if (subAddressNo.isNotEmpty && subAddressNo != '0') {
+              addressNumber = '$mainAddressNo-$subAddressNo';
+            }
+
             final addressString =
-                '${address['region_1depth_name']} ${address['region_2depth_name']} ${address['region_3depth_name']} $mainAddressNo'
+                '${address['region_1depth_name']} ${address['region_2depth_name']} ${address['region_3depth_name']} $addressNumber'
                     .trim();
             return Right(addressString);
           }
@@ -146,44 +168,64 @@ class AddressRepositoryImpl extends AddressRepository {
   }
 
   @override
-  Future<Either<String, UploadLocationImageModel>> uploadLocationImage(
-    int orderId,
-    File imageFile,
-  ) async {
+  Future<Either<String, UploadLocationImageModel>> uploadLocationImage({
+    required File imageFile,
+    required int orderId,
+    required String requestUUID,
+  }) async {
     try {
       final api = NetworkService.apiOrderUploadLocationImage;
       final cancelToken = cancelTokenManager.getToken(api);
 
-      var request = NetworkService.createMultipartRequest(
+      // ✅ Detect MIME type
+      final detectedMime = lookupMimeType(imageFile.path) ?? 'image/jpeg';
+      final parts = detectedMime.split('/');
+      final mediaType = MediaType(parts[0], parts[1]);
+
+      print('📸 Detected MIME: $detectedMime');
+      print('📸 MediaType: ${mediaType.type}/${mediaType.subtype}');
+      print('📸 File: ${basename(imageFile.path)}');
+
+      // ✅ Create MultipartFile with correct Content-Type
+      final multipartFile = await MultipartFile.fromFile(
+        imageFile.path,
+        filename: basename(imageFile.path),
+        contentType:
+            mediaType, // Sets file part Content-Type to image/jpeg or image/png
+      );
+
+      print('📸 MultipartFile contentType: ${multipartFile.contentType}');
+
+      final formData = FormData.fromMap({'file': multipartFile});
+      final additionalHeaders = {'X-Request-UUID': requestUUID};
+
+      print('📤 Uploading to orderId: $orderId');
+      print('📤 Request UUID: $requestUUID');
+
+      final response = await NetworkService.postMultipart(
         api,
         cancelToken,
-        {'orderId': orderId.toString(), 'X-Request-UUID': requestUUID},
-        headers: {'X-Request-UUID': requestUUID},
+        formData,
+        {'orderId': orderId}, // query parameter
+        additionalHeaders, // custom headers
       );
 
-      var fileStream = imageFile.openRead();
-      var fileLength = await imageFile.length();
+      print('📥 Upload response: $response');
 
-      request.files.add(
-        http.MultipartFile(
-          'file',
-          fileStream,
-          fileLength,
-          filename:
-              'location_image_${DateTime.now().millisecondsSinceEpoch}.jpg',
-          contentType: MediaType('image', 'jpeg'),
-        ),
-      );
-      final response = await NetworkService.sendMultipartRequest(request);
-      final result = UploadLocationImageModel.fromJson(response);
-      return Right(result);
+      if (response != null) {
+        final result = UploadLocationImageModel.fromJson(response);
+        return Right(result);
+      } else {
+        return const Left('Upload failed: empty response');
+      }
     } on NetworkException catch (e) {
       if (e.type != NetworkExceptionType.cancelled) {
         GlobalSnackBar.showError(e.message);
       }
       return Left(e.toString());
     } catch (e) {
-      GlobalSnackBar.showError('Failed to upload image: ${e.toString()}');
+      print('❌ Upload error: $e');
+      GlobalSnackBar.showError('Upload failed: ${e.toString()}');
       return Left(e.toString());
     }
   }
@@ -197,12 +239,18 @@ class AddressRepositoryImpl extends AddressRepository {
       final api = NetworkService.apiOrderCreate;
       final cancelToken = cancelTokenManager.getToken(api);
 
+      print('📦 Creating order with UUID: $requestUUID');
+
+      // ✅ CRITICAL: Pass UUID as 5th parameter (customHeaders), NOT 4th (params)
       final response = await NetworkService.post(
         api,
         cancelToken,
         orderModel.toJson(),
-        {'X-Request-UUID': requestUUID},
+        null, // 4th param: query params (null = no query params)
+        {'X-Request-UUID': requestUUID}, // 5th param: custom headers
       );
+
+      print('📥 Order create response: $response');
 
       final result = OrderResponse.fromJson(response);
 
@@ -220,6 +268,7 @@ class AddressRepositoryImpl extends AddressRepository {
       }
       return Left(e.toString());
     } catch (e) {
+      print('❌ Create order error: $e');
       GlobalSnackBar.showError('Failed to create order: ${e.toString()}');
       return Left(e.toString());
     }
