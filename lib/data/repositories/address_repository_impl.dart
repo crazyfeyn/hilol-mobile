@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:commerce_mobile/core/utils/app_snackbar.dart';
+import 'package:commerce_mobile/data/datasources/database/cart_db.dart';
 import 'package:commerce_mobile/data/datasources/network/cancel_token_manager.dart';
 import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:commerce_mobile/data/datasources/network/network_service.dart';
@@ -242,6 +243,7 @@ class AddressRepositoryImpl extends AddressRepository {
       final result = OrderResponse.fromJson(response);
 
       if (result.success && result.data != null) {
+        CartDB.deleteAllCarts();
         return Right(result.data!);
       } else if (result.error != null) {
         GlobalSnackBar.showError(result.error!.message);

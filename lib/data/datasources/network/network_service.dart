@@ -1,18 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:commerce_mobile/config/router/navigation_service.dart';
+import 'package:commerce_mobile/core/services/environment_service.dart';
 import 'package:commerce_mobile/core/services/lang_service.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_alice/alice.dart';
 import 'package:uuid/uuid.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
+// Create Alice with the navigator key
+final _alice = Alice(navigatorKey: NavigationService.navigatorKey);
+
 class NetworkService {
   static bool isTester = true;
-  static final _serverDev = "https://hilol-market.kr";
-  static final _serverProd = "https://hilol-market.kr";
+  static final _serverDev = EnvironmentService.apiBaseUrl;
+  static final _serverProd = EnvironmentService.apiBaseUrl;
 
   static String get getService {
     if (isTester) return _serverDev;
@@ -34,7 +40,8 @@ class NetworkService {
   static Dio get _dio {
     final dio = Dio(BaseOptions(baseUrl: getService, headers: getHeaders))
       ..interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
-    return dio..interceptors.add(NetworkInterceptor(dio));
+    return dio..interceptors.add(NetworkInterceptor(dio))
+      ..interceptors.add(_alice.getDioInterceptor());
   }
 
   /* Http Requests */
@@ -161,10 +168,10 @@ class NetworkService {
   static Future<T?> put<T>(
     String api,
     CancelToken cancelToken, [
-    Object? data,
+    Object? data, Map<String, dynamic>? params,
   ]) async {
     try {
-      var response = await _dio.put(api, data: data, cancelToken: cancelToken);
+      var response = await _dio.put(api, data: data, queryParameters: params, cancelToken: cancelToken);
       return response.data;
     } on DioException catch (e) {
       throw NetworkException.fromDioError(e);
@@ -297,12 +304,13 @@ class NetworkService {
   static final String apiGetAllCategories = "/api/v1/product-category/all";
   static final String apiGetAllProducts = "/api/v1/product/get-all";
   static final String apiGetProductById = "/api/v1/product/get";
-  static final String apiGetProductsByCategory =
-      "/api/v1/product/get-by-category";
+  static final String apiGetProductsByCategory = "/api/v1/product/get-by-category";
   static final String apiFileDownload = "/api/v1/file/download";
-  static const String apiOrderUploadLocationImage =
-      '/api/v1/order/upload-location-image';
+  static const String apiOrderUploadLocationImage = '/api/v1/order/upload-location-image';
   static final String apiOrderCreate = "/api/v1/order/create";
+  static final String apiOrderFetchAllOrder = "/api/v1/order/get-all";
+  static final String apiOrderFetchOrder = "/api/v1/order/get-all";
+  static final String apiOrderCancel = "/api/v1/order/cancel";
 
   /* Http Params */
   static Map<String, dynamic> paramsRefreshToken(
@@ -321,5 +329,13 @@ class NetworkService {
     String lastname,
   ) {
     return {"firstname": firstname, "lastname": lastname};
+  }
+
+  static Map<String, dynamic> paramsOrder(int id) {
+    return { "orderId": id };
+  }
+
+  static Map<String, dynamic> paramsOrderCancel(int id) {
+    return { "orderId": id };
   }
 }

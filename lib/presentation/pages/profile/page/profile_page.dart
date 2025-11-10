@@ -10,7 +10,7 @@ import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
-import 'package:commerce_mobile/presentation/pages/history/pages/order_history_page.dart';
+import 'package:commerce_mobile/presentation/pages/my_order/page/my_order_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/bloc/profile_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/profile/widget/custom_avatar_card.dart';
 import 'package:commerce_mobile/presentation/pages/profile/widget/profile_card.dart';
@@ -301,11 +301,7 @@ class _ProfileViewState extends State<ProfileView> {
                   ProfileCard(
                     icon: CupertinoIcons.bag,
                     title: context.tr(LocaleKeys.my_orders),
-                    // onTap:
-                    //     () => NavigationService.push(
-                    //       context,
-                    //       OrderHistoryPage.path,
-                    //     ),
+                    onTap: () => NavigationService.push(context, MyOrderPage.path),
                   ),
 
                   const SizedBox(height: 16),

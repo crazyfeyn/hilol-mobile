@@ -97,7 +97,7 @@
   "out_of_stock": "Sotuvda yo‘q",
   "description": "Tavsif",
   "quantity": "Miqdor",
-  "total_price": "Umumiy narx:",
+  "total_price": "Umumiy narx",
   "add_to_cart": "Savatga qo‘shish",
   "buy_now": "Hozir sotib olish",
   "added_to_cart": "{quantity} ta {title} savatga qo‘shildi",
@@ -183,5 +183,26 @@
   "upload_and_continue": "Yuklab davom etish",
   "skip_and_continue": "O‘tkazib davom etish",
   "creating_order": "Buyurtma yaratilmoqda...",
-  "make_order": "Buyurtma berish"
+  "make_order": "Buyurtma berish",
+
+  "current_orders": "Hozirgi",
+  "all_orders": "Barchasi",
+  "current_order_empty": "Bu yerda yangi buyurtmalaringiz ko'rinadi",
+  "all_order_empty": "Bu yerda barcha buyurtmalar ko'rsatiladi",
+  "order_number": "{}-son buyurtma",
+  "receiver_name": "Qabul qiluchi",
+  "lockdown": "Berkitish",
+  "show_product": "Mahsulotlarni ko'rish",
+  "success_clipboard": "Muvaffaqiyatli nusxalandi",
+
+  "new_status": "Yangi buyurtma",
+  "waiting_status": "Kutilyapti",
+  "confirmed_status": "Tasdiqlandi",
+  "cancelled_status": "Bekor qilindi",
+  "payment_created_status": "To‘lov yaratilgan",
+  "payment_failed_status": "To‘lov amalga oshmadi",
+  "payment_pending_status": "To‘lov jarayonda",
+  "payment_succeeded_status": "To‘lov muvaffaqiyatli",
+  "delivered_status": "Yetkazildi",
+  "completed_status": "Yakunlandi"
 }

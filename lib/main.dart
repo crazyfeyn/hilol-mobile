@@ -1,12 +1,15 @@
 import 'package:commerce_mobile/config/router/app_router.dart';
 import 'package:commerce_mobile/config/theme/app_theme.dart';
+import 'package:commerce_mobile/core/services/environment_service.dart';
 import 'package:commerce_mobile/core/services/lang_service.dart';
 import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_template.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +21,7 @@ void main() async {
 
   AuthRepository.initialize(appKey: '8fdaaf1c7caf708637319641cd648590');
 
+  await EnvironmentService.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await DBService.ensureInitialized();
 
@@ -58,11 +62,14 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         scaffoldMessengerKey: GlobalSnackBar.scaffoldMessengerKey,
         builder: (context, child) {
-          return MediaQuery(
+          final widget = MediaQuery(
             // ignore: deprecated_member_use
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
             child: child!,
           );
+
+          if (kDebugMode) return OverlaySupport(child: widget);
+          return widget;
         },
       ),
     );

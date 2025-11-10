@@ -1,14 +1,15 @@
 import 'package:commerce_mobile/data/models/cart_model.dart';
+import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/presentation/pages/address/page/address_page.dart';
+import 'package:commerce_mobile/presentation/pages/address/page/location_image.dart';
 import 'package:commerce_mobile/presentation/pages/auth/confirm_code/page/confirm_code_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/forget_pass/page/forget_pass_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/reset_pass/page/reset_pass_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_up/page/sign_up_page.dart';
 import 'package:commerce_mobile/presentation/pages/cart/cart/page/cart_page.dart';
+import 'package:commerce_mobile/presentation/pages/my_order/page/my_order_page.dart';
 import 'package:commerce_mobile/presentation/pages/payment/page/payment_page.dart';
-import 'package:commerce_mobile/presentation/pages/history/pages/order_history_page.dart';
-import 'package:commerce_mobile/presentation/pages/history/pages/order_product_detail_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/details/page/details_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/page/home_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/page/edit_page.dart';
@@ -86,8 +87,13 @@ class AppRouter {
           ),
           GoRoute(
             path: ProfilePage.path,
-            pageBuilder:
-                (context, state) => const MaterialPage(child: ProfilePage()),
+            pageBuilder: (context, state) => const MaterialPage(child: ProfilePage()),
+            routes: [
+              GoRoute(
+                path: MyOrderPage.path,
+                pageBuilder: (context, state) => MaterialPage(child: MyOrderPage()),
+              ),
+            ],
           ),
         ],
       ),
@@ -136,11 +142,22 @@ class AppRouter {
             ),
       ),
       GoRoute(
+        path: LocationImagePage.path,
+        pageBuilder:
+            (context, state) => MaterialPage(
+              child: LocationImagePage(orderData: state.extra as OrderData),
+            ),
+      ),
+      GoRoute(
         path: PaymentPage.path,
         pageBuilder:
             (context, state) => MaterialPage(
-              child: PaymentPage(extra: state.extra as Map<String, dynamic>),
+              child: PaymentPage(order: state.extra as OrderData),
             ),
+      ),
+      GoRoute(
+        path: MyOrderPage.path,
+        pageBuilder: (context, state) => MaterialPage(child: MyOrderPage()),
       ),
     ],
   );

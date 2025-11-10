@@ -1,12 +1,14 @@
+import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/data/models/cart_model.dart';
+import 'package:commerce_mobile/data/models/order_model.dart';
+import 'package:commerce_mobile/presentation/pages/my_order/page/my_order_page.dart';
 import 'package:commerce_mobile/presentation/pages/payment/bloc/payment_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/payment/widget/toss_pay_bottom-sheet.dart';
+import 'package:commerce_mobile/presentation/pages/profile/page/profile_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
-import 'package:commerce_mobile/presentation/widgets/custom_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,14 +17,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PaymentPage extends StatelessWidget {
   static const String path = "/payment-page";
 
-  final Map<String, dynamic> extra;
+  final OrderData order;
 
-  const PaymentPage({super.key, required this.extra});
+  const PaymentPage({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PaymentBloc(extra),
+      create: (context) => PaymentBloc(order),
       child: PaymentView(),
     );
   }
@@ -36,8 +38,6 @@ class PaymentView extends StatefulWidget {
 }
 
 class _PaymentViewState extends State<PaymentView> {
-  final _commentController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaymentBloc, PaymentState>(
@@ -64,24 +64,15 @@ class _PaymentViewState extends State<PaymentView> {
                       contentPadding: EdgeInsets.zero,
                       leading: Icon(CupertinoIcons.location, size: 20),
                       title: Text(
-                        state.address.receiverName ?? "",
+                        state.order.receiverName,
                         style: AppStyles.titleSMMedium,
                       ),
                       subtitle: Text(
-                        state.address.address ?? "",
+                        state.order.receiverAddress,
                         style: AppStyles.bodySMRegular.copyWith(
                           color: Colors.grey,
                         ),
                       ),
-                    ),
-
-                    SizedBox(height: 12),
-                    CustomTextField(
-                      title: context.tr(LocaleKeys.comment_title),
-                      hintText: context.tr(LocaleKeys.comment_hint),
-                      ctr: _commentController,
-                      minLines: 2,
-                      maxLines: null,
                     ),
                   ],
                 ),
@@ -175,25 +166,17 @@ class _PaymentViewState extends State<PaymentView> {
               onTap: () async {
                 if (state.method == PaymentMethod.tossBank) {
                   TossPayBottomSheet.bottomSheet(
-                    context,
-                    _onTotalPrice(state.carts),
+                    context: context,
+                    order: state.order,
+                    onConfirm: () => NavigationService.go(context, "${ProfilePage.path}${MyOrderPage.path}"),
                   );
                 }
               },
-              title: context.tr(LocaleKeys.order_btn),
+              title: context.tr(LocaleKeys.payment_btn),
             ),
           ),
         );
       },
     );
-  }
-
-  double _onTotalPrice(List<CartModel> others) {
-    double totalPrice = 0.0;
-    for (var element in others) {
-      totalPrice += (element.price ?? 0) * (element.count ?? 0);
-    }
-
-    return totalPrice;
   }
 }

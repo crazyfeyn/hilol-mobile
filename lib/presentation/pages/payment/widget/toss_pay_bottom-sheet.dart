@@ -1,6 +1,9 @@
 import 'package:commerce_mobile/core/extension/extensions.dart';
+import 'package:commerce_mobile/core/services/environment_service.dart';
 import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
+import 'package:commerce_mobile/data/datasources/database/db_service.dart';
+import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -11,17 +14,22 @@ import 'package:tosspayments_widget_sdk_flutter/widgets/agreement.dart';
 import 'package:tosspayments_widget_sdk_flutter/widgets/payment_method.dart';
 
 class TossPayBottomSheet extends StatefulWidget {
-  final double amount;
+  final OrderData order;
+  final VoidCallback? onConfirm;
 
-  const TossPayBottomSheet({super.key, required this.amount});
+  const TossPayBottomSheet({super.key, required this.order, this.onConfirm});
 
-  static Future<T?> bottomSheet<T>(BuildContext context, double amount) {
+  static Future<T?> bottomSheet<T>({
+    required BuildContext context,
+    required OrderData order,
+    VoidCallback? onConfirm,
+  }) {
     return showModalBottomSheet<T>(
       context: context,
       isScrollControlled: true,
       builder: (_) {
-        return TossPayBottomSheet(amount: amount);
-      }
+        return TossPayBottomSheet(order: order, onConfirm: onConfirm);
+      },
     );
   }
 
@@ -31,31 +39,19 @@ class TossPayBottomSheet extends StatefulWidget {
 
 class _TossPayBottomSheetState extends State<TossPayBottomSheet> {
   late PaymentWidget _paymentWidget;
-  PaymentMethodWidgetControl? _paymentMethodWidgetControl;
-  AgreementWidgetControl? _agreementWidgetControl;
 
   @override
   void initState() {
     super.initState();
-    _paymentWidget = PaymentWidget(
-      clientKey: "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm",
-      customerKey: "Xjnez2NTuSqQnSxoQBd6K",
-      // 결제위젯에 브랜드페이 추가하기
-      // paymentWidgetOptions: PaymentWidgetOptions(brandPayOption: BrandPayOption("리다이렉트 URL")) // Access Token 발급에 사용되는 리다이렉트 URL
+    _paymentWidget = PaymentWidget(clientKey: EnvironmentService.clientKey, customerKey: DBService.getUserData()!.id.toString());
+
+    _paymentWidget.renderPaymentMethods(
+      selector: 'methods',
+      amount: Amount(value: widget.order.totalPrice, currency: Currency.KRW, country: "KR"),
+      options: RenderPaymentMethodsOptions(variantKey: "DEFAULT"),
     );
-    _paymentWidget
-        .renderPaymentMethods(
-        selector: 'methods',
-        amount: Amount(value: widget.amount, currency: Currency.KRW, country: "KR"),
-        options: RenderPaymentMethodsOptions(variantKey: "DEFAULT")
-    ).then((control) async {
-      _paymentMethodWidgetControl = control;
-    });
-    _paymentWidget
-        .renderAgreement(selector: 'agreement')
-        .then((control) {
-      _agreementWidgetControl = control;
-    });
+
+    _paymentWidget.renderAgreement(selector: 'agreement');
   }
 
   @override
@@ -72,7 +68,10 @@ class _TossPayBottomSheetState extends State<TossPayBottomSheet> {
                     paymentWidget: _paymentWidget,
                     selector: 'methods',
                   ),
-                  AgreementWidget(paymentWidget: _paymentWidget, selector: 'agreement'),
+                  AgreementWidget(
+                    paymentWidget: _paymentWidget,
+                    selector: 'agreement',
+                  ),
                 ],
               ),
             ),
@@ -86,9 +85,12 @@ class _TossPayBottomSheetState extends State<TossPayBottomSheet> {
             ),
             child: CustomElevatedButton(
               onTap: () async {
-                final paymentResult = await _paymentWidget.requestPayment(paymentInfo: const PaymentInfo(orderId: 'JM8_NiCEpFOgcnzTUSVNS', orderName: 'Futbolka va yana 2 kishini tashlang'));
+                final id = widget.order.orderId.toString();
+                final name = "${widget.order.orderId}_hilol";
+                final paymentInfo = PaymentInfo(orderId: id, orderName: name);
+                final paymentResult = await _paymentWidget.requestPayment(paymentInfo: paymentInfo);
                 if (paymentResult.success != null) {
-                  GlobalSnackBar.showSuccess("To'lov muvaffaqiyatli amalga oshirildi");
+                  widget.onConfirm?.call();
                 } else if (paymentResult.fail != null) {
                   GlobalSnackBar.showError(paymentResult.fail!.errorMessage);
                 }

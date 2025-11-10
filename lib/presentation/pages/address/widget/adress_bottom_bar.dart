@@ -1,3 +1,4 @@
+import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/address_model.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
@@ -34,26 +35,16 @@ class AddressBottomBar extends StatelessWidget {
         listener: (context, orderState) {
           if (!context.mounted) return;
           if (orderState.isSuccess) {
-            final addressState = context.read<AddressBloc>().state;
-            final addressData = AddressModel(
-              address: addressState.address,
-              phoneNumber: addressState.phoneNumber,
-              receiverName: addressState.receiverName,
-              homeNumber: addressState.homeNumber,
-              entrancePassword: addressState.entrancePassword,
-            );
+            // final addressState = context.read<AddressBloc>().state;
+            // final addressData = AddressModel(
+            //   address: addressState.address,
+            //   phoneNumber: addressState.phoneNumber,
+            //   receiverName: addressState.receiverName,
+            //   homeNumber: addressState.homeNumber,
+            //   entrancePassword: addressState.entrancePassword,
+            // );
 
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder:
-                    (context) => LocationImagePage(
-                      address: addressData,
-                      carts: carts,
-                      orderData: orderState.orderData!,
-                    ),
-              ),
-            );
+            NavigationService.push(context, LocationImagePage.path, extra: orderState.orderData!);
           } else if (orderState.hasError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

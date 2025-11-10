@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/data/models/address_model.dart';
-import 'package:commerce_mobile/data/models/cart_model.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/presentation/pages/address/bloc/address_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/payment/page/payment_page.dart';
@@ -16,14 +14,10 @@ import 'package:image_picker/image_picker.dart';
 class LocationImagePage extends StatelessWidget {
   static const String path = "/location_image_page";
 
-  final AddressModel address;
-  final List<CartModel> carts;
   final OrderData orderData;
 
   const LocationImagePage({
     super.key,
-    required this.address,
-    required this.carts,
     required this.orderData,
   });
 
@@ -32,8 +26,6 @@ class LocationImagePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => AddressBloc(),
       child: LocationImageView(
-        address: address,
-        carts: carts,
         orderData: orderData,
       ),
     );
@@ -41,14 +33,10 @@ class LocationImagePage extends StatelessWidget {
 }
 
 class LocationImageView extends StatefulWidget {
-  final AddressModel address;
-  final List<CartModel> carts;
   final OrderData orderData;
 
   const LocationImageView({
     super.key,
-    required this.address,
-    required this.carts,
     required this.orderData,
   });
 
@@ -336,13 +324,7 @@ class _LocationImageViewState extends State<LocationImageView> {
   }
 
   void _navigateToPayment(BuildContext context) {
-    final extra = {
-      "address": widget.address,
-      "carts": widget.carts,
-      "orderData": widget.orderData,
-    };
-
-    NavigationService.push(context, PaymentPage.path, extra: extra);
+    NavigationService.push(context, PaymentPage.path, extra: widget.orderData);
   }
 
   @override

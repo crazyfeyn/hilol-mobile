@@ -6,8 +6,7 @@ class PaymentState with _$PaymentState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus formzStatus,
     @Default(PaymentMethod.tossBank) PaymentMethod method,
     required List<PaymentMethodModel> methods,
-    required List<CartModel> carts,
-    required AddressModel address,
+    required OrderData order,
 }) = _PaymentState;
 
   const PaymentState._();

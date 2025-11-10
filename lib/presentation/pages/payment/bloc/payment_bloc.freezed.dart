@@ -20,8 +20,7 @@ mixin _$PaymentState {
   FormzSubmissionStatus get formzStatus => throw _privateConstructorUsedError;
   PaymentMethod get method => throw _privateConstructorUsedError;
   List<PaymentMethodModel> get methods => throw _privateConstructorUsedError;
-  List<CartModel> get carts => throw _privateConstructorUsedError;
-  AddressModel get address => throw _privateConstructorUsedError;
+  OrderData get order => throw _privateConstructorUsedError;
 
   /// Create a copy of PaymentState
   /// with the given fields replaced by the non-null parameter values.
@@ -41,8 +40,7 @@ abstract class $PaymentStateCopyWith<$Res> {
     FormzSubmissionStatus formzStatus,
     PaymentMethod method,
     List<PaymentMethodModel> methods,
-    List<CartModel> carts,
-    AddressModel address,
+    OrderData order,
   });
 }
 
@@ -64,8 +62,7 @@ class _$PaymentStateCopyWithImpl<$Res, $Val extends PaymentState>
     Object? formzStatus = null,
     Object? method = null,
     Object? methods = null,
-    Object? carts = null,
-    Object? address = null,
+    Object? order = null,
   }) {
     return _then(
       _value.copyWith(
@@ -84,16 +81,11 @@ class _$PaymentStateCopyWithImpl<$Res, $Val extends PaymentState>
                     ? _value.methods
                     : methods // ignore: cast_nullable_to_non_nullable
                         as List<PaymentMethodModel>,
-            carts:
-                null == carts
-                    ? _value.carts
-                    : carts // ignore: cast_nullable_to_non_nullable
-                        as List<CartModel>,
-            address:
-                null == address
-                    ? _value.address
-                    : address // ignore: cast_nullable_to_non_nullable
-                        as AddressModel,
+            order:
+                null == order
+                    ? _value.order
+                    : order // ignore: cast_nullable_to_non_nullable
+                        as OrderData,
           )
           as $Val,
     );
@@ -113,8 +105,7 @@ abstract class _$$PaymentStateImplCopyWith<$Res>
     FormzSubmissionStatus formzStatus,
     PaymentMethod method,
     List<PaymentMethodModel> methods,
-    List<CartModel> carts,
-    AddressModel address,
+    OrderData order,
   });
 }
 
@@ -135,8 +126,7 @@ class __$$PaymentStateImplCopyWithImpl<$Res>
     Object? formzStatus = null,
     Object? method = null,
     Object? methods = null,
-    Object? carts = null,
-    Object? address = null,
+    Object? order = null,
   }) {
     return _then(
       _$PaymentStateImpl(
@@ -155,16 +145,11 @@ class __$$PaymentStateImplCopyWithImpl<$Res>
                 ? _value._methods
                 : methods // ignore: cast_nullable_to_non_nullable
                     as List<PaymentMethodModel>,
-        carts:
-            null == carts
-                ? _value._carts
-                : carts // ignore: cast_nullable_to_non_nullable
-                    as List<CartModel>,
-        address:
-            null == address
-                ? _value.address
-                : address // ignore: cast_nullable_to_non_nullable
-                    as AddressModel,
+        order:
+            null == order
+                ? _value.order
+                : order // ignore: cast_nullable_to_non_nullable
+                    as OrderData,
       ),
     );
   }
@@ -177,10 +162,8 @@ class _$PaymentStateImpl extends _PaymentState {
     this.formzStatus = FormzSubmissionStatus.initial,
     this.method = PaymentMethod.tossBank,
     required final List<PaymentMethodModel> methods,
-    required final List<CartModel> carts,
-    required this.address,
+    required this.order,
   }) : _methods = methods,
-       _carts = carts,
        super._();
 
   @override
@@ -197,20 +180,12 @@ class _$PaymentStateImpl extends _PaymentState {
     return EqualUnmodifiableListView(_methods);
   }
 
-  final List<CartModel> _carts;
   @override
-  List<CartModel> get carts {
-    if (_carts is EqualUnmodifiableListView) return _carts;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_carts);
-  }
-
-  @override
-  final AddressModel address;
+  final OrderData order;
 
   @override
   String toString() {
-    return 'PaymentState(formzStatus: $formzStatus, method: $method, methods: $methods, carts: $carts, address: $address)';
+    return 'PaymentState(formzStatus: $formzStatus, method: $method, methods: $methods, order: $order)';
   }
 
   @override
@@ -222,8 +197,7 @@ class _$PaymentStateImpl extends _PaymentState {
                 other.formzStatus == formzStatus) &&
             (identical(other.method, method) || other.method == method) &&
             const DeepCollectionEquality().equals(other._methods, _methods) &&
-            const DeepCollectionEquality().equals(other._carts, _carts) &&
-            (identical(other.address, address) || other.address == address));
+            (identical(other.order, order) || other.order == order));
   }
 
   @override
@@ -232,8 +206,7 @@ class _$PaymentStateImpl extends _PaymentState {
     formzStatus,
     method,
     const DeepCollectionEquality().hash(_methods),
-    const DeepCollectionEquality().hash(_carts),
-    address,
+    order,
   );
 
   /// Create a copy of PaymentState
@@ -250,8 +223,7 @@ abstract class _PaymentState extends PaymentState {
     final FormzSubmissionStatus formzStatus,
     final PaymentMethod method,
     required final List<PaymentMethodModel> methods,
-    required final List<CartModel> carts,
-    required final AddressModel address,
+    required final OrderData order,
   }) = _$PaymentStateImpl;
   const _PaymentState._() : super._();
 
@@ -262,9 +234,7 @@ abstract class _PaymentState extends PaymentState {
   @override
   List<PaymentMethodModel> get methods;
   @override
-  List<CartModel> get carts;
-  @override
-  AddressModel get address;
+  OrderData get order;
 
   /// Create a copy of PaymentState
   /// with the given fields replaced by the non-null parameter values.

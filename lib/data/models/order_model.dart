@@ -237,6 +237,7 @@ class OrderProductData {
   final int orderId;
   final int productId;
   final double price;
+  final String title;
   final String currency;
   final int amount;
   final int measurementId;
@@ -245,6 +246,7 @@ class OrderProductData {
     required this.orderId,
     required this.productId,
     required this.price,
+    required this.title,
     required this.currency,
     required this.amount,
     required this.measurementId,
@@ -255,6 +257,7 @@ class OrderProductData {
       orderId: json['orderId'] ?? 0,
       productId: json['productId'] ?? 0,
       price: (json['price'] ?? 0).toDouble(),
+      title: json['title'] ?? '',
       currency: json['currency'] ?? '',
       amount: json['amount'] ?? 0,
       measurementId: json['measurementId'] ?? 0,
@@ -266,6 +269,7 @@ class OrderProductData {
       'orderId': orderId,
       'productId': productId,
       'price': price,
+      'title': title,
       'currency': currency,
       'amount': amount,
       'measurementId': measurementId,

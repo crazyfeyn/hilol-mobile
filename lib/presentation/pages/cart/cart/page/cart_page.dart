@@ -33,7 +33,7 @@ class CartView extends StatefulWidget {
   State<CartView> createState() => _CartViewState();
 }
 
-class _CartViewState extends State<CartView> {
+class _CartViewState extends State<CartView> with RouteAware {
   WidgetsBinding get _binding => WidgetsBinding.instance;
 
   void _initState(_) {
@@ -44,6 +44,23 @@ class _CartViewState extends State<CartView> {
   void initState() {
     _binding.addPostFrameCallback(_initState);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    NavigationService.routeObserver.subscribe(this, ModalRoute.of(context)! as PageRoute);
+  }
+
+  @override
+  void dispose() {
+    NavigationService.routeObserver.unsubscribe(this);
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    context.read<CartBloc>().add(CartFetchAllCarts());
   }
 
   @override

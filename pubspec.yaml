@@ -48,6 +48,9 @@ dependencies:
   search_choices: ^2.3.1
   file_picker: ^10.3.3
   http_parser: ^4.1.2
+  flutter_alice: ^2.0.1
+  overlay_support: ^2.1.0
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +66,8 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env.master
+    - .env.developer
     - assets/icons/
     - assets/images/
     - assets/fonts/inter/
