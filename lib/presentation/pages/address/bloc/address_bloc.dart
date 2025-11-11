@@ -83,9 +83,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
               formzStatus: formzStatus,
               selectedLocation: currentLocation,
               address: locationData['fullAddress'],
-              city: locationData['city'], // ✅
-              region: locationData['region'], // ✅
-              street: locationData['street'], // ✅
+              city: locationData['city'],
+              region: locationData['region'],
+              street: locationData['street'],
               isGettingLocation: false,
               isAddressValid:
                   (locationData['fullAddress'] as String).isNotEmpty,
