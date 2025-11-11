@@ -55,12 +55,21 @@ class _MyOrderCardState extends State<MyOrderCard> {
                     color: Colors.black,
                   ),
                   children: [
-                    TextSpan(text: context.tr(LocaleKeys.order_number, args: [order.orderId.toString()])),
+                    TextSpan(
+                      text: context.tr(
+                        LocaleKeys.order_number,
+                        args: [order.orderId.toString()],
+                      ),
+                    ),
                     WidgetSpan(
                       child: GestureDetector(
                         onTap: () {
-                          Clipboard.setData(ClipboardData(text: order.orderId.toString()));
-                          GlobalSnackBar.showSuccess(context.tr(LocaleKeys.success_clipboard));
+                          Clipboard.setData(
+                            ClipboardData(text: order.orderId.toString()),
+                          );
+                          GlobalSnackBar.showSuccess(
+                            context.tr(LocaleKeys.success_clipboard),
+                          );
                         },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -94,40 +103,51 @@ class _MyOrderCardState extends State<MyOrderCard> {
             ],
           ),
           SizedBox(height: 20),
-          infoWidget("${context.tr(LocaleKeys.phone_number)}:", order.receiverPhone),
+          infoWidget(
+            "${context.tr(LocaleKeys.phone_number)}:",
+            order.receiverPhone,
+          ),
           SizedBox(height: 16),
-          infoWidget("${context.tr(LocaleKeys.receiver_name)}:", order.receiverName),
+          infoWidget(
+            "${context.tr(LocaleKeys.receiver_name)}:",
+            order.receiverName,
+          ),
           SizedBox(height: 16),
-          infoWidget("${context.tr(LocaleKeys.address_title)}:", order.receiverAddress),
+          infoWidget(
+            "${context.tr(LocaleKeys.address_title)}:",
+            order.receiverAddress,
+          ),
           SizedBox(height: 16),
-          infoWidget("${context.tr(LocaleKeys.total_price)}:", order.totalPrice.toString()),
-          if(isNew)
-            ...[
-              SizedBox(height: 32),
-              Align(
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: () => widget.onDelete?.call(order.orderId),
-                  child: RichText(
-                    text: TextSpan(
-                      style: AppStyles.titleXSMedium.copyWith(
-                        color: AppColors.primary600,
-                      ),
-                      children: [
-                        WidgetSpan(
-                          child: Icon(
-                            CupertinoIcons.delete,
-                            size: 16,
-                            color: AppColors.primary600,
-                          ),
-                        ),
-                        TextSpan(text: "Buyurtmani bekor qilish"),
-                      ],
+          infoWidget(
+            "${context.tr(LocaleKeys.total_price)}:",
+            order.totalPrice.toString(),
+          ),
+          if (isNew) ...[
+            SizedBox(height: 32),
+            Align(
+              alignment: Alignment.centerRight,
+              child: GestureDetector(
+                onTap: () => widget.onDelete?.call(order.orderId),
+                child: RichText(
+                  text: TextSpan(
+                    style: AppStyles.titleXSMedium.copyWith(
+                      color: AppColors.primary600,
                     ),
+                    children: [
+                      WidgetSpan(
+                        child: Icon(
+                          CupertinoIcons.delete,
+                          size: 16,
+                          color: AppColors.primary600,
+                        ),
+                      ),
+                      TextSpan(text: context.tr(LocaleKeys.cancel_order)),
+                    ],
                   ),
                 ),
               ),
-            ],
+            ),
+          ],
           SizedBox(height: 8),
           Divider(),
           Column(
@@ -137,7 +157,10 @@ class _MyOrderCardState extends State<MyOrderCard> {
                 ...List.generate(order.products.length, (i) {
                   final product = order.products[i];
                   return Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.grey[100],
                       borderRadius: BorderRadius.circular(10),
@@ -150,9 +173,7 @@ class _MyOrderCardState extends State<MyOrderCard> {
                           flex: 3,
                           child: Text(
                             product.title,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: const TextStyle(fontWeight: FontWeight.w600),
                           ),
                         ),
                         Text(
@@ -174,7 +195,12 @@ class _MyOrderCardState extends State<MyOrderCard> {
                 children: [
                   if (isNew)
                     GestureDetector(
-                      onTap: () => NavigationService.push(context, PaymentPage.path, extra: order),
+                      onTap:
+                          () => NavigationService.push(
+                            context,
+                            PaymentPage.path,
+                            extra: order,
+                          ),
                       child: Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: 16,
@@ -196,7 +222,9 @@ class _MyOrderCardState extends State<MyOrderCard> {
                     child: GestureDetector(
                       onTap: () => setState(() => isShow = !isShow),
                       child: Text(
-                        isShow ? context.tr(LocaleKeys.lockdown) : context.tr(LocaleKeys.show_product),
+                        isShow
+                            ? context.tr(LocaleKeys.lockdown)
+                            : context.tr(LocaleKeys.show_product),
                         style: AppStyles.titleSMMedium.copyWith(
                           color: AppColors.primary600,
                         ),
@@ -218,9 +246,7 @@ class _MyOrderCardState extends State<MyOrderCard> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(title),
-        Expanded(
-          child: Text(prompt, textAlign: TextAlign.end),
-        ),
+        Expanded(child: Text(prompt, textAlign: TextAlign.end)),
       ],
     );
   }

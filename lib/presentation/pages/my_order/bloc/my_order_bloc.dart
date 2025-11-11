@@ -1,6 +1,8 @@
 import 'package:commerce_mobile/core/utils/app_enums.dart';
+import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/data/repositories/order_repository_impl.dart';
+import 'package:easy_localization/easy_localization.dart' as context;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -18,23 +20,33 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
 
       List<OrderData> allOrders = [];
       final result = await _repository.fetchMyOrders();
-      if(result.isRight()) {
-        allOrders = result.getOrElse(() => throw Exception("Unexpected error"));
+      if (result.isRight()) {
+        allOrders = result.getOrElse(
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+        );
         formzStatus = FormzSubmissionStatus.success;
       } else {
         formzStatus = FormzSubmissionStatus.failure;
       }
 
-      emit(state.copyWith(allOrders: allOrders, newOrders: _fetchNewOrders(allOrders), formzStatus: formzStatus));
+      emit(
+        state.copyWith(
+          allOrders: allOrders,
+          newOrders: _fetchNewOrders(allOrders),
+          formzStatus: formzStatus,
+        ),
+      );
     });
 
     on<MyOrderCancel>((event, emit) async {
       emit(state.copyWith(formzStatus: FormzSubmissionStatus.inProgress));
 
       final result = await _repository.cancelMyOrder(event.id);
-      if(result.isRight()) {
-        final res = result.getOrElse(() => throw Exception("Unexpected error"));
-        if(res) {
+      if (result.isRight()) {
+        final res = result.getOrElse(
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+        );
+        if (res) {
           add(MyOrderFetchData());
         } else {
           emit(state.copyWith(formzStatus: FormzSubmissionStatus.canceled));
@@ -48,6 +60,8 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
   }
 
   List<OrderData> _fetchNewOrders(List<OrderData> allOrders) {
-    return allOrders.where((e) => e.orderStatus.toUpperCase() == "NEW").toList();
+    return allOrders
+        .where((e) => e.orderStatus.toUpperCase() == "NEW")
+        .toList();
   }
 }

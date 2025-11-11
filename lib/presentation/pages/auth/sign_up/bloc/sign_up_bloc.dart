@@ -1,8 +1,10 @@
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
+import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/sign_up_model.dart';
 import 'package:commerce_mobile/data/repositories/sign_UP_repository_impl.dart';
+import 'package:easy_localization/easy_localization.dart' as context;
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sign_up_event.dart';
@@ -28,7 +30,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
       String? clientId;
       final result = await _repository.signUp(event.auth);
       if (result.isRight()) {
-        clientId = result.getOrElse(() => throw Exception("Unexpected error"));
+        clientId = result.getOrElse(
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+        );
         formzStatus = FormzSubmissionStatus.success;
       } else {
         formzStatus = FormzSubmissionStatus.failure;

@@ -32,15 +32,6 @@ class AddressDB {
   }
 
   static Future<int> setAddress(AddressModel value) async {
-    print('11111');
-    print(value.address);
-    print(value.city);
-    print(value.entrancePassword);
-    print(value.homeNumber);
-    print(value.phoneNumber);
-    print(value.receiverName);
-    print(value.region);
-    print(value.street);
     if (_db == null) await _init();
     await _db!.delete(AddressDBKey.address.name);
     return await _db!.insert(
@@ -51,7 +42,6 @@ class AddressDB {
   }
 
   static Future<AddressModel?> fetchAddress() async {
-    print('keldi');
     if (_db == null) await _init();
 
     final List<Map<String, dynamic>> result = await _db!.query(
@@ -61,10 +51,8 @@ class AddressDB {
     );
 
     if (result.isNotEmpty) {
-      print('success');
       return AddressModel.fromMap(result.first);
     }
-    print('shu yer');
     return null;
   }
 
@@ -78,7 +66,6 @@ class AddressDB {
   }
 
   static Future<int> updateAddress(int id, AddressModel value) async {
-    print('shu yerda');
     if (_db == null) await _init();
     return await _db!.update(
       AddressDBKey.address.name,

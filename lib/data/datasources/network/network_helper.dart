@@ -4,6 +4,7 @@ import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/data/repositories/user_repository_impl.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart' as context;
 import 'package:uuid/uuid.dart';
 
 class NetworkInterceptor extends Interceptor {
@@ -40,16 +41,23 @@ class NetworkInterceptor extends Interceptor {
     if (err.response?.statusCode == 401) {
       final refreshToken = DBService.getRefreshToken();
       final clientId = DBService.getUserData()?.clientId;
-      
+
       // Only attempt token refresh if we have both refresh token and client ID
       if (refreshToken.isNotEmpty && clientId != null && clientId.isNotEmpty) {
         final result = await repository.onRefreshToken(clientId, refreshToken);
-        if(result.isRight()) {
-          final res = result.getOrElse(() => throw Exception("Unexpected error"));
-          if(res) {
-            final newHeaders = Map<String, dynamic>.from(err.requestOptions.headers);
-            newHeaders['Authorization'] = 'Bearer ${DBService.getAccessToken()}';
-            final clonedRequest = err.requestOptions.copyWith(headers: newHeaders);
+        if (result.isRight()) {
+          final res = result.getOrElse(
+            () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+          );
+          if (res) {
+            final newHeaders = Map<String, dynamic>.from(
+              err.requestOptions.headers,
+            );
+            newHeaders['Authorization'] =
+                'Bearer ${DBService.getAccessToken()}';
+            final clonedRequest = err.requestOptions.copyWith(
+              headers: newHeaders,
+            );
             final response = await dio.fetch(clonedRequest);
             return handler.resolve(response);
           } else {
