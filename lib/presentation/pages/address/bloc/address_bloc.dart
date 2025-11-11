@@ -299,11 +299,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     final address = await AddressDB.fetchAddress();
     add(AddressPhoneNumberChanged("+${user?.phone ?? ""}"));
     if (address != null) {
-      print('[][][]');
-      print('Address loaded: ${address.address}');
-      print('City: ${address.city}');
-      print('Region: ${address.region}');
-      print('Street: ${address.street}');
       if (address.address != null && address.address!.isNotEmpty) {
         add(AddressChanged(address.address!));
       }
@@ -319,6 +314,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       }
       if (address.latitute != null && address.longitude != null) {
         final location = LatLng(address.latitute!, address.longitude!);
+        // ignore: invalid_use_of_visible_for_testing_member
         emit(
           state.copyWith(
             selectedLocation: location,
