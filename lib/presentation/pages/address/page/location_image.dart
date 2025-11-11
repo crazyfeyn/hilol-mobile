@@ -16,18 +16,13 @@ class LocationImagePage extends StatelessWidget {
 
   final OrderData orderData;
 
-  const LocationImagePage({
-    super.key,
-    required this.orderData,
-  });
+  const LocationImagePage({super.key, required this.orderData});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddressBloc(),
-      child: LocationImageView(
-        orderData: orderData,
-      ),
+      child: LocationImageView(orderData: orderData),
     );
   }
 }
@@ -35,10 +30,7 @@ class LocationImagePage extends StatelessWidget {
 class LocationImageView extends StatefulWidget {
   final OrderData orderData;
 
-  const LocationImageView({
-    super.key,
-    required this.orderData,
-  });
+  const LocationImageView({super.key, required this.orderData});
 
   @override
   State<LocationImageView> createState() => _LocationImageViewState();
@@ -300,7 +292,9 @@ class _LocationImageViewState extends State<LocationImageView> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Rasmni tanlab bo‘lmadi: $e'),
+            content: Text(
+              LocaleKeys.image_selection_failed.tr(args: [e.toString()]),
+            ),
             backgroundColor: Colors.red,
           ),
         );

@@ -66,34 +66,49 @@ class _ProfileViewState extends State<ProfileView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Business Information', style: AppStyles.titleLGSemibold),
+          title: Text(
+            context.tr(LocaleKeys.business_information),
+            style: AppStyles.titleLGSemibold,
+          ),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                _buildInfoRow('Business Name', '주식회사 하나피 (Hanafi Co., Ltd.)'),
-                const SizedBox(height: 8),
-                _buildInfoRow('Business Registration Number', '1388605788'),
-                const SizedBox(height: 8),
                 _buildInfoRow(
-                  'Representative Name',
-                  'SHARIPOV AZIZBEK HAKIMJON UGLI',
+                  context.tr(LocaleKeys.business_name),
+                  context.tr(LocaleKeys.business_name_value),
                 ),
                 const SizedBox(height: 8),
                 _buildInfoRow(
-                  'Business Address',
-                  '서울특별시 동대문구 경희대로 26 (회기동) 202호',
+                  context.tr(LocaleKeys.business_registration_number),
+                  context.tr(LocaleKeys.business_registration_value),
                 ),
                 const SizedBox(height: 8),
                 _buildInfoRow(
-                  'Customer Service',
-                  'Email: golibtoramurodov@gmail.com / Tel: 010-8029-1802',
+                  context.tr(LocaleKeys.representative_name),
+                  context.tr(LocaleKeys.representative_name_value),
                 ),
                 const SizedBox(height: 8),
-                _buildInfoRow('E-commerce Registration', '2025-서울동대문-2078'),
+                _buildInfoRow(
+                  context.tr(LocaleKeys.business_address),
+                  context.tr(LocaleKeys.business_address_value),
+                ),
                 const SizedBox(height: 8),
-                _buildInfoRow('Refund Inquiries', '+82-010-6343-1995'),
+                _buildInfoRow(
+                  context.tr(LocaleKeys.customer_service),
+                  context.tr(LocaleKeys.customer_service_value),
+                ),
+                const SizedBox(height: 8),
+                _buildInfoRow(
+                  context.tr(LocaleKeys.ecommerce_registration),
+                  context.tr(LocaleKeys.ecommerce_registration_value),
+                ),
+                const SizedBox(height: 8),
+                _buildInfoRow(
+                  context.tr(LocaleKeys.refund_inquiries),
+                  context.tr(LocaleKeys.refund_inquiries_value),
+                ),
               ],
             ),
           ),
@@ -101,7 +116,7 @@ class _ProfileViewState extends State<ProfileView> {
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
-                'Close',
+                context.tr(LocaleKeys.cancel),
                 style: AppStyles.bodyMDSemibold.copyWith(
                   color: AppColors.primary500,
                 ),
@@ -119,7 +134,7 @@ class _ProfileViewState extends State<ProfileView> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Refund & Exchange Policy',
+            context.tr(LocaleKeys.refund_and_exchange_policy),
             style: AppStyles.titleLGSemibold,
           ),
           content: SingleChildScrollView(
@@ -128,28 +143,28 @@ class _ProfileViewState extends State<ProfileView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Refund Policy',
+                  context.tr(LocaleKeys.refund_policy),
                   style: AppStyles.labelLGSemibold.copyWith(
                     color: AppColors.black950,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Refunds are available within 7 days of purchase if the product is unused and in original condition.',
+                  context.tr(LocaleKeys.refund_policy_detail),
                   style: AppStyles.bodySMRegular.copyWith(
                     color: AppColors.black600,
                   ),
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Refund Inquiries',
+                  context.tr(LocaleKeys.refund_inquiries),
                   style: AppStyles.labelLGSemibold.copyWith(
                     color: AppColors.black950,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'For refund inquiries, please contact: +82-010-6343-1995',
+                  context.tr(LocaleKeys.refund_inquiries_value),
                   style: AppStyles.bodySMRegular.copyWith(
                     color: AppColors.black600,
                   ),
@@ -161,7 +176,7 @@ class _ProfileViewState extends State<ProfileView> {
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
-                'Close',
+                context.tr(LocaleKeys.close),
                 style: AppStyles.bodyMDSemibold.copyWith(
                   color: AppColors.primary500,
                 ),
@@ -178,21 +193,24 @@ class _ProfileViewState extends State<ProfileView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Delivery Policy', style: AppStyles.titleLGSemibold),
+          title: Text(
+            context.tr(LocaleKeys.delivery_policy),
+            style: AppStyles.titleLGSemibold,
+          ),
           content: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Delivery Information',
+                  context.tr(LocaleKeys.delivery_information),
                   style: AppStyles.labelLGSemibold.copyWith(
                     color: AppColors.black950,
                   ),
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Orders are shipped within 3–5 business days. Tracking information will be provided by email or SMS.',
+                  context.tr(LocaleKeys.delivery_information_detail),
                   style: AppStyles.bodySMRegular.copyWith(
                     color: AppColors.black600,
                   ),
@@ -204,7 +222,7 @@ class _ProfileViewState extends State<ProfileView> {
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               child: Text(
-                'Close',
+                context.tr(LocaleKeys.close),
                 style: AppStyles.bodyMDSemibold.copyWith(
                   color: AppColors.primary500,
                 ),
@@ -301,7 +319,8 @@ class _ProfileViewState extends State<ProfileView> {
                   ProfileCard(
                     icon: CupertinoIcons.bag,
                     title: context.tr(LocaleKeys.my_orders),
-                    onTap: () => NavigationService.push(context, MyOrderPage.path),
+                    onTap:
+                        () => NavigationService.push(context, MyOrderPage.path),
                   ),
 
                   const SizedBox(height: 16),
@@ -314,15 +333,15 @@ class _ProfileViewState extends State<ProfileView> {
                     icon: CupertinoIcons.globe,
                     title: context.tr(LocaleKeys.change_language),
                   ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    onTap:
-                        () => LauncherService.launcherApplication(
-                          AppConstants.support,
-                        ),
-                    icon: CupertinoIcons.bubble_left_bubble_right,
-                    title: context.tr(LocaleKeys.support),
-                  ),
+                  // const SizedBox(height: 16),
+                  // ProfileCard(
+                  //   onTap:
+                  //       () => LauncherService.launcherApplication(
+                  //         AppConstants.support,
+                  //       ),
+                  //   icon: CupertinoIcons.bubble_left_bubble_right,
+                  //   title: context.tr(LocaleKeys.support),
+                  // ),
                   const SizedBox(height: 16),
                   ProfileCard(
                     onTap: () {
@@ -337,22 +356,46 @@ class _ProfileViewState extends State<ProfileView> {
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap:
-                        () => LauncherService.launcherApplication(
-                          AppConstants.privacyPolice,
-                        ),
-                    icon: CupertinoIcons.exclamationmark_shield,
-                    title: context.tr(LocaleKeys.privacy_police),
+                    icon: CupertinoIcons.building_2_fill,
+                    title: context.tr(LocaleKeys.business_information),
+                    onTap: () {
+                      _showBusinessInfoDialog(context);
+                    },
                   ),
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap:
-                        () => LauncherService.launcherApplication(
-                          AppConstants.termsOfServices,
-                        ),
-                    icon: CupertinoIcons.info,
-                    title: context.tr(LocaleKeys.terms_of_services),
+                    icon: CupertinoIcons.arrow_clockwise,
+                    title: context.tr(LocaleKeys.refund_and_exchange_policy),
+                    onTap: () {
+                      _showRefundPolicyDialog(context);
+                    },
                   ),
+                  const SizedBox(height: 16),
+                  ProfileCard(
+                    icon: CupertinoIcons.cube_box,
+                    title: context.tr(LocaleKeys.delivery_policy),
+                    onTap: () {
+                      _showDeliveryPolicyDialog(context);
+                    },
+                  ),
+                  // const SizedBox(height: 16),
+                  // ProfileCard(
+                  //   onTap:
+                  //       () => LauncherService.launcherApplication(
+                  //         AppConstants.privacyPolice,
+                  //       ),
+                  //   icon: CupertinoIcons.exclamationmark_shield,
+                  //   title: context.tr(LocaleKeys.privacy_police),
+                  // ),
+                  // const SizedBox(height: 16),
+                  // ProfileCard(
+                  //   onTap:
+                  //       () => LauncherService.launcherApplication(
+                  //         AppConstants.termsOfServices,
+                  //       ),
+                  //   icon: CupertinoIcons.info,
+                  //   title: context.tr(LocaleKeys.terms_of_services),
+                  // ),
                   const SizedBox(height: 16),
                   ProfileCard(
                     onTap: () {
@@ -377,30 +420,6 @@ class _ProfileViewState extends State<ProfileView> {
                     isLogout: true,
                     icon: CupertinoIcons.delete,
                     title: context.tr(LocaleKeys.delete_account),
-                  ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    icon: CupertinoIcons.building_2_fill,
-                    title: 'Business Information',
-                    onTap: () {
-                      _showBusinessInfoDialog(context);
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    icon: CupertinoIcons.arrow_clockwise,
-                    title: 'Refund & Exchange Policy',
-                    onTap: () {
-                      _showRefundPolicyDialog(context);
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    icon: CupertinoIcons.cube_box,
-                    title: 'Delivery Policy',
-                    onTap: () {
-                      _showDeliveryPolicyDialog(context);
-                    },
                   ),
                 ],
               ),

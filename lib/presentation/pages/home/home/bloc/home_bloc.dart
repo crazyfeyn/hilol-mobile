@@ -1,7 +1,9 @@
 import 'package:commerce_mobile/core/utils/app_enums.dart';
+import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/product_category_model.dart';
 import 'package:commerce_mobile/data/models/product_model.dart';
 import 'package:commerce_mobile/data/repositories/product_repository_impl.dart';
+import 'package:easy_localization/easy_localization.dart' as context;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -22,29 +24,40 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       List<ProductCategoryModel> categories = [];
       final result = await _repository.fetchAllCategories();
-      if(result.isRight()) {
-        categories = result.getOrElse(() => throw Exception("Unexpected error"));
+      if (result.isRight()) {
+        categories = result.getOrElse(
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+        );
         categoryStatus = FormzSubmissionStatus.success;
       } else {
         categoryStatus = FormzSubmissionStatus.failure;
       }
 
-      emit(state.copyWith(categories: categories, categoryStatus: categoryStatus));
+      emit(
+        state.copyWith(categories: categories, categoryStatus: categoryStatus),
+      );
     });
 
     on<HomeFetchProducts>((event, emit) async {
       List<ProductModel> products = [];
       FormzSubmissionStatus productStatus = FormzSubmissionStatus.inProgress;
-      emit(state.copyWith(selectCategoryId: event.categoryId, productStatus: productStatus));
+      emit(
+        state.copyWith(
+          selectCategoryId: event.categoryId,
+          productStatus: productStatus,
+        ),
+      );
 
       late final result;
-      if(event.categoryId == null) {
+      if (event.categoryId == null) {
         result = await _repository.fetchAllProducts();
       } else {
         result = await _repository.fetchProductsByCategory(event.categoryId!);
       }
-      if(result.isRight()) {
-        allProducts = result.getOrElse(() => throw Exception("Unexpected error"));
+      if (result.isRight()) {
+        allProducts = result.getOrElse(
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+        );
         productStatus = FormzSubmissionStatus.success;
         products = allProducts;
       } else {
@@ -55,9 +68,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<HomeSearchProducts>((event, emit) async {
-      final products = allProducts.where((product) {
-        return (product.title?.toLowerCase() ?? "").contains(event.text.toLowerCase());
-      }).toList();
+      final products =
+          allProducts.where((product) {
+            return (product.title?.toLowerCase() ?? "").contains(
+              event.text.toLowerCase(),
+            );
+          }).toList();
 
       emit(state.copyWith(products: products));
     });

@@ -2,7 +2,7 @@
 
 // ignore_for_file: constant_identifier_names
 
-abstract class  LocaleKeys {
+abstract class LocaleKeys {
   static const app_name = 'app_name';
   static const lang_ko = 'lang_ko';
   static const lang_en = 'lang_en';
@@ -27,16 +27,19 @@ abstract class  LocaleKeys {
   static const first_name_title_field = 'first_name_title_field';
   static const first_name_hint_field = 'first_name_hint_field';
   static const first_name_error_field_empty = 'first_name_error_field.empty';
-  static const first_name_error_field_too_short = 'first_name_error_field.too_short';
+  static const first_name_error_field_too_short =
+      'first_name_error_field.too_short';
   static const first_name_error_field = 'first_name_error_field';
   static const last_name_title_field = 'last_name_title_field';
   static const last_name_hint_field = 'last_name_hint_field';
   static const last_name_error_field_empty = 'last_name_error_field.empty';
-  static const last_name_error_field_too_short = 'last_name_error_field.too_short';
+  static const last_name_error_field_too_short =
+      'last_name_error_field.too_short';
   static const last_name_error_field = 'last_name_error_field';
   static const login_to_app = 'login_to_app';
   static const create_new_account = 'create_new_account';
-  static const phone_number_error_field_empty = 'phone_number_error_field.empty';
+  static const phone_number_error_field_empty =
+      'phone_number_error_field.empty';
   static const phone_number_error_field = 'phone_number_error_field';
   static const email = 'email';
   static const email_hint = 'email_hint';
@@ -44,18 +47,27 @@ abstract class  LocaleKeys {
   static const password_title_field = 'password_title_field';
   static const password_hint_field = 'password_hint_field';
   static const password_error_field_empty = 'password_error_field.empty';
-  static const password_error_field_too_short = 'password_error_field.too_short';
-  static const password_error_field_contains_space = 'password_error_field.contains_space';
-  static const password_error_field_no_special_char = 'password_error_field.no_special_char';
-  static const password_error_field_no_number = 'password_error_field.no_number';
-  static const password_error_field_no_lowercase = 'password_error_field.no_lowercase';
-  static const password_error_field_no_uppercase = 'password_error_field.no_uppercase';
-  static const password_error_field_do_not_match = 'password_error_field.do_not_match';
+  static const password_error_field_too_short =
+      'password_error_field.too_short';
+  static const password_error_field_contains_space =
+      'password_error_field.contains_space';
+  static const password_error_field_no_special_char =
+      'password_error_field.no_special_char';
+  static const password_error_field_no_number =
+      'password_error_field.no_number';
+  static const password_error_field_no_lowercase =
+      'password_error_field.no_lowercase';
+  static const password_error_field_no_uppercase =
+      'password_error_field.no_uppercase';
+  static const password_error_field_do_not_match =
+      'password_error_field.do_not_match';
   static const password_error_field = 'password_error_field';
   static const confirm_password_title_field = 'confirm_password_title_field';
   static const confirm_password_hint_field = 'confirm_password_hint_field';
-  static const confirm_password_error_field_empty = 'confirm_password_error_field.empty';
-  static const confirm_password_error_field_password_mismatch = 'confirm_password_error_field.password_mismatch';
+  static const confirm_password_error_field_empty =
+      'confirm_password_error_field.empty';
+  static const confirm_password_error_field_password_mismatch =
+      'confirm_password_error_field.password_mismatch';
   static const confirm_password_error_field = 'confirm_password_error_field';
   static const forget_password = 'forget_password';
   static const do_not_have_account = 'do_not_have_account';
@@ -144,7 +156,8 @@ abstract class  LocaleKeys {
   static const address_error_select_on_map = 'address_error_select_on_map';
   static const location_permission_required = 'location_permission_required';
   static const location_permission_denied = 'location_permission_denied';
-  static const location_permission_denied_forever = 'location_permission_denied_forever';
+  static const location_permission_denied_forever =
+      'location_permission_denied_forever';
   static const open_settings = 'open_settings';
   static const failed_get_location = 'failed_get_location';
   static const failed_get_address = 'failed_get_address';
@@ -191,5 +204,43 @@ abstract class  LocaleKeys {
   static const payment_succeeded_status = 'payment_succeeded_status';
   static const delivered_status = 'delivered_status';
   static const completed_status = 'completed_status';
-
+  static const upload_request_failed = 'upload_request_failed';
+  static const upload_failed_with_status = 'upload_failed_with_status';
+  static const unexpected_error = 'unexpected_error';
+  static const image_selection_failed = 'image_selection_failed';
+  static const order_creation_error = 'order_creation_error';
+  static const retry = 'retry';
+  static const check_information = 'check_information';
+  static const home_number = 'home_number';
+  static const entrance_code = 'entrance_code';
+  static const cancel_order = 'cancel_order';
+  static const select_product_warning = 'select_product_warning';
+  static const enter_receiver_name_warning = 'enter_receiver_name_warning';
+  static const enter_receiver_phone_warning = 'enter_receiver_phone_warning';
+  static const enter_shipping_address_warning =
+      'enter_shipping_address_warning';
+  static const business_information = 'business_information';
+  static const business_name = 'business_name';
+  static const business_name_value = 'business_name_value';
+  static const business_registration_number = 'business_registration_number';
+  static const business_registration_value = 'business_registration_value';
+  static const representative_name = 'representative_name';
+  static const representative_name_value = 'representative_name_value';
+  static const business_address = 'business_address';
+  static const business_address_value = 'business_address_value';
+  static const customer_service = 'customer_service';
+  static const customer_service_value = 'customer_service_value';
+  static const ecommerce_registration = 'ecommerce_registration';
+  static const ecommerce_registration_value = 'ecommerce_registration_value';
+  static const refund_inquiries = 'refund_inquiries';
+  static const refund_inquiries_value = 'refund_inquiries_value';
+  static const close = 'close';
+  static const refund_and_exchange_policy = 'refund_and_exchange_policy';
+  static const refund_policy = 'refund_policy';
+  static const refund_policy_detail = 'refund_policy_detail';
+  static const refund_contact_info = 'refund_contact_info';
+  static const delivery_policy = 'delivery_policy';
+  static const delivery_information = 'delivery_information';
+  static const delivery_information_detail = 'delivery_information_detail';
+  static const cancel = 'cancel';
 }

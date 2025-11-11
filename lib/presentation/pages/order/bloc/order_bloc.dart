@@ -1,7 +1,9 @@
 import 'package:commerce_mobile/core/utils/app_enums.dart';
+import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/data/repositories/address_repository_impl.dart';
+import 'package:easy_localization/easy_localization.dart' as context;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -88,19 +90,19 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
     // Validate products
     if (event.orderModel.products.isEmpty) {
-      validationError = '주문할 상품을 선택해주세요';
+      validationError = context.tr(LocaleKeys.select_product_warning);
     }
     // Validate receiver name
     else if (event.orderModel.receiverName.isEmpty) {
-      validationError = '받는 분 이름을 입력해주세요';
+      validationError = context.tr(LocaleKeys.enter_receiver_name_warning);
     }
     // Validate phone number
     else if (event.orderModel.receiverPhone.isEmpty) {
-      validationError = '받는 분 연락처를 입력해주세요';
+      validationError = context.tr(LocaleKeys.enter_receiver_phone_warning);
     }
     // Validate address
     else if (event.orderModel.receiverAddress.isEmpty) {
-      validationError = '배송 주소를 입력해주세요';
+      validationError = context.tr(LocaleKeys.enter_shipping_address_warning);
     }
 
     if (validationError != null) {
