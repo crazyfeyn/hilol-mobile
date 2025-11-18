@@ -243,4 +243,5 @@ abstract class LocaleKeys {
   static const delivery_information = 'delivery_information';
   static const delivery_information_detail = 'delivery_information_detail';
   static const cancel = 'cancel';
+  static const loading_map = 'loading_map';
 }

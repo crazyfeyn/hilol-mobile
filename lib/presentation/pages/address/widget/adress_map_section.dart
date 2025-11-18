@@ -40,7 +40,6 @@ class AddressMapSection extends StatelessWidget {
                     previous.isLoadingAddress != current.isLoadingAddress,
             builder: (context, state) {
               if (!state.isLoadingAddress) return const SizedBox();
-
               return Positioned(
                 bottom: 10,
                 left: 0,
