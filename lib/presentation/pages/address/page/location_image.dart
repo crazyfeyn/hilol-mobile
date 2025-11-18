@@ -59,16 +59,17 @@ class _LocationImageViewState extends State<LocationImageView> {
         appBar: AppBar(
           title: Text(context.tr(LocaleKeys.location_image)),
           actions: [
-            TextButton(
-              onPressed: () => _skipAndNavigate(context),
-              child: Text(
-                context.tr(LocaleKeys.skip),
-                style: const TextStyle(
-                  color: Colors.blue,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            // if (_selectedImage == null)
+            //   TextButton(
+            //     onPressed: () => _skipAndNavigate(context),
+            //     child: Text(
+            //       context.tr(LocaleKeys.skip),
+            //       style: const TextStyle(
+            //         color: Colors.blue,
+            //         fontWeight: FontWeight.w600,
+            //       ),
+            //     ),
+            //   ),
           ],
         ),
         body: SafeArea(

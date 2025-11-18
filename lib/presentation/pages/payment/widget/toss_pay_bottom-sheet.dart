@@ -43,11 +43,18 @@ class _TossPayBottomSheetState extends State<TossPayBottomSheet> {
   @override
   void initState() {
     super.initState();
-    _paymentWidget = PaymentWidget(clientKey: EnvironmentService.clientKey, customerKey: DBService.getUserData()!.id.toString());
+    _paymentWidget = PaymentWidget(
+      clientKey: EnvironmentService.clientKey,
+      customerKey: DBService.getUserData()!.id.toString(),
+    );
 
     _paymentWidget.renderPaymentMethods(
       selector: 'methods',
-      amount: Amount(value: widget.order.totalPrice, currency: Currency.KRW, country: "KR"),
+      amount: Amount(
+        value: widget.order.totalPrice,
+        currency: Currency.KRW,
+        country: "KR",
+      ),
       options: RenderPaymentMethodsOptions(variantKey: "DEFAULT"),
     );
 
@@ -88,7 +95,9 @@ class _TossPayBottomSheetState extends State<TossPayBottomSheet> {
                 final id = widget.order.orderId.toString();
                 final name = "${widget.order.orderId}_hilol";
                 final paymentInfo = PaymentInfo(orderId: id, orderName: name);
-                final paymentResult = await _paymentWidget.requestPayment(paymentInfo: paymentInfo);
+                final paymentResult = await _paymentWidget.requestPayment(
+                  paymentInfo: paymentInfo,
+                );
                 if (paymentResult.success != null) {
                   widget.onConfirm?.call();
                 } else if (paymentResult.fail != null) {
