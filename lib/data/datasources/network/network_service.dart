@@ -311,6 +311,7 @@ class NetworkService {
   static final String apiOrderFetchAllOrder = "/api/v1/order/get-all";
   static final String apiOrderFetchOrder = "/api/v1/order/get-all";
   static final String apiOrderCancel = "/api/v1/order/cancel";
+  static final String apiPaymentCreate = "/api/v1/payment/create";
 
   /* Http Params */
   static Map<String, dynamic> paramsRefreshToken(
@@ -337,5 +338,9 @@ class NetworkService {
 
   static Map<String, dynamic> paramsOrderCancel(int id) {
     return { "orderId": id };
+  }
+
+  static Map<String, dynamic> paramsPaymentCreate(int id, String paymentMethod) {
+    return { "orderId": id, "paymentMethod": paymentMethod  };
   }
 }

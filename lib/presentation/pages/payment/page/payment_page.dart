@@ -4,10 +4,7 @@ import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
-import 'package:commerce_mobile/presentation/pages/my_order/page/my_order_page.dart';
 import 'package:commerce_mobile/presentation/pages/payment/bloc/payment_bloc.dart';
-import 'package:commerce_mobile/presentation/pages/payment/widget/toss_pay_bottom-sheet.dart';
-import 'package:commerce_mobile/presentation/pages/profile/page/profile_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,7 +34,28 @@ class PaymentView extends StatefulWidget {
   State<PaymentView> createState() => _PaymentViewState();
 }
 
-class _PaymentViewState extends State<PaymentView> {
+class _PaymentViewState extends State<PaymentView> with WidgetsBindingObserver {
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if(state == AppLifecycleState.resumed) {
+      if(mounted) NavigationService.pop(context);
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PaymentBloc, PaymentState>(
@@ -163,15 +181,8 @@ class _PaymentViewState extends State<PaymentView> {
               bottom: MediaQuery.viewPaddingOf(context).bottom + 8,
             ),
             child: CustomElevatedButton(
-              onTap: () async {
-                if (state.method == PaymentMethod.tossBank) {
-                  TossPayBottomSheet.bottomSheet(
-                    context: context,
-                    order: state.order,
-                    onConfirm: () => NavigationService.go(context, "${ProfilePage.path}${MyOrderPage.path}"),
-                  );
-                }
-              },
+              isLoading: state.formzStatus.isInProgress,
+              onTap: () => bloc.add(PaymentSendRequest()),
               title: context.tr(LocaleKeys.payment_btn),
             ),
           ),

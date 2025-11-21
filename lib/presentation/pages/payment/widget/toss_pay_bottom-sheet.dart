@@ -85,8 +85,8 @@ class _TossPayBottomSheetState extends State<TossPayBottomSheet> {
             ),
             child: CustomElevatedButton(
               onTap: () async {
-                final id = widget.order.orderId.toString();
-                final name = "${widget.order.orderId}_hilol";
+                final id = "Hilol${widget.order.orderId}";
+                final name = "${widget.order.orderId}-hilol";
                 final paymentInfo = PaymentInfo(orderId: id, orderName: name);
                 final paymentResult = await _paymentWidget.requestPayment(paymentInfo: paymentInfo);
                 if (paymentResult.success != null) {
