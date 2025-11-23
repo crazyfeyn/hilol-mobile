@@ -1,3 +1,4 @@
+import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/services/launcher_service.dart';
 import 'package:commerce_mobile/core/utils/app_constants.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
@@ -24,16 +25,30 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       emit(state.copyWith(formzStatus: formzStatus));
 
       String? checkoutUrl;
-      final result = await _repository.createPayment(state.order.orderId, "CARD");
-      if (result.isRight()) {
-        checkoutUrl = result.getOrElse(() => throw Exception("Unexpected error"));
-        formzStatus = FormzSubmissionStatus.success;
+      if(await _confirmOrder(state.order)) {
+        final result = await _repository.createPayment(state.order.orderId, "CARD");
+        if (result.isRight()) {
+          checkoutUrl = result.getOrElse(() => throw Exception("Unexpected error"));
+          formzStatus = FormzSubmissionStatus.success;
+        } else {
+          formzStatus = FormzSubmissionStatus.failure;
+        }
       } else {
-        formzStatus = FormzSubmissionStatus.failure;
+        formzStatus = FormzSubmissionStatus.canceled;
       }
-
       emit(state.copyWith(formzStatus: formzStatus));
       if(checkoutUrl != null) LauncherService.launcherApplication(checkoutUrl);
     });
+  }
+
+  Future<bool> _confirmOrder(OrderData order) async {
+    if(order.orderStatus.checkingOrderStatusConfirmed) return true;
+
+    final result = await _repository.confirmOrder(state.order.orderId);
+    if (result.isRight()) {
+      return result.getOrElse(() => throw Exception("Unexpected error"));
+    }
+
+    return false;
   }
 }

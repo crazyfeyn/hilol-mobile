@@ -1,4 +1,5 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
+import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
@@ -39,7 +40,7 @@ class _MyOrderCardState extends State<MyOrderCard> {
 
   @override
   Widget build(BuildContext context) {
-    final isNew = order.orderStatus.toUpperCase() == "NEW";
+    final isNew = order.orderStatus.checkingOrderStatusPay;
     return Container(
       color: AppColors.white50,
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),

@@ -1,3 +1,4 @@
+import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/data/repositories/order_repository_impl.dart';
@@ -48,6 +49,6 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
   }
 
   List<OrderData> _fetchNewOrders(List<OrderData> allOrders) {
-    return allOrders.where((e) => e.orderStatus.toUpperCase() == "NEW").toList();
+    return allOrders.where((e) => e.orderStatus.checkingOrderStatusPay).toList();
   }
 }

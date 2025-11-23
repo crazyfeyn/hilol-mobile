@@ -311,6 +311,7 @@ class NetworkService {
   static final String apiOrderFetchAllOrder = "/api/v1/order/get-all";
   static final String apiOrderFetchOrder = "/api/v1/order/get-all";
   static final String apiOrderCancel = "/api/v1/order/cancel";
+  static final String apiOrderConfirm = "/api/v1/order/confirm";
   static final String apiPaymentCreate = "/api/v1/payment/create";
 
   /* Http Params */
@@ -337,6 +338,10 @@ class NetworkService {
   }
 
   static Map<String, dynamic> paramsOrderCancel(int id) {
+    return { "orderId": id };
+  }
+
+  static Map<String, dynamic> paramsOrderConfirm(int id) {
     return { "orderId": id };
   }
 

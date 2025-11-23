@@ -36,3 +36,13 @@ extension NumExtention on num {
     }
   }
 }
+
+extension StringExtention on String {
+  bool get checkingOrderStatusConfirmed {
+    return !(["NEW", "WAITING"].contains(toUpperCase()));
+  }
+
+  bool get checkingOrderStatusPay {
+    return ["NEW", "WAITING", "CONFIRMED", "PAYMENT_CREATED", "PAYMENT_FAILED"].contains(toUpperCase());
+  }
+}

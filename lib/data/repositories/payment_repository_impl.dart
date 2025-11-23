@@ -11,6 +11,24 @@ class PaymentRepositoryImpl extends PaymentRepository {
   PaymentRepositoryImpl() { _cancelTokenManager = CancelTokenManager(); }
 
   @override
+  Future<Either<String, bool>> confirmOrder(int id) async {
+    try {
+      final api = NetworkService.apiOrderConfirm;
+      final cancelToken = _cancelTokenManager.getToken(api);
+      final response = await NetworkService.put(api, cancelToken, null, NetworkService.paramsOrderConfirm(id));
+      final result = response["success"];
+      return Right(result);
+    } on NetworkException catch(e) {
+      if(e.type != NetworkExceptionType.cancelled) {
+        GlobalSnackBar.showError(e.message);
+      }
+      return Left(e.toString());
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
   Future<Either<String, String>> createPayment(int id, String paymentMethod) async {
     try {
       final api = NetworkService.apiPaymentCreate;
