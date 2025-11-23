@@ -1,8 +1,10 @@
 import 'package:commerce_mobile/core/utils/app_enums.dart';
+import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
 import 'package:commerce_mobile/data/models/product_model.dart';
 import 'package:commerce_mobile/data/repositories/cart_repository_impl.dart';
 import 'package:commerce_mobile/data/repositories/product_repository_impl.dart';
+import 'package:easy_localization/easy_localization.dart' as context;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -33,7 +35,9 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
         state.product.id!,
       );
       if (result.isRight()) {
-        product = result.getOrElse(() => throw Exception("Unexpected error"));
+        product = result.getOrElse(
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+        );
         formzStatus = FormzSubmissionStatus.success;
       } else {
         formzStatus = FormzSubmissionStatus.failure;
@@ -57,7 +61,9 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   Future<CartModel?> _fetchCartById(int id) async {
     final result = await _repository.fetchCartById(id);
     if (result.isRight()) {
-      return result.getOrElse(() => throw Exception("Unexpected error"));
+      return result.getOrElse(
+        () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+      );
     }
 
     return null;
@@ -89,7 +95,9 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
 
     final result = await _repository.setOrUpdateCart(cart);
     if (result.isRight()) {
-      final res = result.getOrElse(() => throw Exception("Unexpected error"));
+      final res = result.getOrElse(
+        () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+      );
       if (res) return cart;
     }
 
@@ -106,7 +114,9 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
     if ((cart.count ?? 0) > 0) {
       final result = await _repository.setOrUpdateCart(cart);
       if (result.isRight()) {
-        final res = result.getOrElse(() => throw Exception("Unexpected error"));
+        final res = result.getOrElse(
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+        );
         if (res) return cart;
       }
     } else {

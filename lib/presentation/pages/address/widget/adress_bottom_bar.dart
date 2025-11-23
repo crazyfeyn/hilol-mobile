@@ -1,6 +1,5 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/data/models/address_model.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/presentation/pages/address/bloc/address_bloc.dart';
@@ -8,6 +7,7 @@ import 'package:commerce_mobile/presentation/pages/address/page/location_image.d
 import 'package:commerce_mobile/presentation/pages/order/bloc/order_bloc.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization/easy_localization.dart' as context;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
@@ -44,17 +44,21 @@ class AddressBottomBar extends StatelessWidget {
             //   entrancePassword: addressState.entrancePassword,
             // );
 
-            NavigationService.push(context, LocationImagePage.path, extra: orderState.orderData!);
+            NavigationService.push(
+              context,
+              LocationImagePage.path,
+              extra: orderState.orderData!,
+            );
           } else if (orderState.hasError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
                   orderState.errorMessage ??
-                      'Buyurtma yaratishda xatolik yuz berdi',
+                      context.tr(LocaleKeys.order_creation_error),
                 ),
                 backgroundColor: Colors.red,
                 action: SnackBarAction(
-                  label: 'Qayta urinish',
+                  label: context.tr(LocaleKeys.retry),
                   textColor: Colors.white,
                   onPressed: () {
                     context.read<OrderBloc>().add(
@@ -145,7 +149,8 @@ class AddressBottomBar extends StatelessWidget {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(
-                orderBloc.state.errorMessage ?? 'Maʼlumotlarni tekshiring',
+                orderBloc.state.errorMessage ??
+                    context.tr(LocaleKeys.check_information),
               ),
               backgroundColor: Colors.orange,
             ),
@@ -159,13 +164,16 @@ class AddressBottomBar extends StatelessWidget {
     final List<String> infoParts = [];
 
     if (state.homeNumber != null && state.homeNumber!.isNotEmpty) {
-      infoParts.add('Uy raqami: ${state.homeNumber}');
+      infoParts.add(
+        context.tr(LocaleKeys.home_number, args: [state.homeNumber!]),
+      );
     }
 
     if (state.entrancePassword != null && state.entrancePassword!.isNotEmpty) {
-      infoParts.add('Kirish kodi: ${state.entrancePassword}');
+      infoParts.add(
+        context.tr(LocaleKeys.entrance_code, args: [state.entrancePassword!]),
+      );
     }
-
     return infoParts.join(' | ');
   }
 }

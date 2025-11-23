@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
+import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/datasources/database/address_db.dart';
 import 'package:commerce_mobile/data/models/address_model.dart';
 import 'package:commerce_mobile/data/models/adress_location_image_model.dart';
@@ -11,6 +12,7 @@ import 'package:commerce_mobile/data/models/cart_model.dart';
 import 'package:commerce_mobile/data/models/place_search_model.dart';
 import 'package:commerce_mobile/data/repositories/address_repository_impl.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
+import 'package:easy_localization/easy_localization.dart' as context;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:uuid/uuid.dart';
@@ -41,7 +43,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
 
       if (result.isRight()) {
         final locationData = result.getOrElse(
-          () => throw Exception("Unexpected error"),
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
         );
         formzStatus = FormzSubmissionStatus.success;
         emit(
@@ -68,14 +70,14 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       final result = await _repository.getCurrentLocation();
       if (result.isRight()) {
         final position = result.getOrElse(
-          () => throw Exception("Unexpected error"),
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
         );
         final currentLocation = LatLng(position.latitude, position.longitude);
         final addressResult = await _repository.reverseGeocode(currentLocation);
 
         if (addressResult.isRight()) {
           final locationData = addressResult.getOrElse(
-            () => throw Exception("Unexpected error"),
+            () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
           );
           formzStatus = FormzSubmissionStatus.success;
           emit(
@@ -83,9 +85,9 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
               formzStatus: formzStatus,
               selectedLocation: currentLocation,
               address: locationData['fullAddress'],
-              city: locationData['city'], // ✅
-              region: locationData['region'], // ✅
-              street: locationData['street'], // ✅
+              city: locationData['city'],
+              region: locationData['region'],
+              street: locationData['street'],
               isGettingLocation: false,
               isAddressValid:
                   (locationData['fullAddress'] as String).isNotEmpty,
@@ -299,11 +301,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     final address = await AddressDB.fetchAddress();
     add(AddressPhoneNumberChanged("+${user?.phone ?? ""}"));
     if (address != null) {
-      print('[][][]');
-      print('Address loaded: ${address.address}');
-      print('City: ${address.city}');
-      print('Region: ${address.region}');
-      print('Street: ${address.street}');
       if (address.address != null && address.address!.isNotEmpty) {
         add(AddressChanged(address.address!));
       }
@@ -319,6 +316,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       }
       if (address.latitute != null && address.longitude != null) {
         final location = LatLng(address.latitute!, address.longitude!);
+        // ignore: invalid_use_of_visible_for_testing_member
         emit(
           state.copyWith(
             selectedLocation: location,

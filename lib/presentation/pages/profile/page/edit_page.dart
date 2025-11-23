@@ -15,7 +15,6 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditPageState extends State<EditPage> {
-  final _nameController = TextEditingController();
   final _addressController = TextEditingController();
 
   @override
@@ -29,7 +28,8 @@ class _EditPageState extends State<EditPage> {
             children: [
               SizedBox(height: 16),
               CustomAvatarCard(
-                imageUrl: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
+                imageUrl:
+                    "https://images.unsplash.com/photo-1633332755192-727a05c4013d?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
                 onChange: (value) {},
               ),
 
@@ -74,7 +74,7 @@ class _EditPageState extends State<EditPage> {
           top: 8,
           left: 16,
           right: 16,
-          bottom: MediaQuery.viewPaddingOf(context).bottom + 8
+          bottom: MediaQuery.viewPaddingOf(context).bottom + 8,
         ),
         child: CustomElevatedButton(
           onTap: () {},
