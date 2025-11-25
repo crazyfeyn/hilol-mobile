@@ -183,7 +183,7 @@
   "all_orders": "Barchasi",
   "current_order_empty": "Bu yerda yangi buyurtmalaringiz ko'rinadi",
   "all_order_empty": "Bu yerda barcha buyurtmalar ko'rsatiladi",
-  "order_number": "Buyurtma #{} raqam",
+  "order_number": "Buyurtma #{}",
   "receiver_name": "Qabul qiluvchi",
   "lockdown": "Bloklash",
   "show_product": "Mahsulotlarni ko'rish",
