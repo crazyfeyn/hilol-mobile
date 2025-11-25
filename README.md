@@ -20,3 +20,4 @@ dart run easy_localization:generate -S "assets/translations" -O "lib/core/utils"
 
 BLOC GENERATE DART CODE
 flutter pub run build_runner build --delete-conflicting-outputs
+//master branch
