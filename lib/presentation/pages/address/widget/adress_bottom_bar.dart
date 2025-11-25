@@ -110,7 +110,7 @@ class AddressBottomBar extends StatelessWidget {
               .map(
                 (cart) => OrderProductRequest(
                   productId: cart.id ?? 0,
-                  amount: cart.amount ?? 0,
+                  amount: cart.count ?? 0,
                 ),
               )
               .toList();

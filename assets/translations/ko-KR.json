@@ -183,7 +183,7 @@
   "all_orders": "전체",
   "current_order_empty": "새로운 주문이 여기에 표시됩니다",
   "all_order_empty": "모든 주문이 여기에 표시됩니다",
-  "order_number": "주문 번호 {}",
+  "order_number": "주문 번호 #{}",
   "receiver_name": "수령인",
   "lockdown": "잠금",
   "show_product": "상품 보기",

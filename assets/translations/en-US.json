@@ -183,7 +183,7 @@
   "all_orders": "All",
   "current_order_empty": "Your new orders will appear here",
   "all_order_empty": "All orders will be displayed here",
-  "order_number": "Order #{number}",
+  "order_number": "Order #{}",
   "receiver_name": "Receiver",
   "lockdown": "Lockdown",
   "show_product": "Show Products",
