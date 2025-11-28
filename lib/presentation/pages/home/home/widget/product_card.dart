@@ -9,31 +9,43 @@ import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductModel product;
-
   const ProductCard({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
+    // Check if product has stock information
+    final hasStock = (product.amount ?? 0) > 0;
+    final stockCount = product.amount ?? 0;
+
     return Card(
       elevation: 0,
       margin: EdgeInsets.zero,
       color: AppColors.white100,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       child: InkWell(
-        onTap: () {
-          final extra = { "product": product, "add": false };
-          NavigationService.push(context, ProductDetailsPage.path, extra: extra);
-        },
+        onTap:
+            hasStock
+                ? () {
+                  final extra = {"product": product, "add": false};
+                  NavigationService.push(
+                    context,
+                    ProductDetailsPage.path,
+                    extra: extra,
+                  );
+                }
+                : null,
         borderRadius: BorderRadius.circular(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: ImageCarousel(urls: product.images ?? []),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: ImageCarousel(urls: product.images ?? []),
+                  ),
+                ],
               ),
             ),
             Padding(
@@ -42,27 +54,81 @@ class ProductCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 8,
                 children: [
-                  Text(product.title ?? "", style: AppStyles.titleSMSemibold),
+                  Text(
+                    product.title ?? "",
+                    style: AppStyles.titleSMSemibold.copyWith(
+                      color: hasStock ? null : AppColors.black300,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  // Stock quantity indicator
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.inventory_2_outlined,
+                        size: 14,
+                        color:
+                            hasStock ? AppColors.success : AppColors.error600,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        hasStock ? '$stockCount in stock' : 'Unavailable',
+                        style: AppStyles.labelMDRegular.copyWith(
+                          color:
+                              hasStock ? AppColors.success : AppColors.error600,
+                        ),
+                      ),
+                    ],
+                  ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
                         child: Text(
-                          product.price?.formatPrice(product.currency ?? "") ?? "",
+                          product.price?.formatPrice(product.currency ?? "") ??
+                              "",
                           style: AppStyles.titleXSSemibold.copyWith(
-                            color: AppColors.primary700,
+                            color:
+                                hasStock
+                                    ? AppColors.primary700
+                                    : AppColors.black300,
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          final extra = { "product": product, "add": true };
-                          NavigationService.push(context, ProductDetailsPage.path, extra: extra);
-                        },
-                        child: CircleAvatar(
-                          radius: 14,
-                          backgroundColor: AppColors.primary600,
-                          child: Icon(Icons.add, color: AppColors.white50),
+                      Opacity(
+                        opacity: hasStock ? 1.0 : 0.5,
+                        child: GestureDetector(
+                          onTap:
+                              hasStock
+                                  ? () {
+                                    final extra = {
+                                      "product": product,
+                                      "add": true,
+                                    };
+                                    NavigationService.push(
+                                      context,
+                                      ProductDetailsPage.path,
+                                      extra: extra,
+                                    );
+                                  }
+                                  : null,
+                          child: Container(
+                            width: 28,
+                            height: 28,
+                            decoration: BoxDecoration(
+                              color:
+                                  hasStock
+                                      ? AppColors.primary600
+                                      : AppColors.black200,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.add,
+                              color: AppColors.white50,
+                              size: 18,
+                            ),
+                          ),
                         ),
                       ),
                     ],

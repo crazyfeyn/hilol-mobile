@@ -236,5 +236,6 @@
   "delivery_information": "Delivery Information",
   "delivery_information_detail": "Orders are shipped within 3–5 business days. Tracking info will be provided via email or SMS.",
   "cancel": "Cancel",
-  "loading_map": "Loading map..."
+  "loading_map": "Loading map...",
+   "unavailable": "Unavailable"
 }

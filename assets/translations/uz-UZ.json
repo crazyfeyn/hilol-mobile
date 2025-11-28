@@ -236,5 +236,6 @@
   "delivery_information": "Yetkazib berish haqida ma'lumot",
   "delivery_information_detail": "Buyurtmalar 3-5 ish kuni ichida yetkazib beriladi. Kuzatuv ma'lumotlari email yoki SMS orqali taqdim etiladi.",
   "cancel": "Bekor qilish",
-  "loading_map": "Xarita yuklanmoqda..."
+  "loading_map": "Xarita yuklanmoqda...",
+   "unavailable": "Mavjud emas"
 }

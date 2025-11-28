@@ -30,11 +30,13 @@ class MyOrderView extends StatefulWidget {
 }
 
 class _MyOrderViewState extends State<MyOrderView> with RouteAware {
-
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    NavigationService.routeObserver.subscribe(this, ModalRoute.of(context)! as PageRoute);
+    NavigationService.routeObserver.subscribe(
+      this,
+      ModalRoute.of(context)! as PageRoute,
+    );
   }
 
   @override
