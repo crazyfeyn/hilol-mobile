@@ -1,5 +1,4 @@
 import 'package:commerce_mobile/core/extension/extensions.dart';
-import 'package:commerce_mobile/core/services/launcher_service.dart';
 import 'package:commerce_mobile/core/utils/app_constants.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
@@ -36,8 +35,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       } else {
         formzStatus = FormzSubmissionStatus.canceled;
       }
-      emit(state.copyWith(formzStatus: formzStatus));
-      if(checkoutUrl != null) LauncherService.launcherApplication(checkoutUrl);
+      emit(state.copyWith(formzStatus: formzStatus, paymentUrl: checkoutUrl));
+      // if(checkoutUrl != null) LauncherService.launcherApplication(checkoutUrl);
     });
   }
 
