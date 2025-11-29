@@ -6,6 +6,7 @@ import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/presentation/pages/my_order/page/my_order_page.dart';
 import 'package:commerce_mobile/presentation/pages/payment/bloc/payment_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/payment/widget/toss_pay_bottom-sheet.dart';
 import 'package:commerce_mobile/presentation/pages/profile/page/profile_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -61,7 +62,21 @@ class _PaymentViewState extends State<PaymentView> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PaymentBloc, PaymentState>(
+    return BlocConsumer<PaymentBloc, PaymentState>(
+      listener: (context, state) {
+        if(state.formzStatus.isSuccess && state.paymentUrl != null) {
+          TossPayBottomSheet.bottomSheet(
+            context: context,
+            paymentUrl: state.paymentUrl!,
+            onConfirm: () {
+              if(mounted) {
+                NavigationService.go(context, "${ProfilePage.path}${MyOrderPage.path}");
+              }
+            },
+          );
+        }
+      },
+
       builder: (context, state) {
         final bloc = context.read<PaymentBloc>();
 
