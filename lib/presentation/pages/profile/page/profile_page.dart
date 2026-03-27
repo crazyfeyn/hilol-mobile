@@ -256,177 +256,184 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildPolicySection(String title, String content) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: AppStyles.labelLGSemibold.copyWith(color: AppColors.black950),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          content,
-          style: AppStyles.bodySMRegular.copyWith(color: AppColors.black600),
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileBloc, ProfileState>(
       listener: (context, state) {
-        if (state.logoutStatus.isSuccess || state.deleteStatus.isSuccess) {
+        // Handle logout success
+        if (state.logoutStatus.isSuccess) {
           NavigationService.go(context, SignInPage.path);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(context.tr(LocaleKeys.logout_success)),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+
+        // Handle delete success
+        if (state.deleteStatus.isSuccess) {
+          NavigationService.go(context, SignInPage.path);
+        }
+
+        // Handle delete failure
+        if (state.deleteStatus.isFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(context.tr(LocaleKeys.failed_to_delete_account)),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+
+        // Handle logout failure
+        if (state.logoutStatus.isFailure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(context.tr(LocaleKeys.failed_to_logout)),
+              backgroundColor: Colors.red,
+            ),
+          );
         }
       },
       builder: (context, state) {
         final bloc = context.read<ProfileBloc>();
-        return Scaffold(
-          body: SingleChildScrollView(
-            padding: EdgeInsets.only(
-              left: 16,
-              right: 16,
-              bottom: 32,
-              top: MediaQuery.viewPaddingOf(context).top + 32,
-            ),
-            child: Center(
-              child: Column(
-                children: [
-                  // Show loading indicator while fetching user data
-                  if (state.formzStatus.isInProgress && state.user == null)
-                    const CircularProgressIndicator()
-                  else ...[
-                    CustomAvatarCard(imageUrl: state.user?.imageUrl ?? ""),
-                    const SizedBox(height: 8),
-                    Text(
-                      "${state.user?.firstname ?? ""} ${state.user?.lastname ?? ""}",
-                      style: AppStyles.titleXLSemibold,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      state.user?.phone != null ? "+${state.user?.phone}" : "",
-                      textAlign: TextAlign.center,
-                      style: AppStyles.labelLGSemibold.copyWith(
-                        color: AppColors.black400,
-                      ),
-                    ),
-                  ],
 
-                  const SizedBox(height: 24),
-                  ProfileCard(
-                    icon: CupertinoIcons.bag,
-                    title: context.tr(LocaleKeys.my_orders),
-                    onTap:
-                        () => NavigationService.push(context, MyOrderPage.path),
-                  ),
-
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    onTap:
-                        () => LanguageBottomSheet.showBottomSheet(
-                          context: context,
-                        ),
-                    flag: LangService.langIcon(context.locale.languageCode),
-                    icon: CupertinoIcons.globe,
-                    title: context.tr(LocaleKeys.change_language),
-                  ),
-                  // const SizedBox(height: 16),
-                  // ProfileCard(
-                  //   onTap:
-                  //       () => LauncherService.launcherApplication(
-                  //         AppConstants.support,
-                  //       ),
-                  //   icon: CupertinoIcons.bubble_left_bubble_right,
-                  //   title: context.tr(LocaleKeys.support),
-                  // ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    onTap: () {
-                      if (Platform.isIOS) {
-                        ShareService.shareUri(context, AppConstants.appStore);
-                      } else {
-                        ShareService.shareUri(context, AppConstants.playStore);
-                      }
-                    },
-                    icon: CupertinoIcons.share,
-                    title: context.tr(LocaleKeys.share_app),
-                  ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    icon: CupertinoIcons.building_2_fill,
-                    title: context.tr(LocaleKeys.business_information),
-                    onTap: () {
-                      _showBusinessInfoDialog(context);
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    icon: CupertinoIcons.arrow_clockwise,
-                    title: context.tr(LocaleKeys.refund_and_exchange_policy),
-                    onTap: () {
-                      _showRefundPolicyDialog(context);
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    icon: CupertinoIcons.cube_box,
-                    title: context.tr(LocaleKeys.delivery_policy),
-                    onTap: () {
-                      _showDeliveryPolicyDialog(context);
-                    },
-                  ),
-                  // const SizedBox(height: 16),
-                  // ProfileCard(
-                  //   onTap:
-                  //       () => LauncherService.launcherApplication(
-                  //         AppConstants.privacyPolice,
-                  //       ),
-                  //   icon: CupertinoIcons.exclamationmark_shield,
-                  //   title: context.tr(LocaleKeys.privacy_police),
-                  // ),
-                  // const SizedBox(height: 16),
-                  // ProfileCard(
-                  //   onTap:
-                  //       () => LauncherService.launcherApplication(
-                  //         AppConstants.termsOfServices,
-                  //       ),
-                  //   icon: CupertinoIcons.info,
-                  //   title: context.tr(LocaleKeys.terms_of_services),
-                  // ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    onTap: () {
-                      ProfileLogoutAndDelete.showDialog(
-                        context,
-                        isDelete: false,
-                        onTap: () => bloc.add(ProfileLogOut()),
-                      );
-                    },
-                    icon: CupertinoIcons.square_arrow_right,
-                    title: context.tr(LocaleKeys.logout_account),
-                  ),
-                  const SizedBox(height: 16),
-                  ProfileCard(
-                    onTap: () {
-                      ProfileLogoutAndDelete.showDialog(
-                        context,
-                        isDelete: true,
-                        onTap: () => bloc.add(ProfileDelete()),
-                      );
-                    },
-                    isLogout: true,
-                    icon: CupertinoIcons.delete,
-                    title: context.tr(LocaleKeys.delete_account),
-                  ),
-                ],
+        // Show loading overlay when delete is in progress
+        if (state.deleteStatus.isInProgress) {
+          return Stack(
+            children: [
+              _buildProfileContent(context, state, bloc),
+              Container(
+                color: Colors.black.withOpacity(0.5),
+                child: const Center(child: CircularProgressIndicator()),
               ),
-            ),
-          ),
-        );
+            ],
+          );
+        }
+
+        return _buildProfileContent(context, state, bloc);
       },
+    );
+  }
+
+  Widget _buildProfileContent(
+    BuildContext context,
+    ProfileState state,
+    ProfileBloc bloc,
+  ) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        padding: EdgeInsets.only(
+          left: 16,
+          right: 16,
+          bottom: 32,
+          top: MediaQuery.viewPaddingOf(context).top + 32,
+        ),
+        child: Center(
+          child: Column(
+            children: [
+              // Show loading indicator while fetching user data
+              if (state.formzStatus.isInProgress && state.user == null)
+                const CircularProgressIndicator()
+              else ...[
+                CustomAvatarCard(imageUrl: state.user?.imageUrl ?? ""),
+                const SizedBox(height: 8),
+                Text(
+                  "${state.user?.firstname ?? ""} ${state.user?.lastname ?? ""}",
+                  style: AppStyles.titleXLSemibold,
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  state.user?.phone != null ? "+${state.user?.phone}" : "",
+                  textAlign: TextAlign.center,
+                  style: AppStyles.labelLGSemibold.copyWith(
+                    color: AppColors.black400,
+                  ),
+                ),
+              ],
+
+              const SizedBox(height: 24),
+              ProfileCard(
+                icon: CupertinoIcons.bag,
+                title: context.tr(LocaleKeys.my_orders),
+                onTap: () => NavigationService.push(context, MyOrderPage.path),
+              ),
+
+              const SizedBox(height: 16),
+              ProfileCard(
+                onTap:
+                    () => LanguageBottomSheet.showBottomSheet(context: context),
+                flag: LangService.langIcon(context.locale.languageCode),
+                icon: CupertinoIcons.globe,
+                title: context.tr(LocaleKeys.change_language),
+              ),
+              const SizedBox(height: 16),
+              ProfileCard(
+                onTap: () {
+                  if (Platform.isIOS) {
+                    ShareService.shareUri(context, AppConstants.appStore);
+                  } else {
+                    ShareService.shareUri(context, AppConstants.playStore);
+                  }
+                },
+                icon: CupertinoIcons.share,
+                title: context.tr(LocaleKeys.share_app),
+              ),
+              const SizedBox(height: 16),
+              ProfileCard(
+                icon: CupertinoIcons.building_2_fill,
+                title: context.tr(LocaleKeys.business_information),
+                onTap: () {
+                  _showBusinessInfoDialog(context);
+                },
+              ),
+              const SizedBox(height: 16),
+              ProfileCard(
+                icon: CupertinoIcons.arrow_clockwise,
+                title: context.tr(LocaleKeys.refund_and_exchange_policy),
+                onTap: () {
+                  _showRefundPolicyDialog(context);
+                },
+              ),
+              const SizedBox(height: 16),
+              ProfileCard(
+                icon: CupertinoIcons.cube_box,
+                title: context.tr(LocaleKeys.delivery_policy),
+                onTap: () {
+                  _showDeliveryPolicyDialog(context);
+                },
+              ),
+              const SizedBox(height: 16),
+              ProfileCard(
+                onTap: () {
+                  ProfileLogoutAndDelete.showDialog(
+                    context,
+                    isDelete: false,
+                    onTap: () => bloc.add(ProfileLogOut()),
+                  );
+                },
+                icon: CupertinoIcons.square_arrow_right,
+                title: context.tr(LocaleKeys.logout_account),
+              ),
+              const SizedBox(height: 16),
+              ProfileCard(
+                onTap: () {
+                  ProfileLogoutAndDelete.showDialog(
+                    context,
+                    isDelete: true,
+                    onTap: () => bloc.add(ProfileDelete()),
+                  );
+                },
+                isLogout: true,
+                icon: CupertinoIcons.delete,
+                title: context.tr(LocaleKeys.delete_account),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

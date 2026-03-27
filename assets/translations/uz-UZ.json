@@ -237,5 +237,9 @@
   "delivery_information_detail": "Buyurtmalar 3-5 ish kuni ichida yetkazib beriladi. Kuzatuv ma'lumotlari email yoki SMS orqali taqdim etiladi.",
   "cancel": "Bekor qilish",
   "loading_map": "Xarita yuklanmoqda...",
-   "unavailable": "Mavjud emas"
+  "unavailable": "Mavjud emas",
+  "logout_success": "Tizimdan muvaffaqiyatli chiqildi",
+  "account_deleted_successfully": "Hisob muvaffaqiyatli o'chirildi",
+  "failed_to_delete_account": "Hisobni o'chirib bo'lmadi",
+  "failed_to_logout": "Tizimdan chiqib bo'lmadi"
 }

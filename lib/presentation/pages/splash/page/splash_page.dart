@@ -22,7 +22,6 @@ class SplashPage extends StatelessWidget {
   }
 }
 
-
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
 
@@ -53,8 +52,8 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) {
-        if(state.formzStatus.isSuccess) {
-          if(DBService.isLoggedIn()) {
+        if (state.formzStatus.isSuccess) {
+          if (DBService.isLoggedIn()) {
             NavigationService.go(context, HomePage.path);
           } else {
             NavigationService.go(context, SignInPage.path);

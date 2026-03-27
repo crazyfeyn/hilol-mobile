@@ -41,8 +41,16 @@ class UserRepositoryImpl extends UserRepository {
       final api = NetworkService.apiUserUploadImage;
       final cancelToken = cancelTokenManager.getToken(api);
       String fileName = path.split('/').last;
-      final image = await MultipartFile.fromFile(path, filename: fileName, contentType: DioMediaType("image", "png"));
-      final response = await NetworkService.post(api, cancelToken, NetworkService.paramsUserUploadImage(image));
+      final image = await MultipartFile.fromFile(
+        path,
+        filename: fileName,
+        contentType: DioMediaType("image", "png"),
+      );
+      final response = await NetworkService.post(
+        api,
+        cancelToken,
+        NetworkService.paramsUserUploadImage(image),
+      );
       final result = response["success"];
       return Right(result);
     } on NetworkException catch (e) {
@@ -56,11 +64,18 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   @override
-  Future<Either<String, bool>> updateUserInfo(String firstname, String lastname) async {
+  Future<Either<String, bool>> updateUserInfo(
+    String firstname,
+    String lastname,
+  ) async {
     try {
       final api = NetworkService.apiUserUpdateUserInfo;
       final cancelToken = cancelTokenManager.getToken(api);
-      final response = await NetworkService.put(api, cancelToken, NetworkService.paramsUserInfo(firstname, lastname));
+      final response = await NetworkService.put(
+        api,
+        cancelToken,
+        NetworkService.paramsUserInfo(firstname, lastname),
+      );
       final result = response["success"];
       return Right(result);
     } on NetworkException catch (e) {

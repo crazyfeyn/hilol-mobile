@@ -237,5 +237,9 @@
   "delivery_information_detail": "Orders are shipped within 3–5 business days. Tracking info will be provided via email or SMS.",
   "cancel": "Cancel",
   "loading_map": "Loading map...",
-   "unavailable": "Unavailable"
+  "unavailable": "Unavailable",
+  "logout_success": "Logged out successfully",
+  "account_deleted_successfully": "Account deleted successfully",
+  "failed_to_delete_account": "Failed to delete account",
+  "failed_to_logout": "Failed to logout"
 }

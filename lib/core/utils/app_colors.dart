@@ -28,7 +28,7 @@ class AppColors {
   static const Color white950 = Color(0xFF292929);
 
   /// Primary colors (Blue)
-  static const Color primary50  = Color(0xFFF2F0FE);
+  static const Color primary50 = Color(0xFFF2F0FE);
   static const Color primary100 = Color(0xFFE0DBFD);
   static const Color primary200 = Color(0xFFC1B7FB);
   static const Color primary300 = Color(0xFFA393F8);
@@ -39,7 +39,6 @@ class AppColors {
   static const Color primary800 = Color(0xFF453891);
   static const Color primary900 = Color(0xFF322A6D);
   static const Color primary950 = Color(0xFF221C4A);
-
 
   ///Red colors
   static const Color error600 = Color(0xFFD92D20);
@@ -66,7 +65,7 @@ class AppColors {
       }
 
       return Color(int.parse(hexColor, radix: 16));
-    } catch(_) {
+    } catch (_) {
       return primary500;
     }
   }

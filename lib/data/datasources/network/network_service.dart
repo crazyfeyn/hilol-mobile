@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:commerce_mobile/config/router/navigation_service.dart';
+// import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/services/environment_service.dart';
 import 'package:commerce_mobile/core/services/lang_service.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
@@ -8,13 +8,13 @@ import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization/easy_localization.dart' as context;
-import 'package:flutter_alice/alice.dart';
+// import 'package:flutter_alice/alice.dart';
 import 'package:uuid/uuid.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 // Create Alice with the navigator key
-final _alice = Alice(navigatorKey: NavigationService.navigatorKey);
+// final _alice = Alice(navigatorKey: NavigationService.navigatorKey);
 
 class NetworkService {
   static bool isTester = true;
@@ -41,9 +41,8 @@ class NetworkService {
   static Dio get _dio {
     final dio = Dio(BaseOptions(baseUrl: getService, headers: getHeaders))
       ..interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
-    return dio
-      ..interceptors.add(NetworkInterceptor(dio))
-      ..interceptors.add(_alice.getDioInterceptor());
+    return dio..interceptors.add(NetworkInterceptor(dio));
+    // ..interceptors.add(_alice.getDioInterceptor());
   }
 
   /* Http Requests */
@@ -305,7 +304,7 @@ class NetworkService {
   static final String apiGetUser = "/api/v1/user";
   static final String apiUserUploadImage = "/api/v1/user/upload/image";
   static final String apiUserUpdateUserInfo = "/api/v1/user/update/user-info";
-  static final String apiUserDeleteAccount = "/api/v1/delete/account";
+  static final String apiUserDeleteAccount = "/api/v1/user/delete/account";
   static final String apiGetAllCategories = "/api/v1/product-category/all";
   static final String apiGetAllProducts = "/api/v1/product/get-all";
   static final String apiGetProductById = "/api/v1/product/get";
@@ -349,10 +348,13 @@ class NetworkService {
   }
 
   static Map<String, dynamic> paramsOrderConfirm(int id) {
-    return { "orderId": id };
+    return {"orderId": id};
   }
 
-  static Map<String, dynamic> paramsPaymentCreate(int id, String paymentMethod) {
-    return { "orderId": id, "paymentMethod": paymentMethod  };
+  static Map<String, dynamic> paramsPaymentCreate(
+    int id,
+    String paymentMethod,
+  ) {
+    return {"orderId": id, "paymentMethod": paymentMethod};
   }
 }
