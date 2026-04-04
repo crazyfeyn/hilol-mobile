@@ -14,7 +14,6 @@ extension NumExtention on num {
     return SizedBox(width: toDouble());
   }
 
-
   String formatPrice(String currency) {
     final isSymbol = RegExp(r'^[^\w]+$').hasMatch(currency);
 
@@ -38,11 +37,17 @@ extension NumExtention on num {
 }
 
 extension StringExtention on String {
-  bool get checkingOrderStatusConfirmed {
-    return !(["NEW", "WAITING"].contains(toUpperCase()));
+  //? Whether the order should show payment options (not terminal, not already paid)
+  bool get checkingOrderStatusPay {
+    return toUpperCase() == 'PROCESSING';
   }
 
-  bool get checkingOrderStatusPay {
-    return ["NEW", "WAITING", "CONFIRMED", "PAYMENT_CREATED", "PAYMENT_FAILED"].contains(toUpperCase());
+  bool get isCancellable {
+    return toUpperCase() == 'PROCESSING';
+  }
+
+  // For backward compatibility if needed
+  bool get checkingOrderStatusConfirmed {
+    return !['PROCESSING', 'UPDATED'].contains(toUpperCase());
   }
 }

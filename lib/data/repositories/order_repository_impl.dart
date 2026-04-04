@@ -9,7 +9,9 @@ import 'package:dartz/dartz.dart';
 class OrderRepositoryImpl extends OrderRepository {
   late final CancelTokenManager _cancelTokenManager;
 
-  OrderRepositoryImpl() { _cancelTokenManager = CancelTokenManager(); }
+  OrderRepositoryImpl() {
+    _cancelTokenManager = CancelTokenManager();
+  }
 
   @override
   Future<Either<String, List<OrderData>>> fetchMyOrders() async {
@@ -18,10 +20,13 @@ class OrderRepositoryImpl extends OrderRepository {
       final cancelToken = _cancelTokenManager.getToken(api);
       final response = await NetworkService.get(api, cancelToken);
 
-      final result = response['data']['list'].map<OrderData>((e) => OrderData.fromJson(e)).toList();
+      final result =
+          response['data']['list']
+              .map<OrderData>((e) => OrderData.fromJson(e))
+              .toList();
       return Right(result);
-    } on NetworkException catch(e) {
-      if(e.type != NetworkExceptionType.cancelled) {
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {
         GlobalSnackBar.showError(e.message);
       }
       return Left(e.toString());
@@ -35,12 +40,16 @@ class OrderRepositoryImpl extends OrderRepository {
     try {
       final api = NetworkService.apiOrderFetchOrder;
       final cancelToken = _cancelTokenManager.getToken(api);
-      final response = await NetworkService.get(api, cancelToken, NetworkService.paramsOrder(id));
+      final response = await NetworkService.get(
+        api,
+        cancelToken,
+        NetworkService.paramsOrder(id),
+      );
 
       final result = OrderData.fromJson(response['data']);
       return Right(result);
-    } on NetworkException catch(e) {
-      if(e.type != NetworkExceptionType.cancelled) {
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {
         GlobalSnackBar.showError(e.message);
       }
       return Left(e.toString());
@@ -51,19 +60,44 @@ class OrderRepositoryImpl extends OrderRepository {
 
   @override
   Future<Either<String, bool>> cancelMyOrder(int id) async {
+    print('[cancelMyOrder] Called with id: $id');
     try {
       final api = NetworkService.apiOrderCancel;
-      final cancelToken = _cancelTokenManager.getToken(api);
-      final response = await NetworkService.put(api, cancelToken, {}, NetworkService.paramsOrderCancel(id));
+      print('[cancelMyOrder] API endpoint: $api');
 
-      final result = response["data"]['status'] == "CANCELLED";
+      final cancelToken = _cancelTokenManager.getToken(api);
+      print('[cancelMyOrder] Cancel token obtained: $cancelToken');
+
+      print('[cancelMyOrder] Sending PUT request...');
+      final response = await NetworkService.put(
+        api,
+        cancelToken,
+        {},
+        NetworkService.paramsOrderCancel(id),
+      );
+      print('[cancelMyOrder] Raw response: $response');
+
+      final status = response["data"]['status'];
+      print('[cancelMyOrder] Order status from response: $status');
+
+      final result = status == "CANCELLED";
+      print('[cancelMyOrder] Result (is cancelled): $result');
+
       return Right(result);
-    } on NetworkException catch(e) {
-      if(e.type != NetworkExceptionType.cancelled) {
+    } on NetworkException catch (e) {
+      print(
+        '[cancelMyOrder] NetworkException caught — type: ${e.type}, message: ${e.message}',
+      );
+      if (e.type != NetworkExceptionType.cancelled) {
+        print('[cancelMyOrder] Showing error snackbar...');
         GlobalSnackBar.showError(e.message);
+      } else {
+        print('[cancelMyOrder] Request was cancelled, skipping snackbar');
       }
       return Left(e.toString());
     } catch (e) {
+      print('[cancelMyOrder] Unexpected error caught: $e');
+      print('[cancelMyOrder] Error type: ${e.runtimeType}');
       return Left(e.toString());
     }
   }

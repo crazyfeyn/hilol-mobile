@@ -1,5 +1,5 @@
 import 'package:commerce_mobile/core/utils/app_enums.dart';
-import 'package:commerce_mobile/data/repositories/payment_method_model.dart';
+import 'package:commerce_mobile/data/models/payment_method_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class AppConstants {
@@ -11,7 +11,8 @@ class AppConstants {
   static const String baseUrl = 'http://131.153.18.44:8080/api/v1/client/';
 
   // Toss Payments URLs
-  static const String tossPaymentSuccessUrl = 'https://hilol-market.kr/pay/success';
+  static const String tossPaymentSuccessUrl =
+      'https://hilol-market.kr/pay/success';
   static const String tossPaymentFailUrl = 'https://hilol-market.kr/pay/fail';
 
   // App/Play store urls

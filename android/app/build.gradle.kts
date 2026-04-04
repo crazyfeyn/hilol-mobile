@@ -22,7 +22,7 @@ android {
         applicationId = "kr.hilolmarket.commerce_mobile"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 10
+        versionCode = 12
         versionName = flutter.versionName
     }
 
