@@ -46,8 +46,12 @@ extension StringExtention on String {
     return toUpperCase() == 'PROCESSING';
   }
 
-  // For backward compatibility if needed
+  /// True when [PUT /api/v1/order/confirm] is not needed before [POST /api/v1/payment/create].
+  /// `NEW` (and optional `WAITING`) must call confirm first; the old logic treated `NEW` as
+  /// confirmed because it was "not PROCESSING/UPDATED", which caused 400 Order must be confirmed.
   bool get checkingOrderStatusConfirmed {
-    return !['PROCESSING', 'UPDATED'].contains(toUpperCase());
+    final s = toUpperCase();
+    if (s == 'NEW' || s == 'WAITING') return false;
+    return true;
   }
 }

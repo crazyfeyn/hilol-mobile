@@ -78,9 +78,12 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Future<bool> _confirmOrder(OrderData order) async {
-    if (order.orderStatus.checkingOrderStatusConfirmed) {
+    // Only skip if order is already confirmed or beyond (e.g., PROCESSING, SHIPPED, DELIVERED)
+    // DO NOT skip for NEW or WAITING – those need confirmation.
+    final status = order.orderStatus;
+    if (status != 'NEW' && status != 'WAITING') {
       PaymentFlowLogger.log(
-        'confirmOrder skipped (order already past NEW/WAITING)',
+        'confirmOrder skipped (order already past NEW/WAITING) – status: $status',
       );
       return true;
     }

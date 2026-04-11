@@ -8,18 +8,25 @@ import 'package:dartz/dartz.dart';
 class PaymentRepositoryImpl extends PaymentRepository {
   late final CancelTokenManager _cancelTokenManager;
 
-  PaymentRepositoryImpl() { _cancelTokenManager = CancelTokenManager(); }
+  PaymentRepositoryImpl() {
+    _cancelTokenManager = CancelTokenManager();
+  }
 
   @override
   Future<Either<String, bool>> confirmOrder(int id) async {
     try {
       final api = NetworkService.apiOrderConfirm;
       final cancelToken = _cancelTokenManager.getToken(api);
-      final response = await NetworkService.put(api, cancelToken, null, NetworkService.paramsOrderConfirm(id));
+      final response = await NetworkService.put(
+        api,
+        cancelToken,
+        null,
+        NetworkService.paramsOrderConfirm(id),
+      );
       final result = response["success"];
       return Right(result);
-    } on NetworkException catch(e) {
-      if(e.type != NetworkExceptionType.cancelled) {
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {
         GlobalSnackBar.showError(e.message);
       }
       return Left(e.toString());
@@ -29,17 +36,22 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
-  Future<Either<String, String>> createPayment(int id, String paymentMethod) async {
+  Future<Either<String, String>> createPayment(
+    int id,
+    String paymentMethod,
+  ) async {
     try {
       final api = NetworkService.apiPaymentCreate;
       final cancelToken = _cancelTokenManager.getToken(api);
-      final response = await NetworkService.post(api, cancelToken, NetworkService.paramsPaymentCreate(id, paymentMethod));
+      final response = await NetworkService.post(
+        api,
+        cancelToken,
+        NetworkService.paramsPaymentCreate(id, paymentMethod),
+      );
       final result = response["data"]['checkoutUrl'];
       return Right(result);
-    } on NetworkException catch(e) {
-      if(e.type != NetworkExceptionType.cancelled) {
-        GlobalSnackBar.showError(e.message);
-      }
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {}
       return Left(e.toString());
     } catch (e) {
       return Left(e.toString());
