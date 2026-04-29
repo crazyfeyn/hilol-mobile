@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/services/lang_service.dart';
-import 'package:commerce_mobile/core/services/launcher_service.dart';
 import 'package:commerce_mobile/core/services/share_service.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_constants.dart';

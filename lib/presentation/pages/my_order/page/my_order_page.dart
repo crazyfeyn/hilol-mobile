@@ -1,5 +1,4 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
-import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_snackbar.dart';
@@ -59,7 +58,7 @@ class _MyOrderViewState extends State<MyOrderView> with RouteAware {
       listener: (context, state) {
         if (state.formzStatus == FormzSubmissionStatus.failure) {
           GlobalSnackBar.showError(
-            context.tr("LocaleKeys.error_loading_orders"),
+            context.tr(LocaleKeys.error_loading_orders),
           );
         }
       },

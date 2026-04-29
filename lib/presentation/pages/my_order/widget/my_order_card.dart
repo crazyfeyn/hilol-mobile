@@ -264,7 +264,7 @@ class _MyOrderCardState extends State<MyOrderCard> {
       case 'ERROR':
         return context.tr(LocaleKeys.payment_failed_status);
       case 'DELETED':
-        return "Deleted";
+        return context.tr(LocaleKeys.deleted_status);
       default:
         return context.tr(LocaleKeys.new_status);
     }

@@ -249,4 +249,6 @@ abstract class LocaleKeys {
   static const account_deleted_successfully = 'account_deleted_successfully';
   static const failed_to_delete_account = 'failed_to_delete_account';
   static const failed_to_logout = 'failed_to_logout';
+  static const error_loading_orders = 'error_loading_orders';
+  static const deleted_status = 'deleted_status';
 }

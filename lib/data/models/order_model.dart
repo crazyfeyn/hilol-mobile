@@ -149,6 +149,8 @@ class OrderResponse {
 
 class OrderData {
   final int orderId;
+  final double productTotalPrice;
+  final double deliveryFee;
   final double totalPrice;
   final String currency;
   final String orderStatus;
@@ -161,6 +163,8 @@ class OrderData {
 
   OrderData({
     required this.orderId,
+    required this.productTotalPrice,
+    required this.deliveryFee,
     required this.totalPrice,
     required this.currency,
     required this.orderStatus,
@@ -173,9 +177,16 @@ class OrderData {
   });
 
   factory OrderData.fromJson(Map<String, dynamic> json) {
+    final productTotalPrice = (json['productTotalPrice'] ?? 0).toDouble();
+    final deliveryFee = (json['deliveryFee'] ?? 0).toDouble();
+    final totalPrice =
+        (json['totalPrice'] ?? (productTotalPrice + deliveryFee)).toDouble();
+
     return OrderData(
       orderId: json['orderId'] ?? 0,
-      totalPrice: (json['totalPrice'] ?? 0).toDouble(),
+      productTotalPrice: productTotalPrice,
+      deliveryFee: deliveryFee,
+      totalPrice: totalPrice,
       currency: json['currency'] ?? '',
       orderStatus: json['orderStatus'] ?? 'NEW',
       imageIdentity: json['imageIdentity'] ?? '',
@@ -194,6 +205,8 @@ class OrderData {
   Map<String, dynamic> toJson() {
     return {
       'orderId': orderId,
+      'productTotalPrice': productTotalPrice,
+      'deliveryFee': deliveryFee,
       'totalPrice': totalPrice,
       'currency': currency,
       'orderStatus': orderStatus,
@@ -208,6 +221,8 @@ class OrderData {
 
   OrderData copyWith({
     int? orderId,
+    double? productTotalPrice,
+    double? deliveryFee,
     double? totalPrice,
     String? currency,
     String? orderStatus,
@@ -220,6 +235,8 @@ class OrderData {
   }) {
     return OrderData(
       orderId: orderId ?? this.orderId,
+      productTotalPrice: productTotalPrice ?? this.productTotalPrice,
+      deliveryFee: deliveryFee ?? this.deliveryFee,
       totalPrice: totalPrice ?? this.totalPrice,
       currency: currency ?? this.currency,
       orderStatus: orderStatus ?? this.orderStatus,

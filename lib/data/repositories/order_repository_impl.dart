@@ -60,44 +60,26 @@ class OrderRepositoryImpl extends OrderRepository {
 
   @override
   Future<Either<String, bool>> cancelMyOrder(int id) async {
-    print('[cancelMyOrder] Called with id: $id');
     try {
       final api = NetworkService.apiOrderCancel;
-      print('[cancelMyOrder] API endpoint: $api');
-
       final cancelToken = _cancelTokenManager.getToken(api);
-      print('[cancelMyOrder] Cancel token obtained: $cancelToken');
-
-      print('[cancelMyOrder] Sending PUT request...');
       final response = await NetworkService.put(
         api,
         cancelToken,
         {},
         NetworkService.paramsOrderCancel(id),
       );
-      print('[cancelMyOrder] Raw response: $response');
 
       final status = response["data"]['status'];
-      print('[cancelMyOrder] Order status from response: $status');
-
       final result = status == "CANCELLED";
-      print('[cancelMyOrder] Result (is cancelled): $result');
 
       return Right(result);
     } on NetworkException catch (e) {
-      print(
-        '[cancelMyOrder] NetworkException caught — type: ${e.type}, message: ${e.message}',
-      );
       if (e.type != NetworkExceptionType.cancelled) {
-        print('[cancelMyOrder] Showing error snackbar...');
         GlobalSnackBar.showError(e.message);
-      } else {
-        print('[cancelMyOrder] Request was cancelled, skipping snackbar');
       }
       return Left(e.toString());
     } catch (e) {
-      print('[cancelMyOrder] Unexpected error caught: $e');
-      print('[cancelMyOrder] Error type: ${e.runtimeType}');
       return Left(e.toString());
     }
   }

@@ -71,10 +71,10 @@ class CategorySectionCard extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: categories.length + 1,
         itemBuilder: (context, index) {
-          if(index == 0) {
+          if (index == 0) {
             return GestureDetector(
               onTap: () {
-                if(value == null) return;
+                if (value == null) return;
                 onChanged?.call(null);
               },
               child: Container(
@@ -102,7 +102,10 @@ class CategorySectionCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(height: 4),
-                    Container(height: 2, color: value == null ? AppColors.primary600 : null),
+                    Container(
+                      height: 2,
+                      color: value == null ? AppColors.primary600 : null,
+                    ),
                   ],
                 ),
               ),
@@ -113,7 +116,7 @@ class CategorySectionCard extends StatelessWidget {
           final isSelect = category.id == value;
           return GestureDetector(
             onTap: () {
-              if(isSelect) return;
+              if (isSelect) return;
               onChanged?.call(category.id);
             },
             child: Container(
@@ -128,7 +131,7 @@ class CategorySectionCard extends StatelessWidget {
                       width: 48,
                       height: 48,
                       fit: BoxFit.cover,
-                      identity: "",
+                      identity: category.imageIdentity ?? "",
                     ),
                   ),
                   Spacer(),
@@ -140,7 +143,10 @@ class CategorySectionCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4),
-                  Container(height: 2, color: isSelect ? AppColors.primary600 : null),
+                  Container(
+                    height: 2,
+                    color: isSelect ? AppColors.primary600 : null,
+                  ),
                 ],
               ),
             ),

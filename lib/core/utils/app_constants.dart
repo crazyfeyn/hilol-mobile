@@ -19,9 +19,12 @@ class AppConstants {
   static const String appStore =
       'https://play.google.com/store/apps/details?id=com.otashqassob&hl=en';
   static const String playStore =
-      'https://play.google.com/store/apps/details?id=com.otashqassob&hl=en';
+      'https://play.google.com/store/apps/details?id=kr.hilolMarket.mobile';
 
   static int confirmCodeSeconds = 120;
+
+  /// Fixed delivery fee in KRW (₩4,000).
+  static const double fixedDeliveryFeeKrw = 4000.0;
 
   // Support, Terms and privacy link
   static const String support =

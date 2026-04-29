@@ -3,8 +3,8 @@ import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/presentation/pages/address/bloc/address_bloc.dart';
-import 'package:commerce_mobile/presentation/pages/address/page/location_image.dart';
 import 'package:commerce_mobile/presentation/pages/order/bloc/order_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/payment/page/payment_page.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization/easy_localization.dart' as context;
@@ -46,7 +46,7 @@ class AddressBottomBar extends StatelessWidget {
 
             NavigationService.push(
               context,
-              LocationImagePage.path,
+              PaymentPage.path,
               extra: orderState.orderData!,
             );
           } else if (orderState.hasError) {

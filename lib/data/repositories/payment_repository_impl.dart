@@ -2,6 +2,7 @@ import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/data/datasources/network/cancel_token_manager.dart';
 import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:commerce_mobile/data/datasources/network/network_service.dart';
+import 'package:commerce_mobile/data/models/payment_model.dart';
 import 'package:commerce_mobile/domain/repositories/payment_repository.dart';
 import 'package:dartz/dartz.dart';
 
@@ -36,7 +37,7 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
-  Future<Either<String, String>> createPayment(
+  Future<Either<String, CreatePaymentData>> createPayment(
     int id,
     String paymentMethod,
   ) async {
@@ -48,7 +49,7 @@ class PaymentRepositoryImpl extends PaymentRepository {
         cancelToken,
         NetworkService.paramsPaymentCreate(id, paymentMethod),
       );
-      final result = response["data"]['checkoutUrl'];
+      final result = CreatePaymentData.fromJson(response["data"] ?? {});
       return Right(result);
     } on NetworkException catch (e) {
       if (e.type != NetworkExceptionType.cancelled) {}

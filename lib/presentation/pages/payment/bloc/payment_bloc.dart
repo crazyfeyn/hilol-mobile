@@ -58,11 +58,24 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       }
 
       if (paymentResult.isRight()) {
-        checkoutUrl = paymentResult.getOrElse(
+        final paymentData = paymentResult.getOrElse(
           () => throw Exception('Unexpected error'),
         );
+        checkoutUrl = paymentData.checkoutUrl;
+        emit(
+          state.copyWith(
+            order: state.order.copyWith(
+              productTotalPrice: paymentData.productTotalPrice,
+              deliveryFee: paymentData.deliveryFee,
+              totalPrice: paymentData.totalAmount,
+              currency: paymentData.currency,
+            ),
+          ),
+        );
         formzStatus = FormzSubmissionStatus.success;
-        PaymentFlowLogger.log('checkoutUrl ready; opening external browser');
+        PaymentFlowLogger.log(
+          'checkoutUrl ready; opening external browser with amount=${paymentData.totalAmount} ${paymentData.currency}',
+        );
       } else {
         formzStatus = FormzSubmissionStatus.failure;
         PaymentFlowLogger.log(

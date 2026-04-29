@@ -1,4 +1,5 @@
 import 'package:commerce_mobile/core/extension/extensions.dart';
+import 'package:commerce_mobile/core/utils/app_constants.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,8 @@ class TotalPriceCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final percentPrice = subtotal * percent;
-    final totalPrice = subtotal + percentPrice;
+    final deliveryFee = AppConstants.fixedDeliveryFeeKrw;
+    final totalPrice = subtotal + deliveryFee;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
@@ -43,7 +44,10 @@ class TotalPriceCart extends StatelessWidget {
           8.hs(),
           _buildSummaryRow(context.tr(LocaleKeys.subtotal), subtotal.formatPrice(currency ?? "")),
           8.hs(),
-          _buildSummaryRow(context.tr(LocaleKeys.delivery_charges), percentPrice.formatPrice(currency ?? "")),
+          _buildSummaryRow(
+            context.tr(LocaleKeys.delivery_charges),
+            deliveryFee.formatPrice(currency ?? ""),
+          ),
           16.hs(),
           Container(height: 1, color: Colors.grey[200]),
           16.hs(),

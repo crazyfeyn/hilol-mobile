@@ -276,9 +276,6 @@ class NetworkService {
       final response = await request.send();
       final responseString = await response.stream.bytesToString();
 
-      print('📥 Response Status: ${response.statusCode}');
-      print('📥 Response Body: $responseString');
-
       if (response.statusCode == 200) {
         return json.decode(responseString);
       } else {
