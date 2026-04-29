@@ -1,34 +1,34 @@
+import 'dart:io';
+
+import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/extension/extensions.dart';
-import 'package:commerce_mobile/core/services/environment_service.dart';
-import 'package:commerce_mobile/core/utils/app_snackbar.dart';
-import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/data/datasources/database/db_service.dart';
-import 'package:commerce_mobile/data/models/order_model.dart';
-import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:tosspayments_widget_sdk_flutter/model/payment_info.dart';
-import 'package:tosspayments_widget_sdk_flutter/model/payment_widget_options.dart';
-import 'package:tosspayments_widget_sdk_flutter/payment_widget.dart';
-import 'package:tosspayments_widget_sdk_flutter/widgets/agreement.dart';
-import 'package:tosspayments_widget_sdk_flutter/widgets/payment_method.dart';
+import 'package:tosspayments_widget_sdk_flutter/model/tosspayments_url.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class TossPayBottomSheet extends StatefulWidget {
-  final OrderData order;
+  final String paymentUrl;
   final VoidCallback? onConfirm;
 
-  const TossPayBottomSheet({super.key, required this.order, this.onConfirm});
+  const TossPayBottomSheet({
+    super.key,
+    required this.paymentUrl,
+    this.onConfirm,
+  });
 
   static Future<T?> bottomSheet<T>({
     required BuildContext context,
-    required OrderData order,
+    required String paymentUrl,
     VoidCallback? onConfirm,
   }) {
     return showModalBottomSheet<T>(
       context: context,
       isScrollControlled: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       builder: (_) {
-        return TossPayBottomSheet(order: order, onConfirm: onConfirm);
+        return TossPayBottomSheet(paymentUrl: paymentUrl, onConfirm: onConfirm);
       },
     );
   }
@@ -37,78 +37,120 @@ class TossPayBottomSheet extends StatefulWidget {
   State<TossPayBottomSheet> createState() => _TossPayBottomSheetState();
 }
 
-class _TossPayBottomSheetState extends State<TossPayBottomSheet> {
-  late PaymentWidget _paymentWidget;
+class _TossPayBottomSheetState extends State<TossPayBottomSheet> with WidgetsBindingObserver {
+  late final WebViewController controller;
+  bool isLoading = true;
+
+  Future<bool> _handleOverrideUrl(String requestedUrl) async {
+    final convertUrl = ConvertUrl(requestedUrl);
+
+    if (Platform.isAndroid) {
+      convertUrl.launchApp();
+      return true;
+    }
+
+    final isHtml = requestedUrl.startsWith('data:text/html');
+    final isNetworkUrl = convertUrl.appScheme == 'http' || convertUrl.appScheme == 'https';
+    final isIntent = convertUrl.appScheme == 'intent';
+
+    if (isHtml || isIntent) {
+      return false;
+    } else if (isNetworkUrl) {
+      if (Uri.parse(requestedUrl).host.startsWith('payment-widget')) {
+        // NOTE (@JooYang): 결제위젯 제품의 /popup-bridge 에서 열리는 무이자할부 페이지는 웹뷰 내부에서 이동하지 않고 외부 앱에서 엽니다.
+        // @see {https://www.notion.so/tossteam/iOS-15aa360d33e38011ace8f6bea15c5ccf?pvs=4}
+        if (Uri.parse(requestedUrl).path == '/popup-bridge') {
+          await convertUrl.launchApp();
+          return true;
+        }
+
+        return false;
+      } else if (isIntent) {
+        await convertUrl.launchApp();
+      } else {
+        await convertUrl.launchApp();
+      }
+    }
+
+    return true;
+  }
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print(Uri.parse(widget.paymentUrl).host);
+      controller =
+          WebViewController()
+            ..setJavaScriptMode(JavaScriptMode.unrestricted)
+            ..enableZoom(false)
+            ..addJavaScriptChannel(
+              'CloseWebViewChannel',
+              onMessageReceived: (JavaScriptMessage message) {},
+            )
+            ..setNavigationDelegate(
+              NavigationDelegate(
+                onProgress: (int progress) {
+                  if (progress == 100) {
+                    isLoading = false;
+                    if (mounted) setState(() {});
+                  }
+                },
+                onNavigationRequest: (NavigationRequest request) async {
+                  final requestWebUri = request.url;
+
+                  if(request.url.contains("PAY_PROCESS_CANCELED")) {
+                    NavigationService.pop(context);
+
+                    return NavigationDecision.navigate;
+                  }
+
+                  // NOTE(@JooYang): 반드시 rawValue 를 사용해야 한다 @see https://www.notion.so/tossteam/SDK-v3Mobile-12ea360d33e380d8b6a9e17138fc65ce?pvs=4
+                  var handled = await _handleOverrideUrl(requestWebUri);
+                  if (handled) {
+                    return NavigationDecision.prevent;
+                  } else {
+                    return NavigationDecision.navigate;
+                  }
+                },
+              ),
+            )
+            ..loadRequest(Uri.parse(widget.paymentUrl));
+    });
     super.initState();
-    _paymentWidget = PaymentWidget(
-      clientKey: EnvironmentService.clientKey,
-      customerKey: DBService.getUserData()!.id.toString(),
-    );
+  }
 
-    _paymentWidget.renderPaymentMethods(
-      selector: 'methods',
-      amount: Amount(
-        value: widget.order.totalPrice,
-        currency: Currency.KRW,
-        country: "KR",
-      ),
-      options: RenderPaymentMethodsOptions(variantKey: "DEFAULT"),
-    );
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed && mounted) {
+      NavigationService.pop(context);
+      widget.onConfirm?.call();
+    }
+    super.didChangeAppLifecycleState(state);
+  }
 
-    _paymentWidget.renderAgreement(selector: 'agreement');
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 0.8.sh(context),
-      child: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  PaymentMethodWidget(
-                    paymentWidget: _paymentWidget,
-                    selector: 'methods',
+      alignment: Alignment.center,
+      child:
+          isLoading
+              ? Center(child: CircularProgressIndicator())
+              : WebViewWidget(
+                controller: controller,
+                gestureRecognizers: {
+                  Factory<VerticalDragGestureRecognizer>(
+                    () => VerticalDragGestureRecognizer(),
                   ),
-                  AgreementWidget(
-                    paymentWidget: _paymentWidget,
-                    selector: 'agreement',
-                  ),
-                ],
+                },
               ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: 8,
-              left: 16,
-              right: 16,
-              bottom: MediaQuery.viewPaddingOf(context).bottom + 8,
-            ),
-            child: CustomElevatedButton(
-              onTap: () async {
-                final id = "Hilol${widget.order.orderId}";
-                final name = "${widget.order.orderId}-hilol";
-                final paymentInfo = PaymentInfo(orderId: id, orderName: name);
-                final paymentResult = await _paymentWidget.requestPayment(
-                  paymentInfo: paymentInfo,
-                );
-                if (paymentResult.success != null) {
-                  widget.onConfirm?.call();
-                } else if (paymentResult.fail != null) {
-                  GlobalSnackBar.showError(paymentResult.fail!.errorMessage);
-                }
-              },
-              title: context.tr(LocaleKeys.payment_btn),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
