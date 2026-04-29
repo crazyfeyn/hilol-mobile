@@ -19,10 +19,10 @@ android {
     }
 
     defaultConfig {
-        applicationId = "kr.hilolmarket.commerce_mobile"
+        applicationId = "kr.hilolMarket.mobile"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 10
+        versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 

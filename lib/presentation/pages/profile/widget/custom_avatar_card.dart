@@ -62,43 +62,64 @@ class CustomAvatarCard extends StatelessWidget {
           }
 
           return GestureDetector(
-            onTap: onChange != null ? () async {
-              final ImagePicker picker = ImagePicker();
-              final xFile = await picker.pickImage(source: ImageSource.gallery);
-              if(xFile != null) {
-                final croppedFile = await ImageCropper().cropImage(
-                    sourcePath: xFile.path,
-                    uiSettings: [
-                      AndroidUiSettings(lockAspectRatio: true, initAspectRatio: CropAspectRatioPreset.square, aspectRatioPresets: [CropAspectRatioPreset.square]),
-                      IOSUiSettings(aspectRatioPresets: [CropAspectRatioPreset.square]),
-                    ]
-                );
-                if(croppedFile == null) return;
-                onChange?.call(croppedFile.path);
-              }
-            } : null,
+            onTap:
+                onChange != null
+                    ? () async {
+                      final ImagePicker picker = ImagePicker();
+                      final xFile = await picker.pickImage(
+                        source: ImageSource.gallery,
+                      );
+                      if (xFile != null) {
+                        final croppedFile = await ImageCropper().cropImage(
+                          sourcePath: xFile.path,
+                          uiSettings: [
+                            AndroidUiSettings(
+                              lockAspectRatio: true,
+                              initAspectRatio: CropAspectRatioPreset.square,
+                              aspectRatioPresets: [
+                                CropAspectRatioPreset.square,
+                              ],
+                            ),
+                            IOSUiSettings(
+                              aspectRatioPresets: [
+                                CropAspectRatioPreset.square,
+                              ],
+                            ),
+                          ],
+                        );
+                        if (croppedFile == null) return;
+                        onChange?.call(croppedFile.path);
+                      }
+                    }
+                    : null,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(height),
-              child: imageUrl != null ? CachedNetworkImage(
-                imageUrl: imageUrl ?? '',
-                height: height,
-                width: width,
-                imageBuilder: (context, imageProvider) {
-                  return Container(
-                    height: height,
-                    width: width,
-                    alignment: Alignment.bottomCenter,
-                    decoration: BoxDecoration(
-                      color: color,
-                      borderRadius: BorderRadius.circular(height),
-                      image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
-                    ),
-                    child: onChange != null ? editWidget() : null,
-                  );
-                },
-                placeholder: placeholder,
-                errorWidget: errorWidget,
-              ) : errorWidget(context, '', null),
+              child:
+                  imageUrl != null
+                      ? CachedNetworkImage(
+                        imageUrl: imageUrl ?? '',
+                        height: height,
+                        width: width,
+                        imageBuilder: (context, imageProvider) {
+                          return Container(
+                            height: height,
+                            width: width,
+                            alignment: Alignment.bottomCenter,
+                            decoration: BoxDecoration(
+                              color: color,
+                              borderRadius: BorderRadius.circular(height),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                            child: onChange != null ? editWidget() : null,
+                          );
+                        },
+                        placeholder: placeholder,
+                        errorWidget: errorWidget,
+                      )
+                      : errorWidget(context, '', null),
             ),
           );
         },
@@ -120,10 +141,7 @@ class CustomAvatarCard extends StatelessWidget {
         children: [
           CircularProgressIndicator(strokeWidth: 2),
           if (onChange != null)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: editWidget(),
-            ),
+            Align(alignment: Alignment.bottomCenter, child: editWidget()),
         ],
       ),
     );
@@ -141,12 +159,9 @@ class CustomAvatarCard extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Icon(CupertinoIcons.camera, size: size, color: Colors.white),
+          Icon(CupertinoIcons.person, size: size, color: Colors.white),
           if (onChange != null)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: editWidget(),
-            ),
+            Align(alignment: Alignment.bottomCenter, child: editWidget()),
         ],
       ),
     );

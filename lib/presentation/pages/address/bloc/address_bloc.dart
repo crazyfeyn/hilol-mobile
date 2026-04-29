@@ -330,8 +330,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         );
         add(AddressLocationSelected(location));
       }
-    } else {
-      print('No saved address found in database');
     }
   }
 }

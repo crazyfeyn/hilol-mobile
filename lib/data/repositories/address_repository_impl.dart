@@ -159,7 +159,6 @@ class AddressRepositoryImpl extends AddressRepository {
       );
 
       if (response.statusCode == 200) {
-        print(response.body);
         final data = json.decode(response.body);
         final documents = data['documents'] as List<dynamic>? ?? [];
 

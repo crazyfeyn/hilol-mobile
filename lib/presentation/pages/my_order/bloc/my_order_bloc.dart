@@ -1,4 +1,4 @@
-import 'package:commerce_mobile/core/extension/extensions.dart';
+// import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
 import 'package:commerce_mobile/data/repositories/order_repository_impl.dart';
@@ -14,41 +14,71 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
 
   MyOrderBloc() : super(const MyOrderState()) {
     on<MyOrderFetchData>((event, emit) async {
-      FormzSubmissionStatus formzStatus = FormzSubmissionStatus.inProgress;
-      emit(state.copyWith(formzStatus: formzStatus));
-
-      List<OrderData> allOrders = [];
-      final result = await _repository.fetchMyOrders();
-      if(result.isRight()) {
-        allOrders = result.getOrElse(() => throw Exception("Unexpected error"));
-        formzStatus = FormzSubmissionStatus.success;
-      } else {
-        formzStatus = FormzSubmissionStatus.failure;
-      }
-
-      emit(state.copyWith(allOrders: allOrders, newOrders: _fetchNewOrders(allOrders), formzStatus: formzStatus));
-    });
-
-    on<MyOrderCancel>((event, emit) async {
       emit(state.copyWith(formzStatus: FormzSubmissionStatus.inProgress));
 
-      final result = await _repository.cancelMyOrder(event.id);
-      if(result.isRight()) {
-        final res = result.getOrElse(() => throw Exception("Unexpected error"));
-        if(res) {
-          add(MyOrderFetchData());
-        } else {
-          emit(state.copyWith(formzStatus: FormzSubmissionStatus.canceled));
-        }
-      } else {
-        emit(state.copyWith(formzStatus: FormzSubmissionStatus.failure));
-      }
+      final result = await _repository.fetchMyOrders();
+      result.fold(
+        (failure) {
+          // Show error snackbar (handled in UI by listening to state)
+          emit(state.copyWith(formzStatus: FormzSubmissionStatus.failure));
+        },
+        (allOrders) {
+          emit(
+            state.copyWith(
+              allOrders: allOrders,
+              newOrders: _fetchCurrentOrders(allOrders),
+              formzStatus: FormzSubmissionStatus.success,
+            ),
+          );
+        },
+      );
     });
 
-    on<MyOrderDispose>((event, emit) => _repository.dispose());
+    on<MyOrderDispose>((event, emit) {
+      // Dispose only when bloc is closed, not on deactivate
+    });
+
+    //!
+    // on<MyOrderCancel>((event, emit) async {
+    //   final order = state.allOrders.firstWhere((e) => e.orderId == event.id);
+    //   if (!order.orderStatus.isCancellable) return;
+
+    //   emit(state.copyWith(formzStatus: FormzSubmissionStatus.inProgress));
+
+    //   final result = await _repository.cancelMyOrder(event.id);
+    //   if (result.isRight()) {
+    //     final res = result.getOrElse(() => throw Exception("Unexpected error"));
+    //     if (res) {
+    //       add(MyOrderFetchData());
+    //     } else {
+    //       emit(state.copyWith(formzStatus: FormzSubmissionStatus.canceled));
+    //     }
+    //   } else {
+    //     emit(state.copyWith(formzStatus: FormzSubmissionStatus.failure));
+    //   }
+    // });
+    // on<MyOrderDispose>((event, emit) => _repository.dispose());
   }
 
-  List<OrderData> _fetchNewOrders(List<OrderData> allOrders) {
-    return allOrders.where((e) => e.orderStatus.checkingOrderStatusPay).toList();
+  List<OrderData> _fetchCurrentOrders(List<OrderData> allOrders) {
+    // Orders that should NOT appear in "Current orders" tab
+    const excludedStatuses = [
+      'PAYMENT_FAILED', // failed – done
+      'PAYMENT_SUCCEEDED', // paid – done (if you want to move to all orders)
+      'CANCELLED',
+      'COMPLETED',
+      'DELIVERED',
+    ];
+    return allOrders
+        .where(
+          (order) =>
+              !excludedStatuses.contains(order.orderStatus.toUpperCase()),
+        )
+        .toList();
   }
+
+  //!
+  // List<OrderData> _fetchNewOrders(List<OrderData> allOrders) {
+  //   return allOrders.where((e) => e.orderStatus.isCancellable).toList();
+  // }
 }

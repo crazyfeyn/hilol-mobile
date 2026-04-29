@@ -13,9 +13,8 @@ import 'package:flutter/services.dart';
 
 class MyOrderCard extends StatefulWidget {
   final OrderData order;
-  final Function(int)? onDelete;
 
-  const MyOrderCard({super.key, required this.order, this.onDelete});
+  const MyOrderCard({super.key, required this.order});
 
   @override
   State<MyOrderCard> createState() => _MyOrderCardState();
@@ -33,17 +32,23 @@ class _MyOrderCardState extends State<MyOrderCard> {
 
   @override
   void didUpdateWidget(covariant MyOrderCard oldWidget) {
-    order = widget.order;
-    if (mounted) setState(() {});
+    if (oldWidget.order != widget.order) {
+      order = widget.order;
+      if (mounted) setState(() {});
+    }
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   Widget build(BuildContext context) {
-    final isNew = order.orderStatus.checkingOrderStatusPay;
+    final bool shouldShowPaymentButton = _shouldShowPaymentButton(
+      order.orderStatus,
+    );
+    final bool isTerminalStatus = _isTerminalStatus(order.orderStatus);
+
     return Container(
       color: AppColors.white50,
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -72,8 +77,8 @@ class _MyOrderCardState extends State<MyOrderCard> {
                             context.tr(LocaleKeys.success_clipboard),
                           );
                         },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
                           child: Icon(
                             Icons.copy,
                             size: 16,
@@ -103,54 +108,28 @@ class _MyOrderCardState extends State<MyOrderCard> {
               ),
             ],
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           infoWidget(
             "${context.tr(LocaleKeys.phone_number)}:",
             order.receiverPhone,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           infoWidget(
             "${context.tr(LocaleKeys.receiver_name)}:",
             order.receiverName,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           infoWidget(
             "${context.tr(LocaleKeys.address_title)}:",
             order.receiverAddress,
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           infoWidget(
             "${context.tr(LocaleKeys.total_price)}:",
             order.totalPrice.toString(),
           ),
-          if (isNew) ...[
-            SizedBox(height: 32),
-            Align(
-              alignment: Alignment.centerRight,
-              child: GestureDetector(
-                onTap: () => widget.onDelete?.call(order.orderId),
-                child: RichText(
-                  text: TextSpan(
-                    style: AppStyles.titleXSMedium.copyWith(
-                      color: AppColors.primary600,
-                    ),
-                    children: [
-                      WidgetSpan(
-                        child: Icon(
-                          CupertinoIcons.delete,
-                          size: 16,
-                          color: AppColors.primary600,
-                        ),
-                      ),
-                      TextSpan(text: context.tr(LocaleKeys.cancel_order)),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-          SizedBox(height: 8),
-          Divider(),
+          const SizedBox(height: 32),
+          const Divider(),
           Column(
             spacing: 8,
             children: [
@@ -194,7 +173,7 @@ class _MyOrderCardState extends State<MyOrderCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  if (isNew)
+                  if (shouldShowPaymentButton)
                     GestureDetector(
                       onTap:
                           () => NavigationService.push(
@@ -203,7 +182,7 @@ class _MyOrderCardState extends State<MyOrderCard> {
                             extra: order,
                           ),
                       child: Container(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 8,
                         ),
@@ -252,28 +231,21 @@ class _MyOrderCardState extends State<MyOrderCard> {
     );
   }
 
+  // Map backend statuses from Swagger: DONE, ERROR, DELETED, PROCESSING, UPDATED, CANCELLED
   Color getStatusColor(String status) {
     switch (status.toUpperCase()) {
-      case 'NEW':
+      case 'PROCESSING':
         return Colors.orange;
-      case 'WAITING':
-        return Colors.amber;
-      case 'CONFIRMED':
+      case 'UPDATED':
         return Colors.blue;
+      case 'DONE':
+        return Colors.green;
       case 'CANCELLED':
         return Colors.red;
-      case 'PAYMENT_CREATED':
-        return Colors.indigo;
-      case 'PAYMENT_FAILED':
+      case 'ERROR':
         return Colors.redAccent;
-      case 'PAYMENT_PENDING':
-        return Colors.orangeAccent;
-      case 'PAYMENT_SUCCEEDED':
-        return Colors.green;
-      case 'DELIVERED':
-        return Colors.teal;
-      case 'COMPLETED':
-        return Colors.greenAccent;
+      case 'DELETED':
+        return Colors.grey;
       default:
         return Colors.grey;
     }
@@ -281,26 +253,30 @@ class _MyOrderCardState extends State<MyOrderCard> {
 
   String getStatusName(BuildContext context, String status) {
     switch (status.toUpperCase()) {
-      case 'NEW':
-        return context.tr(LocaleKeys.new_status);
-      case 'WAITING':
-        return context.tr(LocaleKeys.waiting_status);
-      case 'CONFIRMED':
+      case 'PROCESSING':
+        return context.tr(LocaleKeys.waiting_status); // or "Processing"
+      case 'UPDATED':
         return context.tr(LocaleKeys.confirmed_status);
+      case 'DONE':
+        return context.tr(LocaleKeys.completed_status);
       case 'CANCELLED':
         return context.tr(LocaleKeys.cancelled_status);
-      case 'PAYMENT_CREATED':
-        return context.tr(LocaleKeys.payment_created_status);
-      case 'PAYMENT_FAILED':
+      case 'ERROR':
         return context.tr(LocaleKeys.payment_failed_status);
-      case 'PAYMENT_PENDING':
-        return context.tr(LocaleKeys.payment_pending_status);
-      case 'PAYMENT_SUCCEEDED':
-        return context.tr(LocaleKeys.payment_succeeded_status);
-      case 'DELIVERED':
-        return context.tr(LocaleKeys.delivered_status);
+      case 'DELETED':
+        return context.tr(LocaleKeys.deleted_status);
       default:
-        return context.tr(LocaleKeys.completed_status);
+        return context.tr(LocaleKeys.new_status);
     }
+  }
+
+  bool _shouldShowPaymentButton(String status) {
+    // Only show payment button when the order is waiting for payment
+    return status.toUpperCase() == 'PAYMENT_CREATED';
+  }
+
+  bool _isTerminalStatus(String status) {
+    const terminal = ['DONE', 'CANCELLED', 'ERROR', 'DELETED'];
+    return terminal.contains(status.toUpperCase());
   }
 }

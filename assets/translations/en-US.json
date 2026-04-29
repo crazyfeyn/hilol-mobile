@@ -139,7 +139,7 @@
   "comment_hint": "Comment for courier",
   "order_btn": "Place Order",
   "payment_btn": "Make Payment",
-  "toss_bank": "Toss Bank",
+  "toss_bank": "Pay by card",
   "cash": "Cash",
   "soon": "Coming Soon",
   "map_tap_instruction": "Tap on the map to select delivery location\nor use current location button",
@@ -237,5 +237,11 @@
   "delivery_information_detail": "Orders are shipped within 3–5 business days. Tracking info will be provided via email or SMS.",
   "cancel": "Cancel",
   "loading_map": "Loading map...",
-   "unavailable": "Unavailable"
+  "unavailable": "Unavailable",
+  "logout_success": "Logged out successfully",
+  "account_deleted_successfully": "Account deleted successfully",
+  "failed_to_delete_account": "Failed to delete account",
+  "failed_to_logout": "Failed to logout",
+  "error_loading_orders": "Could not load orders. Please try again.",
+  "deleted_status": "Deleted"
 }

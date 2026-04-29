@@ -14,7 +14,6 @@ extension NumExtention on num {
     return SizedBox(width: toDouble());
   }
 
-
   String formatPrice(String currency) {
     final isSymbol = RegExp(r'^[^\w]+$').hasMatch(currency);
 
@@ -38,11 +37,21 @@ extension NumExtention on num {
 }
 
 extension StringExtention on String {
-  bool get checkingOrderStatusConfirmed {
-    return !(["NEW", "WAITING"].contains(toUpperCase()));
+  //? Whether the order should show payment options (not terminal, not already paid)
+  bool get checkingOrderStatusPay {
+    return toUpperCase() == 'PROCESSING';
   }
 
-  bool get checkingOrderStatusPay {
-    return ["NEW", "WAITING", "CONFIRMED", "PAYMENT_CREATED", "PAYMENT_FAILED"].contains(toUpperCase());
+  bool get isCancellable {
+    return toUpperCase() == 'PROCESSING';
+  }
+
+  /// True when [PUT /api/v1/order/confirm] is not needed before [POST /api/v1/payment/create].
+  /// `NEW` (and optional `WAITING`) must call confirm first; the old logic treated `NEW` as
+  /// confirmed because it was "not PROCESSING/UPDATED", which caused 400 Order must be confirmed.
+  bool get checkingOrderStatusConfirmed {
+    final s = toUpperCase();
+    if (s == 'NEW' || s == 'WAITING') return false;
+    return true;
   }
 }

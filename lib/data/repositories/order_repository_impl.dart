@@ -9,7 +9,9 @@ import 'package:dartz/dartz.dart';
 class OrderRepositoryImpl extends OrderRepository {
   late final CancelTokenManager _cancelTokenManager;
 
-  OrderRepositoryImpl() { _cancelTokenManager = CancelTokenManager(); }
+  OrderRepositoryImpl() {
+    _cancelTokenManager = CancelTokenManager();
+  }
 
   @override
   Future<Either<String, List<OrderData>>> fetchMyOrders() async {
@@ -18,10 +20,13 @@ class OrderRepositoryImpl extends OrderRepository {
       final cancelToken = _cancelTokenManager.getToken(api);
       final response = await NetworkService.get(api, cancelToken);
 
-      final result = response['data']['list'].map<OrderData>((e) => OrderData.fromJson(e)).toList();
+      final result =
+          response['data']['list']
+              .map<OrderData>((e) => OrderData.fromJson(e))
+              .toList();
       return Right(result);
-    } on NetworkException catch(e) {
-      if(e.type != NetworkExceptionType.cancelled) {
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {
         GlobalSnackBar.showError(e.message);
       }
       return Left(e.toString());
@@ -35,12 +40,16 @@ class OrderRepositoryImpl extends OrderRepository {
     try {
       final api = NetworkService.apiOrderFetchOrder;
       final cancelToken = _cancelTokenManager.getToken(api);
-      final response = await NetworkService.get(api, cancelToken, NetworkService.paramsOrder(id));
+      final response = await NetworkService.get(
+        api,
+        cancelToken,
+        NetworkService.paramsOrder(id),
+      );
 
       final result = OrderData.fromJson(response['data']);
       return Right(result);
-    } on NetworkException catch(e) {
-      if(e.type != NetworkExceptionType.cancelled) {
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {
         GlobalSnackBar.showError(e.message);
       }
       return Left(e.toString());
@@ -54,12 +63,19 @@ class OrderRepositoryImpl extends OrderRepository {
     try {
       final api = NetworkService.apiOrderCancel;
       final cancelToken = _cancelTokenManager.getToken(api);
-      final response = await NetworkService.put(api, cancelToken, {}, NetworkService.paramsOrderCancel(id));
+      final response = await NetworkService.put(
+        api,
+        cancelToken,
+        {},
+        NetworkService.paramsOrderCancel(id),
+      );
 
-      final result = response["data"]['status'] == "CANCELLED";
+      final status = response["data"]['status'];
+      final result = status == "CANCELLED";
+
       return Right(result);
-    } on NetworkException catch(e) {
-      if(e.type != NetworkExceptionType.cancelled) {
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {
         GlobalSnackBar.showError(e.message);
       }
       return Left(e.toString());

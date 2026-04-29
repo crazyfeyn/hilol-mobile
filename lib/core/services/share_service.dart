@@ -9,8 +9,7 @@ class ShareService {
       final params = ShareParams(uri: url, sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
       final result = await SharePlus.instance.share(params);
       return result.status == ShareResultStatus.success;
-    } catch(e) {
-      debugPrint('ERROR: $e');
+    } catch (_) {
       return false;
     }
   }
@@ -21,8 +20,7 @@ class ShareService {
       final params = ShareParams(text: text, sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size);
       final result = await SharePlus.instance.share(params);
       return result.status == ShareResultStatus.success;
-    } catch(e) {
-      debugPrint('ERROR: $e');
+    } catch (_) {
       return false;
     }
   }

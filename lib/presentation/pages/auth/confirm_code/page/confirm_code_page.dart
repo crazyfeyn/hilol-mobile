@@ -3,6 +3,7 @@ import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
+import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/data/models/confirm_code_model.dart';
 import 'package:commerce_mobile/data/models/reset_pass_param_model.dart';
 import 'package:commerce_mobile/presentation/pages/auth/confirm_code/bloc/confirm_code_bloc.dart';
@@ -99,13 +100,19 @@ class _ConfirmCodeViewState extends State<ConfirmCodeView> {
     return BlocConsumer<ConfirmCodeBloc, ConfirmCodeState>(
       listener: (context, state) {
         if (state.formzStatus.isSuccess && state.auth != null) {
-          // If coming from reset password flow, navigate to reset password page
-          if (widget.extra["page"] == ResetPasswordPage.path) {
-            NavigationService.push(context, ResetPasswordPage.path);
-          } else {
-            // For sign up flow, navigate to main page
-            NavigationService.go(context, HomePage.path);
-          }
+          () async {
+            // Persist tokens BEFORE navigating to pages that fetch protected APIs.
+            await DBService.setAccessToken(state.auth!.accessToken);
+            await DBService.setRefreshToken(state.auth!.refreshToken);
+
+            // If coming from reset password flow, navigate to reset password page
+            if (widget.extra["page"] == ResetPasswordPage.path) {
+              NavigationService.push(context, ResetPasswordPage.path);
+            } else {
+              // For sign up flow, navigate to main page
+              NavigationService.go(context, HomePage.path);
+            }
+          }();
         } else if (state.formzStatus.isFailure) {
           GlobalSnackBar.showError(context.tr(LocaleKeys.verify_code_error_message));
         }

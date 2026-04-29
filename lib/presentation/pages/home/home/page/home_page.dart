@@ -447,59 +447,54 @@ class _HomeViewState extends State<HomeView> {
           return CustomScrollView(
             slivers: [
               SliverToBoxAdapter(child: SizedBox(height: 16)),
-              if(!focusNode.hasFocus && controller.text.isEmpty)
-                ...[
-                  SliverToBoxAdapter(child: BannerWidgetCard()),
-                  SliverToBoxAdapter(child: SizedBox(height: 24)),
-                  SliverToBoxAdapter(
-                    child: CategorySectionCard(
-                      isLoading: state.categoryStatus.isInProgress,
-                      categories: state.categories,
-                      value: state.selectCategoryId,
-                      onChanged: (value) => bloc.add(HomeFetchProducts(value)),
-                    ),
+              if (!focusNode.hasFocus && controller.text.isEmpty) ...[
+                SliverToBoxAdapter(child: SizedBox(height: 24)),
+                SliverToBoxAdapter(
+                  child: CategorySectionCard(
+                    isLoading: state.categoryStatus.isInProgress,
+                    categories: state.categories,
+                    value: state.selectCategoryId,
+                    onChanged: (value) => bloc.add(HomeFetchProducts(value)),
                   ),
-                  SliverToBoxAdapter(child: SizedBox(height: 12)),
-                ],
+                ),
+                SliverToBoxAdapter(child: SizedBox(height: 12)),
+              ],
 
-              if(state.productStatus.isInProgress)
+              if (state.productStatus.isInProgress)
                 SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                sliver: SliverGrid(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  sliver: SliverGrid(
+                    delegate: SliverChildBuilderDelegate((context, index) {
                       return ClipRRect(
                         borderRadius: BorderRadius.circular(8),
                         child: CustomShimmer(
                           child: Container(color: AppColors.white100),
                         ),
                       );
-                    },
-                    childCount: 12,
+                    }, childCount: 12),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 0.7,
+                        ),
                   ),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 12,
-                    childAspectRatio: 0.7,
-                  ),
-                ),
-              )
+                )
               else
                 SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   sliver: SliverGrid(
                     delegate: SliverChildBuilderDelegate((context, index) {
-                        return ProductCard(product: state.products[index]);
-                      },
-                      childCount: state.products.length,
-                    ),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 12,
-                      mainAxisSpacing: 12,
-                      childAspectRatio: 0.7,
-                    ),
+                      return ProductCard(product: state.products[index]);
+                    }, childCount: state.products.length),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          childAspectRatio: 0.7,
+                        ),
                   ),
                 ),
 

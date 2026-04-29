@@ -139,7 +139,7 @@
   "comment_hint": "배송 기사님께 전달할 메시지",
   "order_btn": "주문하기",
   "payment_btn": "결제하기",
-  "toss_bank": "토스뱅크",
+  "toss_bank": "카드로 결제",
   "cash": "현금",
   "soon": "곧 제공 예정",
   "map_tap_instruction": "지도를 탭하여 배송 위치를 선택하거나\n현재 위치 버튼을 사용하세요",
@@ -237,5 +237,11 @@
   "delivery_information_detail": "주문은 영업일 기준 3~5일 이내에 배송됩니다. 배송 추적 정보는 이메일 또는 SMS로 제공됩니다.",
   "cancel": "취소",
   "loading_map": "지도 로딩 중...",
-   "unavailable": "재고 없음"
+  "unavailable": "재고 없음",
+  "logout_success": "로그아웃되었습니다",
+  "account_deleted_successfully": "계정이 성공적으로 삭제되었습니다",
+  "failed_to_delete_account": "계정 삭제에 실패했습니다",
+  "failed_to_logout": "로그아웃에 실패했습니다",
+  "error_loading_orders": "주문을 불러오지 못했습니다. 다시 시도해 주세요.",
+  "deleted_status": "삭제됨"
 }

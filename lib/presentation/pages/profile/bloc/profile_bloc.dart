@@ -61,7 +61,31 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       emit(state.copyWith(logoutStatus: logoutStatus));
     });
 
-    on<ProfileDelete>((event, emit) async {});
+    on<ProfileDelete>((event, emit) async {
+      FormzSubmissionStatus deleteStatus = FormzSubmissionStatus.inProgress;
+      emit(state.copyWith(deleteStatus: deleteStatus));
+
+      final result = await _repository.deleteAccount();
+
+      if (result.isRight()) {
+        final res = result.getOrElse(
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+        );
+        if (res) {
+          // Successfully deleted account
+          deleteStatus = FormzSubmissionStatus.success;
+          // Clear user data from local storage
+          await DBService.logOut();
+          emit(state.copyWith(deleteStatus: deleteStatus, user: null));
+        } else {
+          deleteStatus = FormzSubmissionStatus.canceled;
+          emit(state.copyWith(deleteStatus: deleteStatus));
+        }
+      } else {
+        deleteStatus = FormzSubmissionStatus.failure;
+        emit(state.copyWith(deleteStatus: deleteStatus));
+      }
+    });
 
     on<ProfileDispose>((event, emit) async {
       _repository.dispose();
