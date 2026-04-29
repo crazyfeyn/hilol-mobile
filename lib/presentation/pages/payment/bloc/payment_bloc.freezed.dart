@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PaymentState {
   FormzSubmissionStatus get formzStatus => throw _privateConstructorUsedError;
   PaymentMethod get method => throw _privateConstructorUsedError;
+  String? get paymentUrl => throw _privateConstructorUsedError;
   List<PaymentMethodModel> get methods => throw _privateConstructorUsedError;
   OrderData get order => throw _privateConstructorUsedError;
 
@@ -39,6 +40,7 @@ abstract class $PaymentStateCopyWith<$Res> {
   $Res call({
     FormzSubmissionStatus formzStatus,
     PaymentMethod method,
+    String? paymentUrl,
     List<PaymentMethodModel> methods,
     OrderData order,
   });
@@ -61,6 +63,7 @@ class _$PaymentStateCopyWithImpl<$Res, $Val extends PaymentState>
   $Res call({
     Object? formzStatus = null,
     Object? method = null,
+    Object? paymentUrl = freezed,
     Object? methods = null,
     Object? order = null,
   }) {
@@ -76,6 +79,11 @@ class _$PaymentStateCopyWithImpl<$Res, $Val extends PaymentState>
                     ? _value.method
                     : method // ignore: cast_nullable_to_non_nullable
                         as PaymentMethod,
+            paymentUrl:
+                freezed == paymentUrl
+                    ? _value.paymentUrl
+                    : paymentUrl // ignore: cast_nullable_to_non_nullable
+                        as String?,
             methods:
                 null == methods
                     ? _value.methods
@@ -104,6 +112,7 @@ abstract class _$$PaymentStateImplCopyWith<$Res>
   $Res call({
     FormzSubmissionStatus formzStatus,
     PaymentMethod method,
+    String? paymentUrl,
     List<PaymentMethodModel> methods,
     OrderData order,
   });
@@ -125,6 +134,7 @@ class __$$PaymentStateImplCopyWithImpl<$Res>
   $Res call({
     Object? formzStatus = null,
     Object? method = null,
+    Object? paymentUrl = freezed,
     Object? methods = null,
     Object? order = null,
   }) {
@@ -140,6 +150,11 @@ class __$$PaymentStateImplCopyWithImpl<$Res>
                 ? _value.method
                 : method // ignore: cast_nullable_to_non_nullable
                     as PaymentMethod,
+        paymentUrl:
+            freezed == paymentUrl
+                ? _value.paymentUrl
+                : paymentUrl // ignore: cast_nullable_to_non_nullable
+                    as String?,
         methods:
             null == methods
                 ? _value._methods
@@ -161,6 +176,7 @@ class _$PaymentStateImpl extends _PaymentState {
   const _$PaymentStateImpl({
     this.formzStatus = FormzSubmissionStatus.initial,
     this.method = PaymentMethod.tossBank,
+    this.paymentUrl = null,
     required final List<PaymentMethodModel> methods,
     required this.order,
   }) : _methods = methods,
@@ -172,6 +188,9 @@ class _$PaymentStateImpl extends _PaymentState {
   @override
   @JsonKey()
   final PaymentMethod method;
+  @override
+  @JsonKey()
+  final String? paymentUrl;
   final List<PaymentMethodModel> _methods;
   @override
   List<PaymentMethodModel> get methods {
@@ -185,7 +204,7 @@ class _$PaymentStateImpl extends _PaymentState {
 
   @override
   String toString() {
-    return 'PaymentState(formzStatus: $formzStatus, method: $method, methods: $methods, order: $order)';
+    return 'PaymentState(formzStatus: $formzStatus, method: $method, paymentUrl: $paymentUrl, methods: $methods, order: $order)';
   }
 
   @override
@@ -196,6 +215,8 @@ class _$PaymentStateImpl extends _PaymentState {
             (identical(other.formzStatus, formzStatus) ||
                 other.formzStatus == formzStatus) &&
             (identical(other.method, method) || other.method == method) &&
+            (identical(other.paymentUrl, paymentUrl) ||
+                other.paymentUrl == paymentUrl) &&
             const DeepCollectionEquality().equals(other._methods, _methods) &&
             (identical(other.order, order) || other.order == order));
   }
@@ -205,6 +226,7 @@ class _$PaymentStateImpl extends _PaymentState {
     runtimeType,
     formzStatus,
     method,
+    paymentUrl,
     const DeepCollectionEquality().hash(_methods),
     order,
   );
@@ -222,6 +244,7 @@ abstract class _PaymentState extends PaymentState {
   const factory _PaymentState({
     final FormzSubmissionStatus formzStatus,
     final PaymentMethod method,
+    final String? paymentUrl,
     required final List<PaymentMethodModel> methods,
     required final OrderData order,
   }) = _$PaymentStateImpl;
@@ -231,6 +254,8 @@ abstract class _PaymentState extends PaymentState {
   FormzSubmissionStatus get formzStatus;
   @override
   PaymentMethod get method;
+  @override
+  String? get paymentUrl;
   @override
   List<PaymentMethodModel> get methods;
   @override
