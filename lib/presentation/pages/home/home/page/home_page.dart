@@ -367,10 +367,13 @@
 //   }
 // }
 
+import 'package:commerce_mobile/config/router/navigation_service.dart';
+import 'package:commerce_mobile/core/services/session_service.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/bloc/home_bloc.dart';
+import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/widget/banner_widget_card.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/widget/category_section_card.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/widget/product_card.dart';
@@ -441,6 +444,15 @@ class _HomeViewState extends State<HomeView> {
             onChanged: (text) => bloc.add(HomeSearchProducts(text)),
           ),
         ),
+        actions: [
+          if (!SessionService.isAuthenticated)
+            TextButton.icon(
+              onPressed:
+                  () => NavigationService.push(context, SignInPage.path),
+              icon: const Icon(CupertinoIcons.person_crop_circle),
+              label: Text(context.tr(LocaleKeys.login_btn)),
+            ),
+        ],
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {

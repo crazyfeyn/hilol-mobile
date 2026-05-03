@@ -16,17 +16,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpPage extends StatelessWidget {
   static const String path = "/sign_up_page";
+  final String? redirectPath;
+  final bool fromCheckout;
 
-  const SignUpPage({super.key});
+  const SignUpPage({
+    super.key,
+    this.redirectPath,
+    this.fromCheckout = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => SignUpBloc(), child: SignUpView());
+    return BlocProvider(
+      create: (context) => SignUpBloc(),
+      child: SignUpView(
+        redirectPath: redirectPath,
+        fromCheckout: fromCheckout,
+      ),
+    );
   }
 }
 
 class SignUpView extends StatefulWidget {
-  const SignUpView({super.key});
+  final String? redirectPath;
+  final bool fromCheckout;
+
+  const SignUpView({
+    super.key,
+    this.redirectPath,
+    this.fromCheckout = false,
+  });
 
   @override
   State<SignUpView> createState() => _SignUpViewState();
@@ -51,7 +70,12 @@ class _SignUpViewState extends State<SignUpView> {
     return BlocConsumer<SignUpBloc, SignUpState>(
       listener: (context, state) {
         if (state.formzStatus.isSuccess && state.clientId != null) {
-          final extra = {"clientId": state.clientId, "auth": state.auth};
+          final extra = {
+            "clientId": state.clientId,
+            "auth": state.auth,
+            "redirectPath": widget.redirectPath,
+            "fromCheckout": widget.fromCheckout,
+          };
           NavigationService.push(context, ConfirmCodePage.path, extra: extra);
         }
       },

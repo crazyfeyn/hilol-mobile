@@ -2,7 +2,7 @@ import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
-import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
+import 'package:commerce_mobile/core/services/session_service.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/page/home_page.dart';
 import 'package:commerce_mobile/presentation/pages/splash/bloc/splash_bloc.dart';
 import 'package:flutter/material.dart';
@@ -53,11 +53,8 @@ class _ProfileViewState extends State<ProfileView> {
     return BlocListener<SplashBloc, SplashState>(
       listener: (context, state) {
         if (state.formzStatus.isSuccess) {
-          if (DBService.isLoggedIn()) {
-            NavigationService.go(context, HomePage.path);
-          } else {
-            NavigationService.go(context, SignInPage.path);
-          }
+          SessionService.setAuthenticated(DBService.isLoggedIn());
+          NavigationService.go(context, HomePage.path);
         }
       },
       child: Scaffold(backgroundColor: AppColors.primary500),

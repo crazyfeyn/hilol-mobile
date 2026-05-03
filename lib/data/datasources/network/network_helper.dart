@@ -1,6 +1,7 @@
 import 'package:commerce_mobile/core/services/lang_service.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
+import 'package:commerce_mobile/data/datasources/network/network_service.dart';
 import 'package:commerce_mobile/data/repositories/user_repository_impl.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,7 +18,12 @@ class NetworkInterceptor extends Interceptor {
     final langCode = LangService.currentLocale;
     final accessToken = DBService.getAccessToken();
 
-    options.headers["Authorization"] = "Bearer $accessToken";
+    if (NetworkService.shouldUseAuthHeader(options.path) &&
+        accessToken.isNotEmpty) {
+      options.headers["Authorization"] = "Bearer $accessToken";
+    } else {
+      options.headers.remove("Authorization");
+    }
     options.headers["X-Request-UUID"] = const Uuid().v4();
     options.headers["X-Client-Lang"] = langCode;
     handler.next(options);

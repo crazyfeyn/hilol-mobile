@@ -26,16 +26,29 @@ class NetworkService {
     return _serverProd;
   }
 
+  static const Set<String> _publicProductEndpoints = {
+    "/api/v1/product/get-all",
+    "/api/v1/product/get-by-category",
+    "/api/v1/product-category/all",
+  };
+
+  static bool shouldUseAuthHeader(String api) {
+    return !_publicProductEndpoints.contains(api);
+  }
+
   static Map<String, String> get getHeaders {
     final langCode = LangService.currentLocale;
     final accessToken = DBService.getAccessToken();
 
-    return {
+    final headers = <String, String>{
       "X-Device-Type": Platform.operatingSystem,
-      "Authorization": "Bearer $accessToken",
       "X-Request-UUID": const Uuid().v4(),
       "X-Client-Lang": langCode,
     };
+    if (accessToken.isNotEmpty) {
+      headers["Authorization"] = "Bearer $accessToken";
+    }
+    return headers;
   }
 
   static Dio get _dio {
@@ -77,12 +90,15 @@ class NetworkService {
     final langCode = LangService.currentLocale;
     final accessToken = DBService.getAccessToken();
 
-    return {
+    final headers = <String, String>{
       "X-Device-Type": Platform.operatingSystem,
-      "Authorization": "Bearer $accessToken",
       "X-Request-UUID": customUUID ?? const Uuid().v4(),
       "X-Client-Lang": langCode,
     };
+    if (accessToken.isNotEmpty) {
+      headers["Authorization"] = "Bearer $accessToken";
+    }
+    return headers;
   }
 
   static Future<T?> post<T>(
