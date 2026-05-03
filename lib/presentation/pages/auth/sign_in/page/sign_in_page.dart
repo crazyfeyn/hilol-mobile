@@ -1,4 +1,5 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
+import 'package:commerce_mobile/core/services/session_service.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
@@ -18,17 +19,36 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInPage extends StatelessWidget {
   static const String path = "/sign_in_page";
+  final String? redirectPath;
+  final bool fromCheckout;
 
-  const SignInPage({super.key});
+  const SignInPage({
+    super.key,
+    this.redirectPath,
+    this.fromCheckout = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (context) => SignInBloc(), child: SignInView());
+    return BlocProvider(
+      create: (context) => SignInBloc(),
+      child: SignInView(
+        redirectPath: redirectPath,
+        fromCheckout: fromCheckout,
+      ),
+    );
   }
 }
 
 class SignInView extends StatefulWidget {
-  const SignInView({super.key});
+  final String? redirectPath;
+  final bool fromCheckout;
+
+  const SignInView({
+    super.key,
+    this.redirectPath,
+    this.fromCheckout = false,
+  });
 
   @override
   State<SignInView> createState() => _SignInViewState();
@@ -50,7 +70,14 @@ class _SignInViewState extends State<SignInView> {
     return BlocConsumer<SignInBloc, SignInState>(
       listener: (context, state) {
         if (state.formzStatus.isSuccess && state.auth != null) {
-          NavigationService.go(context, HomePage.path);
+          () async {
+            SessionService.setAuthenticated(true);
+            if (widget.fromCheckout) {
+              await SessionService.applyPendingCheckoutAfterLogin();
+            }
+            if (!context.mounted) return;
+            NavigationService.go(context, widget.redirectPath ?? HomePage.path);
+          }();
         }
       },
       builder: (context, state) {
@@ -132,7 +159,14 @@ class _SignInViewState extends State<SignInView> {
                     title: context.tr(LocaleKeys.create_account_btn),
                     subtitle: context.tr(LocaleKeys.do_not_have_account),
                     onTap:
-                        () => NavigationService.push(context, SignUpPage.path),
+                        () => NavigationService.push(
+                          context,
+                          SignUpPage.path,
+                          extra: {
+                            'redirectPath': widget.redirectPath,
+                            'fromCheckout': widget.fromCheckout,
+                          },
+                        ),
                   ),
                 ],
               ),

@@ -243,5 +243,9 @@
   "failed_to_delete_account": "Hisobni o'chirib bo'lmadi",
   "failed_to_logout": "Tizimdan chiqib bo'lmadi",
   "error_loading_orders": "Buyurtmalarni yuklab bo'lmadi. Qayta urinib ko'ring.",
-  "deleted_status": "O'chirilgan"
+  "deleted_status": "O'chirilgan",
+  "guest_sign_in_banner": "Buyurtma berish va hisobni boshqarish uchun tizimga kiring",
+  "guest_user_name": "Mehmon foydalanuvchi",
+  "guest_user_phone": "Hali ro'yxatdan o'tmagan",
+  "sign_in_to_view": "Ko'rish uchun kiring"
 }

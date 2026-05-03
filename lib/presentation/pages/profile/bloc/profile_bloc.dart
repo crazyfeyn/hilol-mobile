@@ -1,5 +1,6 @@
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
+import 'package:commerce_mobile/core/services/session_service.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/data/models/user_model.dart';
 import 'package:commerce_mobile/data/repositories/user_repository_impl.dart';
@@ -50,6 +51,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
         );
         if (res) {
+          SessionService.setAuthenticated(false);
           logoutStatus = FormzSubmissionStatus.success;
         } else {
           logoutStatus = FormzSubmissionStatus.canceled;
@@ -76,6 +78,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           deleteStatus = FormzSubmissionStatus.success;
           // Clear user data from local storage
           await DBService.logOut();
+          SessionService.setAuthenticated(false);
           emit(state.copyWith(deleteStatus: deleteStatus, user: null));
         } else {
           deleteStatus = FormzSubmissionStatus.canceled;

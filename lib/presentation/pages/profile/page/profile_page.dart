@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/services/lang_service.dart';
+import 'package:commerce_mobile/core/services/session_service.dart';
 import 'package:commerce_mobile/core/services/share_service.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_constants.dart';
@@ -261,7 +262,7 @@ class _ProfileViewState extends State<ProfileView> {
       listener: (context, state) {
         // Handle logout success
         if (state.logoutStatus.isSuccess) {
-          NavigationService.go(context, SignInPage.path);
+          NavigationService.go(context, ProfilePage.path);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(context.tr(LocaleKeys.logout_success)),
@@ -272,7 +273,7 @@ class _ProfileViewState extends State<ProfileView> {
 
         // Handle delete success
         if (state.deleteStatus.isSuccess) {
-          NavigationService.go(context, SignInPage.path);
+          NavigationService.go(context, ProfilePage.path);
         }
 
         // Handle delete failure
@@ -321,6 +322,7 @@ class _ProfileViewState extends State<ProfileView> {
     ProfileState state,
     ProfileBloc bloc,
   ) {
+    final isAuthenticated = SessionService.isAuthenticated;
     return Scaffold(
       body: SingleChildScrollView(
         padding: EdgeInsets.only(
@@ -332,20 +334,59 @@ class _ProfileViewState extends State<ProfileView> {
         child: Center(
           child: Column(
             children: [
+              if (!isAuthenticated)
+                Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary50,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.tr(LocaleKeys.guest_sign_in_banner),
+                        style: AppStyles.bodySMRegular,
+                      ),
+                      const SizedBox(height: 8),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed:
+                              () => NavigationService.push(
+                                context,
+                                SignInPage.path,
+                              ),
+                          child: Text(context.tr(LocaleKeys.login_btn)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               // Show loading indicator while fetching user data
-              if (state.formzStatus.isInProgress && state.user == null)
+              if (isAuthenticated &&
+                  state.formzStatus.isInProgress &&
+                  state.user == null)
                 const CircularProgressIndicator()
               else ...[
-                CustomAvatarCard(imageUrl: state.user?.imageUrl ?? ""),
+                CustomAvatarCard(
+                  imageUrl: isAuthenticated ? state.user?.imageUrl ?? "" : "",
+                ),
                 const SizedBox(height: 8),
                 Text(
-                  "${state.user?.firstname ?? ""} ${state.user?.lastname ?? ""}",
+                  isAuthenticated
+                      ? "${state.user?.firstname ?? ""} ${state.user?.lastname ?? ""}"
+                      : context.tr(LocaleKeys.guest_user_name),
                   style: AppStyles.titleXLSemibold,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  state.user?.phone != null ? "+${state.user?.phone}" : "",
+                  isAuthenticated
+                      ? (state.user?.phone != null ? "+${state.user?.phone}" : "")
+                      : context.tr(LocaleKeys.guest_user_phone),
                   textAlign: TextAlign.center,
                   style: AppStyles.labelLGSemibold.copyWith(
                     color: AppColors.black400,
@@ -357,7 +398,14 @@ class _ProfileViewState extends State<ProfileView> {
               ProfileCard(
                 icon: CupertinoIcons.bag,
                 title: context.tr(LocaleKeys.my_orders),
-                onTap: () => NavigationService.push(context, MyOrderPage.path),
+                prompt:
+                    isAuthenticated
+                        ? null
+                        : context.tr(LocaleKeys.sign_in_to_view),
+                onTap:
+                    () => isAuthenticated
+                        ? NavigationService.push(context, MyOrderPage.path)
+                        : NavigationService.push(context, SignInPage.path),
               ),
 
               const SizedBox(height: 16),
@@ -404,31 +452,33 @@ class _ProfileViewState extends State<ProfileView> {
                   _showDeliveryPolicyDialog(context);
                 },
               ),
-              const SizedBox(height: 16),
-              ProfileCard(
-                onTap: () {
-                  ProfileLogoutAndDelete.showDialog(
-                    context,
-                    isDelete: false,
-                    onTap: () => bloc.add(ProfileLogOut()),
-                  );
-                },
-                icon: CupertinoIcons.square_arrow_right,
-                title: context.tr(LocaleKeys.logout_account),
-              ),
-              const SizedBox(height: 16),
-              ProfileCard(
-                onTap: () {
-                  ProfileLogoutAndDelete.showDialog(
-                    context,
-                    isDelete: true,
-                    onTap: () => bloc.add(ProfileDelete()),
-                  );
-                },
-                isLogout: true,
-                icon: CupertinoIcons.delete,
-                title: context.tr(LocaleKeys.delete_account),
-              ),
+              if (isAuthenticated) ...[
+                const SizedBox(height: 16),
+                ProfileCard(
+                  onTap: () {
+                    ProfileLogoutAndDelete.showDialog(
+                      context,
+                      isDelete: false,
+                      onTap: () => bloc.add(ProfileLogOut()),
+                    );
+                  },
+                  icon: CupertinoIcons.square_arrow_right,
+                  title: context.tr(LocaleKeys.logout_account),
+                ),
+                const SizedBox(height: 16),
+                ProfileCard(
+                  onTap: () {
+                    ProfileLogoutAndDelete.showDialog(
+                      context,
+                      isDelete: true,
+                      onTap: () => bloc.add(ProfileDelete()),
+                    );
+                  },
+                  isLogout: true,
+                  icon: CupertinoIcons.delete,
+                  title: context.tr(LocaleKeys.delete_account),
+                ),
+              ],
             ],
           ),
         ),

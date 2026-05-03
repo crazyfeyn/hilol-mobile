@@ -31,6 +31,20 @@ class LangService {
     return localeLang;
   }
 
+  static Locale? get initialLocale {
+    final localeLang = DBService.getLanguage();
+    if (localeLang == null || localeLang.isEmpty) return null;
+
+    final parts = localeLang.split('-');
+    if (parts.length == 2) {
+      return Locale(parts[0], parts[1]);
+    }
+    if (parts.length == 1) {
+      return Locale(parts[0]);
+    }
+    return null;
+  }
+
   // Gets locale from language, and updates the locale
   static void changeLocale(BuildContext context, String langCode) {
     final result = supportedLocales.firstWhere(

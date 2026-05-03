@@ -1,10 +1,12 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/extension/extensions.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
+import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/data/models/product_model.dart';
 import 'package:commerce_mobile/presentation/pages/home/details/page/details_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/widget/carusel_images.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
@@ -73,7 +75,12 @@ class ProductCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        hasStock ? '$stockCount in stock' : 'Unavailable',
+                        hasStock
+                            ? tr(
+                              LocaleKeys.in_stock,
+                              namedArgs: {'count': '$stockCount'},
+                            )
+                            : tr(LocaleKeys.unavailable),
                         style: AppStyles.labelMDRegular.copyWith(
                           color:
                               hasStock ? AppColors.success : AppColors.error600,

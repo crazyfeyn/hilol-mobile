@@ -1,4 +1,5 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
+import 'package:commerce_mobile/core/services/session_service.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
@@ -104,13 +105,18 @@ class _ConfirmCodeViewState extends State<ConfirmCodeView> {
             // Persist tokens BEFORE navigating to pages that fetch protected APIs.
             await DBService.setAccessToken(state.auth!.accessToken);
             await DBService.setRefreshToken(state.auth!.refreshToken);
+            SessionService.setAuthenticated(true);
+            if (widget.extra["fromCheckout"] == true) {
+              await SessionService.applyPendingCheckoutAfterLogin();
+            }
 
             // If coming from reset password flow, navigate to reset password page
             if (widget.extra["page"] == ResetPasswordPage.path) {
               NavigationService.push(context, ResetPasswordPage.path);
             } else {
               // For sign up flow, navigate to main page
-              NavigationService.go(context, HomePage.path);
+              final redirectPath = widget.extra["redirectPath"] as String?;
+              NavigationService.go(context, redirectPath ?? HomePage.path);
             }
           }();
         } else if (state.formzStatus.isFailure) {

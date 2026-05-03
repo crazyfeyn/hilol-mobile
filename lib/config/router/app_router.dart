@@ -1,5 +1,6 @@
 import 'package:commerce_mobile/data/models/cart_model.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
+import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/presentation/pages/address/page/address_page.dart';
 import 'package:commerce_mobile/presentation/pages/address/page/location_image.dart';
 import 'package:commerce_mobile/presentation/pages/auth/confirm_code/page/confirm_code_page.dart';
@@ -26,6 +27,25 @@ class AppRouter {
     observers: [NavigationService.routeObserver],
     navigatorKey: NavigationService.navigatorKey,
     initialLocation: SplashPage.path,
+    redirect: (context, state) {
+      Set protectedPaths = {
+        AddressPage.path,
+        PaymentPage.path,
+        MyOrderPage.path,
+        EditPage.path,
+      };
+
+      final needsAuth = protectedPaths.any(
+        (path) =>
+            state.uri.path == path ||
+            state.uri.path.startsWith('$path/') ||
+            state.uri.path.endsWith(path),
+      );
+      if (!needsAuth) return null;
+      if (DBService.isLoggedIn()) return null;
+
+      return SignInPage.path;
+    },
     routes: [
       GoRoute(
         path: SplashPage.path,
@@ -34,13 +54,27 @@ class AppRouter {
       ),
       GoRoute(
         path: SignInPage.path,
-        pageBuilder:
-            (context, state) => const MaterialPage(child: SignInPage()),
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return MaterialPage(
+            child: SignInPage(
+              redirectPath: extra?['redirectPath'] as String?,
+              fromCheckout: extra?['fromCheckout'] as bool? ?? false,
+            ),
+          );
+        },
       ),
       GoRoute(
         path: SignUpPage.path,
-        pageBuilder:
-            (context, state) => const MaterialPage(child: SignUpPage()),
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return MaterialPage(
+            child: SignUpPage(
+              redirectPath: extra?['redirectPath'] as String?,
+              fromCheckout: extra?['fromCheckout'] as bool? ?? false,
+            ),
+          );
+        },
       ),
       GoRoute(
         path: ConfirmCodePage.path,
@@ -87,11 +121,13 @@ class AppRouter {
           ),
           GoRoute(
             path: ProfilePage.path,
-            pageBuilder: (context, state) => const MaterialPage(child: ProfilePage()),
+            pageBuilder:
+                (context, state) => const MaterialPage(child: ProfilePage()),
             routes: [
               GoRoute(
                 path: MyOrderPage.path,
-                pageBuilder: (context, state) => MaterialPage(child: MyOrderPage()),
+                pageBuilder:
+                    (context, state) => MaterialPage(child: MyOrderPage()),
               ),
             ],
           ),
@@ -130,8 +166,15 @@ class AppRouter {
       // ),
       GoRoute(
         path: SignUpPage.path,
-        pageBuilder:
-            (context, state) => const MaterialPage(child: SignUpPage()),
+        pageBuilder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return MaterialPage(
+            child: SignUpPage(
+              redirectPath: extra?['redirectPath'] as String?,
+              fromCheckout: extra?['fromCheckout'] as bool? ?? false,
+            ),
+          );
+        },
       ),
 
       GoRoute(

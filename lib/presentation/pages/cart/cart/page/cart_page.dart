@@ -1,10 +1,12 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/extension/extensions.dart';
+import 'package:commerce_mobile/core/services/session_service.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/presentation/pages/address/page/address_page.dart';
+import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
 import 'package:commerce_mobile/presentation/pages/cart/cart/bloc/cart_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/cart/cart/widget/total_price_cart.dart';
 import 'package:commerce_mobile/presentation/widgets/custom_elevated_button.dart';
@@ -218,11 +220,26 @@ class _CartViewState extends State<CartView> with RouteAware {
               ),
               child: CustomElevatedButton(
                 onTap:
-                    () => NavigationService.push(
-                      context,
-                      AddressPage.path,
-                      extra: state.carts,
-                    ),
+                    () {
+                      if (!SessionService.isAuthenticated) {
+                        SessionService.savePendingCheckoutFromGuestCart();
+                        NavigationService.push(
+                          context,
+                          SignInPage.path,
+                          extra: {
+                            'fromCheckout': true,
+                            'redirectPath': CartPage.path,
+                          },
+                        );
+                        return;
+                      }
+
+                      NavigationService.push(
+                        context,
+                        AddressPage.path,
+                        extra: state.carts,
+                      );
+                    },
                 title: context.tr(LocaleKeys.continue_btn),
               ),
             ),

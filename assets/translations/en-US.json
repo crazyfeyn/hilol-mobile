@@ -243,5 +243,9 @@
   "failed_to_delete_account": "Failed to delete account",
   "failed_to_logout": "Failed to logout",
   "error_loading_orders": "Could not load orders. Please try again.",
-  "deleted_status": "Deleted"
+  "deleted_status": "Deleted",
+  "guest_sign_in_banner": "Sign in to place orders and manage account",
+  "guest_user_name": "Guest User",
+  "guest_user_phone": "Not registered yet",
+  "sign_in_to_view": "Sign in to view"
 }

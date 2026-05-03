@@ -251,4 +251,8 @@ abstract class LocaleKeys {
   static const failed_to_logout = 'failed_to_logout';
   static const error_loading_orders = 'error_loading_orders';
   static const deleted_status = 'deleted_status';
+  static const guest_sign_in_banner = 'guest_sign_in_banner';
+  static const guest_user_name = 'guest_user_name';
+  static const guest_user_phone = 'guest_user_phone';
+  static const sign_in_to_view = 'sign_in_to_view';
 }
