@@ -73,6 +73,8 @@ class _SignUpViewState extends State<SignUpView> {
           final extra = {
             "clientId": state.clientId,
             "auth": state.auth,
+            // Used by ConfirmCodePage->TimerWidget to show the destination phone/email.
+            "phoneNumber": _phoneController.text.trim(),
             "redirectPath": widget.redirectPath,
             "fromCheckout": widget.fromCheckout,
           };

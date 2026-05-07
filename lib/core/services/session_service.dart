@@ -1,20 +1,24 @@
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/data/models/cart_model.dart';
 import 'package:commerce_mobile/data/repositories/cart_repository_impl.dart';
+import 'package:flutter/foundation.dart';
 
 class SessionService {
   SessionService._();
 
   static bool isAuthenticated = false;
+  static final ValueNotifier<bool> authStateNotifier = ValueNotifier<bool>(false);
   static List<CartModel> _guestCart = [];
   static List<CartModel> _pendingCheckoutCart = [];
 
   static void bootstrap() {
     isAuthenticated = DBService.isLoggedIn();
+    authStateNotifier.value = isAuthenticated;
   }
 
   static void setAuthenticated(bool value) {
     isAuthenticated = value;
+    authStateNotifier.value = isAuthenticated;
     if (value) {
       _guestCart = [];
     }
