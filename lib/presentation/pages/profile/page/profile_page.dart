@@ -322,167 +322,171 @@ class _ProfileViewState extends State<ProfileView> {
     ProfileState state,
     ProfileBloc bloc,
   ) {
-    final isAuthenticated = SessionService.isAuthenticated;
-    return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(
-          left: 16,
-          right: 16,
-          bottom: 32,
-          top: MediaQuery.viewPaddingOf(context).top + 32,
-        ),
-        child: Center(
-          child: Column(
-            children: [
-              if (!isAuthenticated)
-                Container(
-                  width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary50,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        context.tr(LocaleKeys.guest_sign_in_banner),
-                        style: AppStyles.bodySMRegular,
+    return ValueListenableBuilder<bool>(
+      valueListenable: SessionService.authStateNotifier,
+      builder: (context, isAuthenticated, _) {
+        return Scaffold(
+          body: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              left: 16,
+              right: 16,
+              bottom: 32,
+              top: MediaQuery.viewPaddingOf(context).top + 32,
+            ),
+            child: Center(
+              child: Column(
+                children: [
+                  if (!isAuthenticated)
+                    Container(
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary50,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      const SizedBox(height: 8),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton(
-                          onPressed:
-                              () => NavigationService.push(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            context.tr(LocaleKeys.guest_sign_in_banner),
+                            style: AppStyles.bodySMRegular,
+                          ),
+                          const SizedBox(height: 8),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: TextButton(
+                              onPressed: () => NavigationService.push(
                                 context,
                                 SignInPage.path,
                               ),
-                          child: Text(context.tr(LocaleKeys.login_btn)),
-                        ),
+                              child: Text(context.tr(LocaleKeys.login_btn)),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              // Show loading indicator while fetching user data
-              if (isAuthenticated &&
-                  state.formzStatus.isInProgress &&
-                  state.user == null)
-                const CircularProgressIndicator()
-              else ...[
-                CustomAvatarCard(
-                  imageUrl: isAuthenticated ? state.user?.imageUrl ?? "" : "",
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  isAuthenticated
-                      ? "${state.user?.firstname ?? ""} ${state.user?.lastname ?? ""}"
-                      : context.tr(LocaleKeys.guest_user_name),
-                  style: AppStyles.titleXLSemibold,
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  isAuthenticated
-                      ? (state.user?.phone != null ? "+${state.user?.phone}" : "")
-                      : context.tr(LocaleKeys.guest_user_phone),
-                  textAlign: TextAlign.center,
-                  style: AppStyles.labelLGSemibold.copyWith(
-                    color: AppColors.black400,
-                  ),
-                ),
-              ],
+                    ),
+                  // Show loading indicator while fetching user data
+                  if (isAuthenticated &&
+                      state.formzStatus.isInProgress &&
+                      state.user == null)
+                    const CircularProgressIndicator()
+                  else ...[
+                    CustomAvatarCard(
+                      imageUrl: isAuthenticated ? state.user?.imageUrl ?? "" : "",
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      isAuthenticated
+                          ? "${state.user?.firstname ?? ""} ${state.user?.lastname ?? ""}"
+                          : context.tr(LocaleKeys.guest_user_name),
+                      style: AppStyles.titleXLSemibold,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      isAuthenticated
+                          ? (state.user?.phone != null
+                              ? "+${state.user?.phone}"
+                              : "")
+                          : context.tr(LocaleKeys.guest_user_phone),
+                      textAlign: TextAlign.center,
+                      style: AppStyles.labelLGSemibold.copyWith(
+                        color: AppColors.black400,
+                      ),
+                    ),
+                  ],
 
-              const SizedBox(height: 24),
-              ProfileCard(
-                icon: CupertinoIcons.bag,
-                title: context.tr(LocaleKeys.my_orders),
-                prompt:
-                    isAuthenticated
+                  const SizedBox(height: 24),
+                  ProfileCard(
+                    icon: CupertinoIcons.bag,
+                    title: context.tr(LocaleKeys.my_orders),
+                    prompt: isAuthenticated
                         ? null
                         : context.tr(LocaleKeys.sign_in_to_view),
-                onTap:
-                    () => isAuthenticated
+                    onTap: () => isAuthenticated
                         ? NavigationService.push(context, MyOrderPage.path)
                         : NavigationService.push(context, SignInPage.path),
-              ),
+                  ),
 
-              const SizedBox(height: 16),
-              ProfileCard(
-                onTap:
-                    () => LanguageBottomSheet.showBottomSheet(context: context),
-                flag: LangService.langIcon(context.locale.languageCode),
-                icon: CupertinoIcons.globe,
-                title: context.tr(LocaleKeys.change_language),
+                  const SizedBox(height: 16),
+                  ProfileCard(
+                    onTap: () => LanguageBottomSheet.showBottomSheet(
+                      context: context,
+                    ),
+                    flag: LangService.langIcon(context.locale.languageCode),
+                    icon: CupertinoIcons.globe,
+                    title: context.tr(LocaleKeys.change_language),
+                  ),
+                  const SizedBox(height: 16),
+                  ProfileCard(
+                    onTap: () {
+                      if (Platform.isIOS) {
+                        ShareService.shareUri(context, AppConstants.appStore);
+                      } else {
+                        ShareService.shareUri(context, AppConstants.playStore);
+                      }
+                    },
+                    icon: CupertinoIcons.share,
+                    title: context.tr(LocaleKeys.share_app),
+                  ),
+                  const SizedBox(height: 16),
+                  ProfileCard(
+                    icon: CupertinoIcons.building_2_fill,
+                    title: context.tr(LocaleKeys.business_information),
+                    onTap: () {
+                      _showBusinessInfoDialog(context);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ProfileCard(
+                    icon: CupertinoIcons.arrow_clockwise,
+                    title: context.tr(LocaleKeys.refund_and_exchange_policy),
+                    onTap: () {
+                      _showRefundPolicyDialog(context);
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  ProfileCard(
+                    icon: CupertinoIcons.cube_box,
+                    title: context.tr(LocaleKeys.delivery_policy),
+                    onTap: () {
+                      _showDeliveryPolicyDialog(context);
+                    },
+                  ),
+                  if (isAuthenticated) ...[
+                    const SizedBox(height: 16),
+                    ProfileCard(
+                      onTap: () {
+                        ProfileLogoutAndDelete.showDialog(
+                          context,
+                          isDelete: false,
+                          onTap: () => bloc.add(ProfileLogOut()),
+                        );
+                      },
+                      icon: CupertinoIcons.square_arrow_right,
+                      title: context.tr(LocaleKeys.logout_account),
+                    ),
+                    const SizedBox(height: 16),
+                    ProfileCard(
+                      onTap: () {
+                        ProfileLogoutAndDelete.showDialog(
+                          context,
+                          isDelete: true,
+                          onTap: () => bloc.add(ProfileDelete()),
+                        );
+                      },
+                      isLogout: true,
+                      icon: CupertinoIcons.delete,
+                      title: context.tr(LocaleKeys.delete_account),
+                    ),
+                  ],
+                ],
               ),
-              const SizedBox(height: 16),
-              ProfileCard(
-                onTap: () {
-                  if (Platform.isIOS) {
-                    ShareService.shareUri(context, AppConstants.appStore);
-                  } else {
-                    ShareService.shareUri(context, AppConstants.playStore);
-                  }
-                },
-                icon: CupertinoIcons.share,
-                title: context.tr(LocaleKeys.share_app),
-              ),
-              const SizedBox(height: 16),
-              ProfileCard(
-                icon: CupertinoIcons.building_2_fill,
-                title: context.tr(LocaleKeys.business_information),
-                onTap: () {
-                  _showBusinessInfoDialog(context);
-                },
-              ),
-              const SizedBox(height: 16),
-              ProfileCard(
-                icon: CupertinoIcons.arrow_clockwise,
-                title: context.tr(LocaleKeys.refund_and_exchange_policy),
-                onTap: () {
-                  _showRefundPolicyDialog(context);
-                },
-              ),
-              const SizedBox(height: 16),
-              ProfileCard(
-                icon: CupertinoIcons.cube_box,
-                title: context.tr(LocaleKeys.delivery_policy),
-                onTap: () {
-                  _showDeliveryPolicyDialog(context);
-                },
-              ),
-              if (isAuthenticated) ...[
-                const SizedBox(height: 16),
-                ProfileCard(
-                  onTap: () {
-                    ProfileLogoutAndDelete.showDialog(
-                      context,
-                      isDelete: false,
-                      onTap: () => bloc.add(ProfileLogOut()),
-                    );
-                  },
-                  icon: CupertinoIcons.square_arrow_right,
-                  title: context.tr(LocaleKeys.logout_account),
-                ),
-                const SizedBox(height: 16),
-                ProfileCard(
-                  onTap: () {
-                    ProfileLogoutAndDelete.showDialog(
-                      context,
-                      isDelete: true,
-                      onTap: () => bloc.add(ProfileDelete()),
-                    );
-                  },
-                  isLogout: true,
-                  icon: CupertinoIcons.delete,
-                  title: context.tr(LocaleKeys.delete_account),
-                ),
-              ],
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

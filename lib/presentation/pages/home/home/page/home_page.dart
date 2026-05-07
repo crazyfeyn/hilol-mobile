@@ -445,13 +445,18 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         actions: [
-          if (!SessionService.isAuthenticated)
-            TextButton.icon(
-              onPressed:
-                  () => NavigationService.push(context, SignInPage.path),
-              icon: const Icon(CupertinoIcons.person_crop_circle),
-              label: Text(context.tr(LocaleKeys.login_btn)),
-            ),
+          ValueListenableBuilder<bool>(
+            valueListenable: SessionService.authStateNotifier,
+            builder: (context, isAuthenticated, _) {
+              if (isAuthenticated) return const SizedBox.shrink();
+              return TextButton.icon(
+                onPressed: () =>
+                    NavigationService.push(context, SignInPage.path),
+                icon: const Icon(CupertinoIcons.person_crop_circle),
+                label: Text(context.tr(LocaleKeys.login_btn)),
+              );
+            },
+          ),
         ],
       ),
       body: BlocBuilder<HomeBloc, HomeState>(
