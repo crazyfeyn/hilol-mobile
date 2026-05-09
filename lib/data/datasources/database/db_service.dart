@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:commerce_mobile/data/models/address_model.dart';
+import 'package:commerce_mobile/data/models/cart_model.dart';
 import 'package:commerce_mobile/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -96,6 +99,9 @@ class DBService {
 
   /// User Data
   static Future<bool> setUserData(UserModel value) async {
+    if (value.clientId != null && value.clientId!.isNotEmpty) {
+      await setClientId(value.clientId);
+    }
     return await _instance.setString(
       _StorageKeys.userData,
       userModelToJson(value),
@@ -124,6 +130,52 @@ class DBService {
   static Future<bool> delAddressData() async {
     return await _instance.remove(_StorageKeys.addressData);
   }
+
+  /// Guest cart persistence
+  static Future<bool> setGuestCartData(List<CartModel> carts) async {
+    final raw = json.encode(carts.map((cart) => cart.toMap()).toList());
+    return await _instance.setString(_StorageKeys.guestCartData, raw);
+  }
+
+  static List<CartModel> getGuestCartData() {
+    final raw = _instance.getString(_StorageKeys.guestCartData);
+    if (raw == null || raw.isEmpty) return [];
+    try {
+      final decoded = json.decode(raw) as List<dynamic>;
+      return decoded
+          .map((item) => CartModel.fromMap(item as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  static Future<bool> clearGuestCartData() async {
+    return await _instance.remove(_StorageKeys.guestCartData);
+  }
+
+  /// Pending checkout cart persistence
+  static Future<bool> setPendingCheckoutCartData(List<CartModel> carts) async {
+    final raw = json.encode(carts.map((cart) => cart.toMap()).toList());
+    return await _instance.setString(_StorageKeys.pendingCheckoutCartData, raw);
+  }
+
+  static List<CartModel> getPendingCheckoutCartData() {
+    final raw = _instance.getString(_StorageKeys.pendingCheckoutCartData);
+    if (raw == null || raw.isEmpty) return [];
+    try {
+      final decoded = json.decode(raw) as List<dynamic>;
+      return decoded
+          .map((item) => CartModel.fromMap(item as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  static Future<bool> clearPendingCheckoutCartData() async {
+    return await _instance.remove(_StorageKeys.pendingCheckoutCartData);
+  }
 }
 
 class _StorageKeys {
@@ -133,4 +185,6 @@ class _StorageKeys {
   static const clientId = 'client_id';
   static const userData = 'user_data';
   static const addressData = 'address_data';
+  static const guestCartData = 'guest_cart_data';
+  static const pendingCheckoutCartData = 'pending_checkout_cart_data';
 }

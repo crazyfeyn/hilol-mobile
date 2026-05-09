@@ -247,5 +247,7 @@
   "guest_sign_in_banner": "Buyurtma berish va hisobni boshqarish uchun tizimga kiring",
   "guest_user_name": "Mehmon foydalanuvchi",
   "guest_user_phone": "Hali ro'yxatdan o'tmagan",
-  "sign_in_to_view": "Ko'rish uchun kiring"
+  "sign_in_to_view": "Ko'rish uchun kiring",
+  "search_language": "Tilni qidirish",
+  "no_language_found": "Til topilmadi"
 }

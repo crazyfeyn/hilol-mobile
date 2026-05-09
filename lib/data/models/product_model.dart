@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:commerce_mobile/core/services/lang_service.dart';
+
 ProductModel productModelFromMap(String str) => ProductModel.fromMap(json.decode(str));
 
 String productModelToMap(ProductModel data) => json.encode(data.toMap());
@@ -19,6 +21,8 @@ class ProductModel {
   final String? currency;
   final double? price;
   final int? measurementId;
+  final Map<String, String>? titleData;
+  final Map<String, String>? descriptionData;
 
   ProductModel({
     this.id,
@@ -31,6 +35,8 @@ class ProductModel {
     this.currency,
     this.price,
     this.measurementId,
+    this.titleData,
+    this.descriptionData,
   });
 
   ProductModel copyWith({
@@ -44,6 +50,8 @@ class ProductModel {
     String? currency,
     double? price,
     int? measurementId,
+    Map<String, String>? titleData,
+    Map<String, String>? descriptionData,
   }) =>
       ProductModel(
         id: id ?? this.id,
@@ -56,20 +64,43 @@ class ProductModel {
         currency: currency ?? this.currency,
         price: price ?? this.price,
         measurementId: measurementId ?? this.measurementId,
+        titleData: titleData ?? this.titleData,
+        descriptionData: descriptionData ?? this.descriptionData,
       );
 
-  factory ProductModel.fromMap(Map<String, dynamic> json) => ProductModel(
-    id: json["id"],
-    categoryId: json["categoryId"],
-    title: json["title"],
-    images: json["images"] == null ? [] : List<String>.from(json["images"]!.map((x) => x)),
-    description: json["description"],
-    brand: json["brand"],
-    amount: json["amount"],
-    currency: json["currency"],
-    price: double.tryParse(json["price"]?.toString() ?? ""),
-    measurementId: json["measurementId"],
-  );
+  String? get localizedTitle => _pickLocalizedValue(
+        localizedData: titleData,
+        backendLanguageKey: LangService.currentBackendLanguageKey,
+        fallbackValue: title,
+      );
+
+  String? get localizedDescription => _pickLocalizedValue(
+        localizedData: descriptionData,
+        backendLanguageKey: LangService.currentBackendLanguageKey,
+        fallbackValue: description,
+      );
+
+  factory ProductModel.fromMap(Map<String, dynamic> json) {
+    final parsedTitleData = _toStringMap(json["titleData"]);
+    final parsedDescriptionData = _toStringMap(json["descriptionData"]);
+
+    return ProductModel(
+      id: json["id"],
+      categoryId: json["categoryId"],
+      title: json["title"]?.toString(),
+      images: json["images"] == null
+          ? []
+          : List<String>.from(json["images"]!.map((x) => x)),
+      description: json["description"]?.toString(),
+      brand: json["brand"],
+      amount: json["amount"],
+      currency: json["currency"],
+      price: double.tryParse(json["price"]?.toString() ?? ""),
+      measurementId: json["measurementId"],
+      titleData: parsedTitleData,
+      descriptionData: parsedDescriptionData,
+    );
+  }
 
   Map<String, dynamic> toMap() => {
     "id": id,
@@ -82,5 +113,32 @@ class ProductModel {
     "currency": currency,
     "price": price,
     "measurementId": measurementId,
+    "titleData": titleData,
+    "descriptionData": descriptionData,
   };
+
+  static Map<String, String>? _toStringMap(dynamic value) {
+    if (value is! Map) return null;
+    return value.map(
+      (key, val) => MapEntry(key.toString(), val?.toString() ?? ""),
+    );
+  }
+
+  static String? _pickLocalizedValue({
+    required Map<String, String>? localizedData,
+    required String backendLanguageKey,
+    required String? fallbackValue,
+  }) {
+    final localized = localizedData?[backendLanguageKey];
+    if (localized != null && localized.trim().isNotEmpty) {
+      return localized;
+    }
+
+    final englishFallback = localizedData?["en"];
+    if (englishFallback != null && englishFallback.trim().isNotEmpty) {
+      return englishFallback;
+    }
+
+    return fallbackValue;
+  }
 }

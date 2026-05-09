@@ -14,6 +14,8 @@ class SessionService {
   static void bootstrap() {
     isAuthenticated = DBService.isLoggedIn();
     authStateNotifier.value = isAuthenticated;
+    _guestCart = DBService.getGuestCartData();
+    _pendingCheckoutCart = DBService.getPendingCheckoutCartData();
   }
 
   static void setAuthenticated(bool value) {
@@ -21,6 +23,7 @@ class SessionService {
     authStateNotifier.value = isAuthenticated;
     if (value) {
       _guestCart = [];
+      DBService.clearGuestCartData();
     }
   }
 
@@ -36,21 +39,26 @@ class SessionService {
     final index = _guestCart.indexWhere((element) => element.id == cart.id);
     if (index < 0) {
       _guestCart.add(cart);
+      DBService.setGuestCartData(_guestCart);
       return;
     }
     _guestCart[index] = cart;
+    DBService.setGuestCartData(_guestCart);
   }
 
   static void deleteGuestCartById(int id) {
     _guestCart.removeWhere((element) => element.id == id);
+    DBService.setGuestCartData(_guestCart);
   }
 
   static void clearGuestCart() {
     _guestCart = [];
+    DBService.clearGuestCartData();
   }
 
   static void savePendingCheckoutFromGuestCart() {
     _pendingCheckoutCart = List<CartModel>.from(_guestCart);
+    DBService.setPendingCheckoutCartData(_pendingCheckoutCart);
   }
 
   static bool get hasPendingCheckoutCart => _pendingCheckoutCart.isNotEmpty;
@@ -62,12 +70,14 @@ class SessionService {
       await repository.setOrUpdateCart(cart);
     }
     _pendingCheckoutCart = [];
+    await DBService.clearPendingCheckoutCartData();
     clearGuestCart();
   }
 
   static void clearGuestSessionOnExitIfUnauthenticated() {
     if (isAuthenticated) return;
     _pendingCheckoutCart = [];
+    DBService.clearPendingCheckoutCartData();
     clearGuestCart();
   }
 }

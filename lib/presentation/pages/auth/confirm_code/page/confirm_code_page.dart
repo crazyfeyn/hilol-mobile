@@ -7,6 +7,7 @@ import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
 import 'package:commerce_mobile/data/models/confirm_code_model.dart';
 import 'package:commerce_mobile/data/models/reset_pass_param_model.dart';
+import 'package:commerce_mobile/data/repositories/user_repository_impl.dart';
 import 'package:commerce_mobile/presentation/pages/auth/confirm_code/bloc/confirm_code_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/auth/confirm_code/widget/pin_put_widget.dart';
 import 'package:commerce_mobile/presentation/pages/auth/confirm_code/widget/timer_widget.dart';
@@ -54,6 +55,7 @@ class ConfirmCodeView extends StatefulWidget {
 
 class _ConfirmCodeViewState extends State<ConfirmCodeView> {
   final pinController = TextEditingController();
+  final _userRepository = UserRepositoryImpl();
 
   //? Check if this is reset password flow
   bool get isResetPasswordFlow => widget.extra['phoneNumber'] != null && widget.extra['password'] != null;
@@ -65,6 +67,12 @@ class _ConfirmCodeViewState extends State<ConfirmCodeView> {
       context.read<ResetPassBloc>().add(const ResetPassEvent.dispose());
     }
     super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    _userRepository.dispose();
+    super.dispose();
   }
 
   @override
@@ -105,10 +113,23 @@ class _ConfirmCodeViewState extends State<ConfirmCodeView> {
             // Persist tokens BEFORE navigating to pages that fetch protected APIs.
             await DBService.setAccessToken(state.auth!.accessToken);
             await DBService.setRefreshToken(state.auth!.refreshToken);
+            if ((widget.extra["clientId"] as String?)?.isNotEmpty == true) {
+              await DBService.setClientId(widget.extra["clientId"] as String);
+            }
+            final userResult = await _userRepository.fetchUserData();
+            if (userResult.isLeft()) {
+              await DBService.logOut();
+              if (!context.mounted) return;
+              GlobalSnackBar.showError(
+                context.tr(LocaleKeys.unexpected_error),
+              );
+              return;
+            }
             SessionService.setAuthenticated(true);
             if (widget.extra["fromCheckout"] == true) {
               await SessionService.applyPendingCheckoutAfterLogin();
             }
+            if (!context.mounted) return;
 
             // If coming from reset password flow, navigate to reset password page
             if (widget.extra["page"] == ResetPasswordPage.path) {

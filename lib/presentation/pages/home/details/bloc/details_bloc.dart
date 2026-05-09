@@ -80,8 +80,8 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
       if ((state.product.amount ?? 0) > 0) {
         cart = CartModel(
           id: state.product.id,
-          title: state.product.title,
-          description: state.product.description,
+          title: state.product.localizedTitle,
+          description: state.product.localizedDescription,
           brand: state.product.brand,
           amount: state.product.amount,
           currency: state.product.currency,

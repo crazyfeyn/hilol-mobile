@@ -39,6 +39,9 @@ class SignInRepositoryImpl extends SignInRepository {
         final userData = UserModel.fromJson(response['data']['user']);
         await DBService.setUserData(userData);
       }
+      if ((response['data']['clientId'] as String?)?.isNotEmpty == true) {
+        await DBService.setClientId(response['data']['clientId'] as String);
+      }
       return Right(result);
     } on NetworkException catch (e) {
       if (e.type != NetworkExceptionType.cancelled) {
