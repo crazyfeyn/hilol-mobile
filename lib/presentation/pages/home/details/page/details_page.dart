@@ -75,7 +75,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            state.product.title ?? "",
+                            state.product.localizedTitle ?? "",
                             style: AppStyles.titleXLSemibold,
                           ),
                         ),
@@ -99,7 +99,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     SizedBox(height: 12),
                     HtmlWidget(
-                      state.product.description ?? "",
+                      state.product.localizedDescription ?? "",
                       textStyle: AppStyles.titleXSRegular,
                     ),
                   ],

@@ -14,12 +14,87 @@ part 'home_bloc.freezed.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final _repository = ProductRepositoryImpl();
 
+  /// In-memory cache to avoid re-fetching when switching tabs/routes.
+  static List<ProductModel> cachedAllProducts = [];
+  static List<ProductCategoryModel> cachedCategories = [];
+
   List<ProductModel> allProducts = [];
-  HomeBloc() : super(const HomeState()) {
+
+  HomeBloc()
+      : super(
+          HomeState(
+            categories: cachedCategories,
+            categoryStatus: cachedCategories.isNotEmpty
+                ? FormzSubmissionStatus.success
+                : FormzSubmissionStatus.inProgress,
+            selectCategoryId: null,
+            products: cachedAllProducts,
+            productStatus: cachedAllProducts.isNotEmpty
+                ? FormzSubmissionStatus.success
+                : FormzSubmissionStatus.inProgress,
+          ),
+        ) {
+    // Ensure search works even when state is initialized from cached products.
+    allProducts = cachedAllProducts;
+
     on<HomeFetchBanners>((event, emit) async {});
+
+    on<HomeRefreshAll>((event, emit) async {
+      // Refresh everything from backend then update cache.
+      emit(
+        state.copyWith(
+          categoryStatus: FormzSubmissionStatus.inProgress,
+          productStatus: FormzSubmissionStatus.inProgress,
+        ),
+      );
+
+      // 1) Categories
+      List<ProductCategoryModel> categories = state.categories;
+      FormzSubmissionStatus categoryStatus = FormzSubmissionStatus.failure;
+      final catResult = await _repository.fetchAllCategories();
+      if (catResult.isRight()) {
+        categories = catResult.getOrElse(
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+        );
+        cachedCategories = categories;
+        categoryStatus = FormzSubmissionStatus.success;
+      }
+
+      // 2) Products (always fetch all products on force refresh)
+      List<ProductModel> products = state.products;
+      FormzSubmissionStatus productStatus = FormzSubmissionStatus.failure;
+      final prodResult = await _repository.fetchAllProducts();
+      if (prodResult.isRight()) {
+        products = prodResult.getOrElse(
+          () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
+        );
+        allProducts = products;
+        cachedAllProducts = products;
+        productStatus = FormzSubmissionStatus.success;
+      }
+
+      emit(
+        state.copyWith(
+          categories: categories,
+          categoryStatus: categoryStatus,
+          products: products,
+          productStatus: productStatus,
+          // Double-tap home should reset list back to "All products".
+          selectCategoryId: null,
+        ),
+      );
+    });
 
     on<HomeFetchCategories>((event, emit) async {
       FormzSubmissionStatus categoryStatus = FormzSubmissionStatus.inProgress;
+      final existingCategories = state.categories;
+
+      // If we already have categories cached, avoid unnecessary network calls.
+      if (existingCategories.isNotEmpty) {
+        emit(state.copyWith(categoryStatus: FormzSubmissionStatus.success));
+        return;
+      }
+
       emit(state.copyWith(categoryStatus: categoryStatus));
 
       List<ProductCategoryModel> categories = [];
@@ -29,48 +104,68 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
         );
         categoryStatus = FormzSubmissionStatus.success;
+        cachedCategories = categories;
       } else {
         categoryStatus = FormzSubmissionStatus.failure;
       }
 
       emit(
-        state.copyWith(categories: categories, categoryStatus: categoryStatus),
+        state.copyWith(
+          categories: categoryStatus.isSuccess ? categories : existingCategories,
+          categoryStatus: categoryStatus,
+        ),
       );
     });
 
     on<HomeFetchProducts>((event, emit) async {
-      List<ProductModel> products = [];
       FormzSubmissionStatus productStatus = FormzSubmissionStatus.inProgress;
-      emit(
-        state.copyWith(
+      final existingProducts = state.products;
+      final existingSelectCategoryId = state.selectCategoryId;
+
+      // Only show loading shimmer if we don't already have products.
+      if (existingProducts.isEmpty) {
+        emit(state.copyWith(
           selectCategoryId: event.categoryId,
           productStatus: productStatus,
-        ),
-      );
-
-      late final result;
-      if (event.categoryId == null) {
-        result = await _repository.fetchAllProducts();
-      } else {
-        result = await _repository.fetchProductsByCategory(event.categoryId!);
+        ));
       }
+
+      final result = event.categoryId == null
+          ? await _repository.fetchAllProducts()
+          : await _repository.fetchProductsByCategory(event.categoryId!);
       if (result.isRight()) {
         allProducts = result.getOrElse(
           () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
         );
         productStatus = FormzSubmissionStatus.success;
-        products = allProducts;
+        cachedAllProducts = allProducts;
+
+        emit(
+          state.copyWith(
+            products: allProducts,
+            productStatus: productStatus,
+            selectCategoryId: event.categoryId,
+          ),
+        );
+        return;
       } else {
         productStatus = FormzSubmissionStatus.failure;
       }
 
-      emit(state.copyWith(products: products, productStatus: productStatus));
+      // Preserve last known products when offline/API fails.
+      emit(
+        state.copyWith(
+          products: existingProducts,
+          productStatus: productStatus,
+          selectCategoryId: existingSelectCategoryId,
+        ),
+      );
     });
 
     on<HomeSearchProducts>((event, emit) async {
       final products =
           allProducts.where((product) {
-            return (product.title?.toLowerCase() ?? "").contains(
+            return (product.localizedTitle?.toLowerCase() ?? "").contains(
               event.text.toLowerCase(),
             );
           }).toList();
@@ -79,5 +174,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     });
 
     on<HomeDispose>((event, emit) => _repository.dispose());
+  }
+
+  @override
+  Future<void> close() {
+    _repository.dispose();
+    return super.close();
   }
 }

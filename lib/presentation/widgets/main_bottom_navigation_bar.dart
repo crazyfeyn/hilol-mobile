@@ -1,4 +1,5 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
+import 'package:commerce_mobile/core/services/home_refresh_service.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/presentation/pages/cart/cart/page/cart_page.dart';
@@ -38,7 +39,16 @@ class MainBottomNavigationBar extends StatelessWidget {
           currentIndex: currentIndex,
           onTap: (index) {
             final path = onNavigationPath(currentIndex, index);
-            if (path != null) NavigationService.go(context, path);
+            if (path != null) {
+              NavigationService.go(context, path);
+              return;
+            }
+
+            // Reselected the currently active tab.
+            // Requirement: double tap Home -> call get-all-products API.
+            if (index == 0 && currentIndex == 0) {
+              HomeRefreshService.triggerHomeReselect();
+            }
           },
           items: [
             BottomNavigationBarItem(

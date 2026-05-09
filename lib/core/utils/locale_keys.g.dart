@@ -165,19 +165,19 @@ abstract class LocaleKeys {
   static const search_address_hint = 'search_address_hint';
   static const no_results_found = 'no_results_found';
   static const search_address_title = 'search_address_title';
-  static const location_image = 'location_image';
   static const location_image_upload_success = 'location_image_upload_success';
   static const choose_from_gallery = 'choose_from_gallery';
-  static const take_photo = 'take_photo';
   static const clear_image = 'clear_image';
   static const uploading_image = 'uploading_image';
   static const upload_successful = 'upload_successful';
   static const failed_to_pick_image = 'failed_to_pick_image';
   static const failed_to_take_photo = 'failed_to_take_photo';
+  static const location_image = 'location_image';
   static const skip = 'skip';
   static const optional_step = 'optional_step';
   static const location_image_description = 'location_image_description';
   static const no_image_selected = 'no_image_selected';
+  static const take_photo = 'take_photo';
   static const choose_gallery = 'choose_gallery';
   static const remove_image = 'remove_image';
   static const uploading = 'uploading';
@@ -255,4 +255,6 @@ abstract class LocaleKeys {
   static const guest_user_name = 'guest_user_name';
   static const guest_user_phone = 'guest_user_phone';
   static const sign_in_to_view = 'sign_in_to_view';
+  static const search_language = 'search_language';
+  static const no_language_found = 'no_language_found';
 }

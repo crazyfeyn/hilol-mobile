@@ -247,5 +247,7 @@
   "guest_sign_in_banner": "Sign in to place orders and manage account",
   "guest_user_name": "Guest User",
   "guest_user_phone": "Not registered yet",
-  "sign_in_to_view": "Sign in to view"
+  "sign_in_to_view": "Sign in to view",
+  "search_language": "Search language",
+  "no_language_found": "No language found"
 }

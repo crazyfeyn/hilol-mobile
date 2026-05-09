@@ -16,6 +16,7 @@ class NetworkInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final langCode = LangService.currentLocale;
+    final backendLangKey = LangService.currentBackendLanguageKey;
     final accessToken = DBService.getAccessToken();
 
     if (NetworkService.shouldUseAuthHeader(options.path) &&
@@ -26,6 +27,7 @@ class NetworkInterceptor extends Interceptor {
     }
     options.headers["X-Request-UUID"] = const Uuid().v4();
     options.headers["X-Client-Lang"] = langCode;
+    options.headers["X-Language"] = backendLangKey;
     handler.next(options);
   }
 
@@ -46,10 +48,15 @@ class NetworkInterceptor extends Interceptor {
     // Check if error is 401 (Unauthorized)
     if (err.response?.statusCode == 401) {
       final refreshToken = DBService.getRefreshToken();
-      final clientId = DBService.getUserData()?.clientId;
+      final userClientId = DBService.getUserData()?.clientId;
+      final storedClientId = DBService.getClientId();
+      final clientId =
+          (userClientId != null && userClientId.isNotEmpty)
+              ? userClientId
+              : storedClientId;
 
       // Only attempt token refresh if we have both refresh token and client ID
-      if (refreshToken.isNotEmpty && clientId != null && clientId.isNotEmpty) {
+      if (refreshToken.isNotEmpty && clientId.isNotEmpty) {
         final result = await repository.onRefreshToken(clientId, refreshToken);
         if (result.isRight()) {
           final res = result.getOrElse(

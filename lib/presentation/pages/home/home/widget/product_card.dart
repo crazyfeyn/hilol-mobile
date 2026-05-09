@@ -57,7 +57,7 @@ class ProductCard extends StatelessWidget {
                 spacing: 8,
                 children: [
                   Text(
-                    product.title ?? "",
+                    product.localizedTitle ?? "",
                     style: AppStyles.titleSMSemibold.copyWith(
                       color: hasStock ? null : AppColors.black300,
                     ),

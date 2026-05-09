@@ -28,12 +28,18 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
 
       SignInParam? auth;
       final result = await _repository.signIn(event.auth);
-      await _userRepository.fetchUserData();
       if (result.isRight()) {
-        auth = result.getOrElse(
+        final signInAuth = result.getOrElse(
           () => throw Exception(context.tr(LocaleKeys.unexpected_error)),
         );
-        formzStatus = FormzSubmissionStatus.success;
+
+        final userResult = await _userRepository.fetchUserData();
+        if (userResult.isRight()) {
+          auth = signInAuth;
+          formzStatus = FormzSubmissionStatus.success;
+        } else {
+          formzStatus = FormzSubmissionStatus.failure;
+        }
       } else {
         formzStatus = FormzSubmissionStatus.failure;
       }

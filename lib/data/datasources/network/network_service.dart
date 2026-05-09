@@ -38,12 +38,14 @@ class NetworkService {
 
   static Map<String, String> get getHeaders {
     final langCode = LangService.currentLocale;
+    final backendLangKey = LangService.currentBackendLanguageKey;
     final accessToken = DBService.getAccessToken();
 
     final headers = <String, String>{
       "X-Device-Type": Platform.operatingSystem,
       "X-Request-UUID": const Uuid().v4(),
       "X-Client-Lang": langCode,
+      "X-Language": backendLangKey,
     };
     if (accessToken.isNotEmpty) {
       headers["Authorization"] = "Bearer $accessToken";
@@ -88,12 +90,14 @@ class NetworkService {
 
   static Map<String, String> getHeadersWithUUID([String? customUUID]) {
     final langCode = LangService.currentLocale;
+    final backendLangKey = LangService.currentBackendLanguageKey;
     final accessToken = DBService.getAccessToken();
 
     final headers = <String, String>{
       "X-Device-Type": Platform.operatingSystem,
       "X-Request-UUID": customUUID ?? const Uuid().v4(),
       "X-Client-Lang": langCode,
+      "X-Language": backendLangKey,
     };
     if (accessToken.isNotEmpty) {
       headers["Authorization"] = "Bearer $accessToken";
@@ -262,12 +266,14 @@ class NetworkService {
 
     // ✅ Build headers manually without auto-generated UUID
     final langCode = LangService.currentLocale;
+    final backendLangKey = LangService.currentBackendLanguageKey;
     final accessToken = DBService.getAccessToken();
 
     final baseHeaders = {
       "X-Device-Type": Platform.operatingSystem,
       "Authorization": "Bearer $accessToken",
       "X-Client-Lang": langCode,
+      "X-Language": backendLangKey,
     };
 
     final allHeaders = {...baseHeaders, ...headers ?? {}};

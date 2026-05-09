@@ -4,5 +4,10 @@ class LanguageModel {
   String languageCode;
   String? countryCode;
 
-  LanguageModel({required this.name, required this.icon, required this.languageCode, this.countryCode});
+  LanguageModel({
+    required this.name,
+    required this.icon,
+    required this.languageCode,
+    this.countryCode,
+  });
 }
