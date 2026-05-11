@@ -42,6 +42,7 @@ class AppIcons {
   final String home = 'assets/icons/home.svg';
   final String cart = 'assets/icons/saved.svg';
   final String person = 'assets/icons/person.svg';
+  final String icon = 'assets/icons/icon.png';
 }
 
 class AppImages {

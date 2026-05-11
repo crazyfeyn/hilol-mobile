@@ -46,83 +46,86 @@ class CustomAvatarCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Builder(
-        builder: (_) {
-          if (isLoading) {
-            return Container(
-              height: height,
-              width: width,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: color,
-                borderRadius: BorderRadius.circular(height),
-              ),
-              child: CupertinoActivityIndicator(),
-            );
-          }
+      child: GestureDetector(
+        onTap:
+            onChange != null
+                ? () async {
+                  final ImagePicker picker = ImagePicker();
+                  final xFile = await picker.pickImage(
+                    source: ImageSource.gallery,
+                  );
+                  if (xFile != null) {
+                    final croppedFile = await ImageCropper().cropImage(
+                      sourcePath: xFile.path,
+                      uiSettings: [
+                        AndroidUiSettings(
+                          lockAspectRatio: true,
+                          initAspectRatio: CropAspectRatioPreset.square,
+                          aspectRatioPresets: [CropAspectRatioPreset.square],
+                        ),
+                        IOSUiSettings(
+                          aspectRatioPresets: [CropAspectRatioPreset.square],
+                        ),
+                      ],
+                    );
+                    if (croppedFile == null) return;
+                    onChange?.call(croppedFile.path);
+                  }
+                }
+                : null,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(height),
+          child: _buildAvatar(),
+        ),
+      ),
+    );
+  }
 
-          return GestureDetector(
-            onTap:
-                onChange != null
-                    ? () async {
-                      final ImagePicker picker = ImagePicker();
-                      final xFile = await picker.pickImage(
-                        source: ImageSource.gallery,
-                      );
-                      if (xFile != null) {
-                        final croppedFile = await ImageCropper().cropImage(
-                          sourcePath: xFile.path,
-                          uiSettings: [
-                            AndroidUiSettings(
-                              lockAspectRatio: true,
-                              initAspectRatio: CropAspectRatioPreset.square,
-                              aspectRatioPresets: [
-                                CropAspectRatioPreset.square,
-                              ],
-                            ),
-                            IOSUiSettings(
-                              aspectRatioPresets: [
-                                CropAspectRatioPreset.square,
-                              ],
-                            ),
-                          ],
-                        );
-                        if (croppedFile == null) return;
-                        onChange?.call(croppedFile.path);
-                      }
-                    }
-                    : null,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(height),
-              child:
-                  imageUrl != null
-                      ? CachedNetworkImage(
-                        imageUrl: imageUrl ?? '',
-                        height: height,
-                        width: width,
-                        imageBuilder: (context, imageProvider) {
-                          return Container(
-                            height: height,
-                            width: width,
-                            alignment: Alignment.bottomCenter,
-                            decoration: BoxDecoration(
-                              color: color,
-                              borderRadius: BorderRadius.circular(height),
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                            child: onChange != null ? editWidget() : null,
-                          );
-                        },
-                        placeholder: placeholder,
-                        errorWidget: errorWidget,
-                      )
-                      : errorWidget(context, '', null),
-            ),
-          );
-        },
+  Widget _buildAvatar() {
+    // Show person icon immediately if no URL
+    if (imageUrl == null || imageUrl!.isEmpty) {
+      return _personIcon();
+    }
+
+    return CachedNetworkImage(
+      imageUrl: imageUrl!,
+      height: height,
+      width: width,
+      imageBuilder: (context, imageProvider) {
+        return Container(
+          height: height,
+          width: width,
+          alignment: Alignment.bottomCenter,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(height),
+            image: DecorationImage(image: imageProvider, fit: BoxFit.fill),
+          ),
+          child: onChange != null ? editWidget() : null,
+        );
+      },
+      // Show person icon instantly while loading or on error — no spinner
+      placeholder: (context, url) => _personIcon(),
+      errorWidget: (context, url, error) => _personIcon(),
+    );
+  }
+
+  Widget _personIcon() {
+    return Container(
+      height: height,
+      width: width,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(height),
+      ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Icon(CupertinoIcons.person, size: size, color: Colors.white),
+          if (onChange != null)
+            Align(alignment: Alignment.bottomCenter, child: editWidget()),
+        ],
       ),
     );
   }

@@ -249,5 +249,6 @@
   "guest_user_phone": "Henüz kayıtlı değil",
   "sign_in_to_view": "Görmek için giriş yapın",
   "search_language": "Dil ara",
-  "no_language_found": "Dil bulunamadı"
+  "no_language_found": "Dil bulunamadı",
+  "items_removed_from_cart": "Ürünler sepetten kaldırıldı"
 }

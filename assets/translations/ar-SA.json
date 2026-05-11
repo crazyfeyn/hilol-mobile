@@ -249,5 +249,6 @@
   "guest_user_phone": "غير مسجل بعد",
   "sign_in_to_view": "قم بتسجيل الدخول للمشاهدة",
   "search_language": "البحث عن لغة",
-  "no_language_found": "لم يتم العثور على لغة"
+  "no_language_found": "لم يتم العثور على لغة",
+  "items_removed_from_cart": "تمت إزالة العناصر من سلة التسوق"
 }

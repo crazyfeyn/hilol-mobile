@@ -249,5 +249,6 @@
   "guest_user_phone": "Азырынча катталган эмес",
   "sign_in_to_view": "Көрүү үчүн кириңиз",
   "search_language": "Тилди издөө",
-  "no_language_found": "Тил табылган жок"
+  "no_language_found": "Тил табылган жок",
+  "items_removed_from_cart": "Товарлар себеттен өчүрүлдү"
 }

@@ -249,5 +249,6 @@
   "guest_user_phone": "មិនទាន់បានចុះឈ្មោះ",
   "sign_in_to_view": "ចូលដើម្បីមើល",
   "search_language": "ស្វែងរកភាសា",
-  "no_language_found": "រកមិនឃើញភាសា"
+  "no_language_found": "រកមិនឃើញភាសា",
+  "items_removed_from_cart": "ទំនិញត្រូវបានលុបចេញពីរទេះទិញទំនិញ"
 }

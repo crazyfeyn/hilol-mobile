@@ -18,9 +18,12 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CartState {
   FormzSubmissionStatus get formzStatus => throw _privateConstructorUsedError;
+  FormzSubmissionStatus get checkoutStatus =>
+      throw _privateConstructorUsedError;
   List<CartModel> get carts => throw _privateConstructorUsedError;
   double get subtotal => throw _privateConstructorUsedError;
   double get percent => throw _privateConstructorUsedError;
+  int get removedCount => throw _privateConstructorUsedError;
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.
@@ -36,9 +39,11 @@ abstract class $CartStateCopyWith<$Res> {
   @useResult
   $Res call({
     FormzSubmissionStatus formzStatus,
+    FormzSubmissionStatus checkoutStatus,
     List<CartModel> carts,
     double subtotal,
     double percent,
+    int removedCount,
   });
 }
 
@@ -58,9 +63,11 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
   @override
   $Res call({
     Object? formzStatus = null,
+    Object? checkoutStatus = null,
     Object? carts = null,
     Object? subtotal = null,
     Object? percent = null,
+    Object? removedCount = null,
   }) {
     return _then(
       _value.copyWith(
@@ -68,6 +75,11 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
                 null == formzStatus
                     ? _value.formzStatus
                     : formzStatus // ignore: cast_nullable_to_non_nullable
+                        as FormzSubmissionStatus,
+            checkoutStatus:
+                null == checkoutStatus
+                    ? _value.checkoutStatus
+                    : checkoutStatus // ignore: cast_nullable_to_non_nullable
                         as FormzSubmissionStatus,
             carts:
                 null == carts
@@ -84,6 +96,11 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
                     ? _value.percent
                     : percent // ignore: cast_nullable_to_non_nullable
                         as double,
+            removedCount:
+                null == removedCount
+                    ? _value.removedCount
+                    : removedCount // ignore: cast_nullable_to_non_nullable
+                        as int,
           )
           as $Val,
     );
@@ -101,9 +118,11 @@ abstract class _$$CartStateImplCopyWith<$Res>
   @useResult
   $Res call({
     FormzSubmissionStatus formzStatus,
+    FormzSubmissionStatus checkoutStatus,
     List<CartModel> carts,
     double subtotal,
     double percent,
+    int removedCount,
   });
 }
 
@@ -122,9 +141,11 @@ class __$$CartStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? formzStatus = null,
+    Object? checkoutStatus = null,
     Object? carts = null,
     Object? subtotal = null,
     Object? percent = null,
+    Object? removedCount = null,
   }) {
     return _then(
       _$CartStateImpl(
@@ -132,6 +153,11 @@ class __$$CartStateImplCopyWithImpl<$Res>
             null == formzStatus
                 ? _value.formzStatus
                 : formzStatus // ignore: cast_nullable_to_non_nullable
+                    as FormzSubmissionStatus,
+        checkoutStatus:
+            null == checkoutStatus
+                ? _value.checkoutStatus
+                : checkoutStatus // ignore: cast_nullable_to_non_nullable
                     as FormzSubmissionStatus,
         carts:
             null == carts
@@ -148,6 +174,11 @@ class __$$CartStateImplCopyWithImpl<$Res>
                 ? _value.percent
                 : percent // ignore: cast_nullable_to_non_nullable
                     as double,
+        removedCount:
+            null == removedCount
+                ? _value.removedCount
+                : removedCount // ignore: cast_nullable_to_non_nullable
+                    as int,
       ),
     );
   }
@@ -158,15 +189,20 @@ class __$$CartStateImplCopyWithImpl<$Res>
 class _$CartStateImpl extends _CartState {
   const _$CartStateImpl({
     this.formzStatus = FormzSubmissionStatus.inProgress,
+    this.checkoutStatus = FormzSubmissionStatus.initial,
     final List<CartModel> carts = const [],
     this.subtotal = 0.0,
     this.percent = 0.0,
+    this.removedCount = 0,
   }) : _carts = carts,
        super._();
 
   @override
   @JsonKey()
   final FormzSubmissionStatus formzStatus;
+  @override
+  @JsonKey()
+  final FormzSubmissionStatus checkoutStatus;
   final List<CartModel> _carts;
   @override
   @JsonKey()
@@ -182,10 +218,13 @@ class _$CartStateImpl extends _CartState {
   @override
   @JsonKey()
   final double percent;
+  @override
+  @JsonKey()
+  final int removedCount;
 
   @override
   String toString() {
-    return 'CartState(formzStatus: $formzStatus, carts: $carts, subtotal: $subtotal, percent: $percent)';
+    return 'CartState(formzStatus: $formzStatus, checkoutStatus: $checkoutStatus, carts: $carts, subtotal: $subtotal, percent: $percent, removedCount: $removedCount)';
   }
 
   @override
@@ -195,19 +234,25 @@ class _$CartStateImpl extends _CartState {
             other is _$CartStateImpl &&
             (identical(other.formzStatus, formzStatus) ||
                 other.formzStatus == formzStatus) &&
+            (identical(other.checkoutStatus, checkoutStatus) ||
+                other.checkoutStatus == checkoutStatus) &&
             const DeepCollectionEquality().equals(other._carts, _carts) &&
             (identical(other.subtotal, subtotal) ||
                 other.subtotal == subtotal) &&
-            (identical(other.percent, percent) || other.percent == percent));
+            (identical(other.percent, percent) || other.percent == percent) &&
+            (identical(other.removedCount, removedCount) ||
+                other.removedCount == removedCount));
   }
 
   @override
   int get hashCode => Object.hash(
     runtimeType,
     formzStatus,
+    checkoutStatus,
     const DeepCollectionEquality().hash(_carts),
     subtotal,
     percent,
+    removedCount,
   );
 
   /// Create a copy of CartState
@@ -222,20 +267,26 @@ class _$CartStateImpl extends _CartState {
 abstract class _CartState extends CartState {
   const factory _CartState({
     final FormzSubmissionStatus formzStatus,
+    final FormzSubmissionStatus checkoutStatus,
     final List<CartModel> carts,
     final double subtotal,
     final double percent,
+    final int removedCount,
   }) = _$CartStateImpl;
   const _CartState._() : super._();
 
   @override
   FormzSubmissionStatus get formzStatus;
   @override
+  FormzSubmissionStatus get checkoutStatus;
+  @override
   List<CartModel> get carts;
   @override
   double get subtotal;
   @override
   double get percent;
+  @override
+  int get removedCount;
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.

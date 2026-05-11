@@ -2,7 +2,7 @@ import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/services/home_refresh_service.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
-import 'package:commerce_mobile/presentation/pages/cart/cart/page/cart_page.dart';
+import 'package:commerce_mobile/presentation/pages/cart/page/cart_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/home/page/home_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/page/profile_page.dart';
 import 'package:easy_localization/easy_localization.dart';

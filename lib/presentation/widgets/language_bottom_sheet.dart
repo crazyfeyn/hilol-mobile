@@ -10,11 +10,13 @@ import 'package:commerce_mobile/presentation/widgets/construction_bottom_sheet.d
 import 'package:commerce_mobile/presentation/widgets/custom_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LanguageBottomSheet extends StatefulWidget {
   final VoidCallback? onTap;
+  final ScrollController? scrollController;
 
-  const LanguageBottomSheet({super.key, this.onTap});
+  const LanguageBottomSheet({super.key, this.onTap, this.scrollController});
 
   static showBottomSheet({required BuildContext context, VoidCallback? onTap}) {
     return showModalBottomSheet(
@@ -23,8 +25,22 @@ class LanguageBottomSheet extends StatefulWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       isScrollControlled: true,
+      // Add these:
+      isDismissible: true,
+      enableDrag: true,
       builder: (_) {
-        return LanguageBottomSheet(onTap: onTap);
+        return DraggableScrollableSheet(
+          initialChildSize: 0.6,
+          minChildSize: 0.3,
+          maxChildSize: 0.9,
+          expand: false,
+          builder: (_, scrollController) {
+            return LanguageBottomSheet(
+              onTap: onTap,
+              scrollController: scrollController, // pass it down
+            );
+          },
+        );
       },
     );
   }
@@ -37,6 +53,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
   List<LanguageModel> allLanguages = [];
   List<LanguageModel> filteredLanguages = [];
   TextEditingController searchController = TextEditingController();
+  GoRouter? _router;
 
   @override
   void initState() {
@@ -47,11 +64,27 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
   }
 
   @override
-  void dispose() {
-    searchController.removeListener(_filterLanguages);
-    searchController.dispose();
-    super.dispose();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_router == null) {
+      _router = GoRouter.of(context);
+      _router!.routerDelegate.addListener(_onRouteChanged);
+    }
   }
+
+  @override
+void dispose() {
+  _router?.routerDelegate.removeListener(_onRouteChanged);
+  searchController.removeListener(_filterLanguages);
+  searchController.dispose();
+  super.dispose();
+}
+
+void _onRouteChanged() {
+  if (mounted && Navigator.of(context).canPop()) {
+    Navigator.of(context).pop();
+  }
+}
 
   void _filterLanguages() {
     final query = searchController.text.toLowerCase().trim();
@@ -83,13 +116,8 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
     return ConstructionBottomSheet(
       isDivider: false,
       title: "",
-      actions: [
-        BottomSheetAction(
-          color: AppColors.black500,
-          icon: AppAssets.icons.icClose,
-          onTap: () => Navigator.of(context).pop(),
-        ),
-      ],
+      actions: const [],
+      scrollController: widget.scrollController,
       child: Column(
         children: [
           // Search bar for 29 languages

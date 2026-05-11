@@ -249,5 +249,6 @@
   "guest_user_phone": "尚未注册",
   "sign_in_to_view": "登录后查看",
   "search_language": "搜索语言",
-  "no_language_found": "未找到语言"
+  "no_language_found": "未找到语言",
+  "items_removed_from_cart": "商品已从购物车中移除"
 }

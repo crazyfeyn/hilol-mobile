@@ -249,5 +249,6 @@
   "guest_user_phone": "Non ancora registrato",
   "sign_in_to_view": "Accedi per visualizzare",
   "search_language": "Cerca lingua",
-  "no_language_found": "Nessuna lingua trovata"
+  "no_language_found": "Nessuna lingua trovata",
+   "items_removed_from_cart": "Articoli rimossi dal carrello"
 }

@@ -102,6 +102,7 @@ enum NetworkExceptionType {
   formatError,
   badCertificate,
   unknown,
+  notFound,
 }
 
 class NetworkException implements Exception {

@@ -249,5 +249,6 @@
   "guest_user_phone": "ยังไม่ได้ลงทะเบียน",
   "sign_in_to_view": "เข้าสู่ระบบเพื่อดู",
   "search_language": "ค้นหาภาษา",
-  "no_language_found": "ไม่พบภาษา"
+  "no_language_found": "ไม่พบภาษา",
+   "items_removed_from_cart": "สินค้าถูกนำออกจากรถเข็นแล้ว"
 }
