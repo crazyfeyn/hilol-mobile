@@ -11,4 +11,5 @@ abstract class CartRepository {
   Future<Either<String, bool>> deleteCart(int cartId);
 
   Future<Either<String, bool>> deleteAllCarts();
+  Future<Either<String, List<CartModel>>> fetchAndValidateCarts();
 }

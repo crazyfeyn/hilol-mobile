@@ -249,5 +249,6 @@
   "guest_user_phone": "अहिले सम्म दर्ता भएको छैन",
   "sign_in_to_view": "हेर्नको लागि लग इन गर्नुहोस्",
   "search_language": "भाषा खोज्नुहोस्",
-  "no_language_found": "कुनै भाषा फेला परेन"
+  "no_language_found": "कुनै भाषा फेला परेन",
+  "items_removed_from_cart": "सामानहरू कार्टबाट हटाइयो"
 }

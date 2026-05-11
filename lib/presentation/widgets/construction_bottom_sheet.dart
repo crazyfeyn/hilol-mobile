@@ -21,7 +21,12 @@ class BottomSheetButton {
   final String title;
   final VoidCallback? onTap;
 
-  BottomSheetButton({this.type = BottomSheetButtonType.elevated, this.color, required this.title, this.onTap});
+  BottomSheetButton({
+    this.type = BottomSheetButtonType.elevated,
+    this.color,
+    required this.title,
+    this.onTap,
+  });
 }
 
 class ConstructionBottomSheet extends StatelessWidget {
@@ -30,6 +35,7 @@ class ConstructionBottomSheet extends StatelessWidget {
   final List<BottomSheetButton>? buttons;
   final String title;
   final Widget child;
+  final ScrollController? scrollController;
 
   const ConstructionBottomSheet({
     super.key,
@@ -38,13 +44,20 @@ class ConstructionBottomSheet extends StatelessWidget {
     required this.child,
     this.actions,
     this.buttons,
+    this.scrollController,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: MediaQuery.viewPaddingOf(context).bottom + 8),
+      padding: EdgeInsets.only(
+        left: 16,
+        right: 16,
+        top: 8,
+        bottom: MediaQuery.viewPaddingOf(context).bottom + 8,
+      ),
       child: SingleChildScrollView(
+        controller: scrollController,
         child: Wrap(
           runSpacing: 16,
           alignment: WrapAlignment.start,
@@ -64,12 +77,9 @@ class ConstructionBottomSheet extends StatelessWidget {
                   spacing: 12,
                   children: [
                     Expanded(
-                      child: Text(
-                        title,
-                        style: AppStyles.titleSMSemibold,
-                      ),
+                      child: Text(title, style: AppStyles.titleSMSemibold),
                     ),
-                    if(actions != null)
+                    if (actions != null)
                       ...List.generate(actions!.length, (index) {
                         final action = actions![index];
                         return _action(
@@ -77,36 +87,38 @@ class ConstructionBottomSheet extends StatelessWidget {
                           icon: action.icon,
                           onTap: action.onTap,
                         );
-                      })
+                      }),
                   ],
                 ),
               ],
             ),
-            if(isDivider) Divider(),
+            if (isDivider) Divider(),
             child,
-            if(buttons != null && buttons!.isNotEmpty)
-              ...[
-                if(isDivider) Divider(),
-                Row(
-                  spacing: 8,
-                  children: List.generate(buttons!.length, (index) {
-                    final button = buttons![index];
-                    if(button.type == BottomSheetButtonType.outline) {
-                      return Expanded(
-                        child: CustomOutlinedButton(onTap: button.onTap, title: button.title),
-                      );
-                    }
-
+            if (buttons != null && buttons!.isNotEmpty) ...[
+              if (isDivider) Divider(),
+              Row(
+                spacing: 8,
+                children: List.generate(buttons!.length, (index) {
+                  final button = buttons![index];
+                  if (button.type == BottomSheetButtonType.outline) {
                     return Expanded(
-                      child: CustomElevatedButton(
+                      child: CustomOutlinedButton(
                         onTap: button.onTap,
                         title: button.title,
-                        color: button.color,
                       ),
                     );
-                  }),
-                ),
-              ],
+                  }
+
+                  return Expanded(
+                    child: CustomElevatedButton(
+                      onTap: button.onTap,
+                      title: button.title,
+                      color: button.color,
+                    ),
+                  );
+                }),
+              ),
+            ],
           ],
         ),
       ),

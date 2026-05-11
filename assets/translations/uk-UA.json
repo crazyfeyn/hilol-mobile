@@ -249,5 +249,6 @@
   "guest_user_phone": "Ще не зареєстровано",
   "sign_in_to_view": "Увійдіть, щоб переглянути",
   "search_language": "Пошук мови",
-  "no_language_found": "Мову не знайдено"
+  "no_language_found": "Мову не знайдено",
+  "items_removed_from_cart": "Товари видалено з кошика"
 }

@@ -249,5 +249,6 @@
   "guest_user_phone": "Хараахан бүртгүүлээгүй байна",
   "sign_in_to_view": "Харахын тулд нэвтрэнэ үү",
   "search_language": "Хэл хайх",
-  "no_language_found": "Хэл олдсонгүй"
+  "no_language_found": "Хэл олдсонгүй",
+  "items_removed_from_cart": "Бараанууд сагснаас хасагдлаа"
 }

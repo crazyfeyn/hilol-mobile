@@ -257,4 +257,5 @@ abstract class LocaleKeys {
   static const sign_in_to_view = 'sign_in_to_view';
   static const search_language = 'search_language';
   static const no_language_found = 'no_language_found';
+  static const items_removed_from_cart = 'items_removed_from_cart';
 }

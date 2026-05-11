@@ -52,7 +52,9 @@ class PaymentRepositoryImpl extends PaymentRepository {
       final result = CreatePaymentData.fromJson(response["data"] ?? {});
       return Right(result);
     } on NetworkException catch (e) {
-      if (e.type != NetworkExceptionType.cancelled) {}
+      if (e.type != NetworkExceptionType.cancelled) {
+        GlobalSnackBar.showError(e.message);
+      }
       return Left(e.toString());
     } catch (e) {
       return Left(e.toString());

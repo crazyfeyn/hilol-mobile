@@ -8,7 +8,7 @@ import 'package:commerce_mobile/presentation/pages/auth/forget_pass/page/forget_
 import 'package:commerce_mobile/presentation/pages/auth/reset_pass/page/reset_pass_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_up/page/sign_up_page.dart';
-import 'package:commerce_mobile/presentation/pages/cart/cart/page/cart_page.dart';
+import 'package:commerce_mobile/presentation/pages/cart/page/cart_page.dart';
 import 'package:commerce_mobile/presentation/pages/my_order/page/my_order_page.dart';
 import 'package:commerce_mobile/presentation/pages/payment/page/payment_page.dart';
 import 'package:commerce_mobile/presentation/pages/home/details/page/details_page.dart';

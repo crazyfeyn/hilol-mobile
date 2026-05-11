@@ -249,5 +249,6 @@
   "guest_user_phone": "अभी तक पंजीकृत नहीं",
   "sign_in_to_view": "देखने के लिए साइन इन करें",
   "search_language": "भाषा खोजें",
-  "no_language_found": "कोई भाषा नहीं मिली"
+  "no_language_found": "कोई भाषा नहीं मिली",
+  "items_removed_from_cart": "आइटम कार्ट से हटा दिए गए"
 }

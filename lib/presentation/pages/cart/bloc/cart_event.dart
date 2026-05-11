@@ -23,3 +23,5 @@ class CartDeleteById extends CartEvent {
 }
 
 class CartDeleteAllCarts extends CartEvent {}
+
+class CartValidateAndCheckout extends CartEvent {}

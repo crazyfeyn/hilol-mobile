@@ -17,9 +17,9 @@ class AppConstants {
 
   // App/Play store urls
   static const String appStore =
-      'https://play.google.com/store/apps/details?id=com.otashqassob&hl=en';
+      'https://apps.apple.com/kr/app/hilol-market/id6764551915?l=en-GB';
   static const String playStore =
-      'https://play.google.com/store/apps/details?id=kr.hilolMarket.mobile';
+      'https://play.google.com/store/apps/details?id=kr.hilolMarket.mobile&hl=en';
 
   static int confirmCodeSeconds = 120;
 

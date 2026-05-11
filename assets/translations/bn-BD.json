@@ -249,5 +249,6 @@
   "guest_user_phone": "এখনও নিবন্ধিত নয়",
   "sign_in_to_view": "দেখতে লগ ইন করুন",
   "search_language": "ভাষা অনুসন্ধান",
-  "no_language_found": "কোন ভাষা পাওয়া যায়নি"
+  "no_language_found": "কোন ভাষা পাওয়া যায়নি",
+  "items_removed_from_cart": "আইটেমগুলো কার্ট থেকে সরানো হয়েছে"
 }

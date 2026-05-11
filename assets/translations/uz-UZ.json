@@ -249,5 +249,6 @@
   "guest_user_phone": "Hali ro'yxatdan o'tmagan",
   "sign_in_to_view": "Ko'rish uchun kiring",
   "search_language": "Tilni qidirish",
-  "no_language_found": "Til topilmadi"
+  "no_language_found": "Til topilmadi",
+  "items_removed_from_cart": "Mahsulotlar savatchadan olib tashlandi"
 }

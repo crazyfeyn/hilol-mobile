@@ -249,5 +249,6 @@
   "guest_user_phone": "Belum berdaftar",
   "sign_in_to_view": "Log masuk untuk melihat",
   "search_language": "Cari bahasa",
-  "no_language_found": "Tiada bahasa dijumpai"
-}
+  "no_language_found": "Tiada bahasa dijumpai",
+  "items_removed_from_cart": "Item telah dihapus dari keranjang"
+} 

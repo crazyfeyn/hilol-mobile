@@ -112,6 +112,28 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         if (res) emit(state.copyWith(carts: [], subtotal: 0.0));
       }
     });
+
+    on<CartValidateAndCheckout>((event, emit) async {
+      emit(state.copyWith(checkoutStatus: FormzSubmissionStatus.inProgress));
+
+      final result = await _repository.fetchAndValidateCarts();
+
+      result.fold(
+        (error) =>
+            emit(state.copyWith(checkoutStatus: FormzSubmissionStatus.failure)),
+        (validCarts) {
+          final removedCount = state.carts.length - validCarts.length;
+          emit(
+            state.copyWith(
+              carts: validCarts,
+              subtotal: _onTotalPrice(validCarts),
+              removedCount: removedCount,
+              checkoutStatus: FormzSubmissionStatus.success,
+            ),
+          );
+        },
+      );
+    });
   }
 
   double _onTotalPrice(List<CartModel> others) {

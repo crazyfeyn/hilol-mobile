@@ -249,5 +249,6 @@
   "guest_user_phone": "Әлі тіркелмеген",
   "sign_in_to_view": "Көру үшін кіріңіз",
   "search_language": "Тілді іздеу",
-  "no_language_found": "Тіл табылмады"
+  "no_language_found": "Тіл табылмады",
+  "items_removed_from_cart": "Тауарлар себеттен жойылды"
 }

@@ -1,4 +1,5 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
+import 'package:commerce_mobile/core/utils/app_assets.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/data/datasources/database/db_service.dart';
@@ -7,6 +8,7 @@ import 'package:commerce_mobile/presentation/pages/home/home/page/home_page.dart
 import 'package:commerce_mobile/presentation/pages/splash/bloc/splash_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashPage extends StatelessWidget {
   static const String path = "/splash_page";
@@ -17,7 +19,7 @@ class SplashPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SplashBloc(),
-      child: ProfileView(),
+      child: const ProfileView(),
     );
   }
 }
@@ -29,7 +31,10 @@ class ProfileView extends StatefulWidget {
   State<ProfileView> createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
+class _ProfileViewState extends State<ProfileView>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _lottieController;
+
   WidgetsBinding get _binding => WidgetsBinding.instance;
 
   void _initState(_) {
@@ -38,8 +43,15 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   void initState() {
-    _binding.addPostFrameCallback(_initState);
     super.initState();
+    _lottieController = AnimationController(vsync: this);
+    _binding.addPostFrameCallback(_initState);
+  }
+
+  @override
+  void dispose() {
+    _lottieController.dispose();
+    super.dispose();
   }
 
   @override
@@ -57,7 +69,17 @@ class _ProfileViewState extends State<ProfileView> {
           NavigationService.go(context, HomePage.path);
         }
       },
-      child: Scaffold(backgroundColor: AppColors.primary500),
+      child: Scaffold(
+        backgroundColor: AppColors.primary500,
+        body: Center(
+          child: Image.asset(
+            AppAssets.icons.icon,
+            width: 150,
+            height: 150,
+            fit: BoxFit.contain,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -249,5 +249,6 @@
   "guest_user_phone": "未登録",
   "sign_in_to_view": "表示するにはログインしてください",
   "search_language": "言語を検索",
-  "no_language_found": "言語が見つかりません"
+  "no_language_found": "言語が見つかりません",
+  "items_removed_from_cart": "商品がカートから削除されました"
 }

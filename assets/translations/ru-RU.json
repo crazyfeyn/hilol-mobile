@@ -249,5 +249,6 @@
   "guest_user_phone": "Еще не зарегистрирован",
   "sign_in_to_view": "Войдите, чтобы увидеть",
   "search_language": "Поиск языка",
-  "no_language_found": "Язык не найден"
+  "no_language_found": "Язык не найден",
+  "items_removed_from_cart": "Товары удалены из корзины"
 }
