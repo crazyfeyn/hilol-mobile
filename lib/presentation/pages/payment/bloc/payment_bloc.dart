@@ -22,45 +22,25 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     });
 
     on<PaymentSendRequest>((event, emit) async {
-      FormzSubmissionStatus formzStatus = FormzSubmissionStatus.inProgress;
-      emit(state.copyWith(formzStatus: formzStatus));
+      emit(state.copyWith(formzStatus: FormzSubmissionStatus.inProgress));
 
-      PaymentFlowLogger.log(
-        'PaymentSendRequest: orderId=${state.order.orderId} orderStatus=${state.order.orderStatus}',
-      );
+      // Step 1: Always confirm order first
+      final confirmed = await _confirmOrder(state.order);
+      if (!confirmed) {
+        emit(state.copyWith(formzStatus: FormzSubmissionStatus.canceled));
+        return;
+      }
 
-      String? checkoutUrl;
-
-      // Prefer creating the payment session without calling confirm first so the server
-      // does not run confirm-side logic (e.g. inventory) before the user pays on the web.
-      var paymentResult = await _repository.createPayment(
+      // Step 2: Create payment session
+      final paymentResult = await _repository.createPayment(
         state.order.orderId,
         'CARD',
       );
-      if (paymentResult.isLeft()) {
-        final err = paymentResult.fold((l) => l, (_) => '');
-        PaymentFlowLogger.log(
-          'createPayment without confirm failed: $err — falling back to confirmOrder then createPayment',
-        );
-        if (!await _confirmOrder(state.order)) {
-          formzStatus = FormzSubmissionStatus.canceled;
-          PaymentFlowLogger.log(
-            'confirmOrder failed or cancelled; not opening checkout',
-          );
-          emit(state.copyWith(formzStatus: formzStatus));
-          return;
-        }
-        paymentResult = await _repository.createPayment(
-          state.order.orderId,
-          'CARD',
-        );
-      }
 
       if (paymentResult.isRight()) {
         final paymentData = paymentResult.getOrElse(
           () => throw Exception('Unexpected error'),
         );
-        checkoutUrl = paymentData.checkoutUrl;
         emit(
           state.copyWith(
             order: state.order.copyWith(
@@ -69,47 +49,30 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
               totalPrice: paymentData.totalAmount,
               currency: paymentData.currency,
             ),
+            formzStatus: FormzSubmissionStatus.success,
+            paymentUrl: paymentData.checkoutUrl,
           ),
         );
-        formzStatus = FormzSubmissionStatus.success;
-        PaymentFlowLogger.log(
-          'checkoutUrl ready; opening external browser with amount=${paymentData.totalAmount} ${paymentData.currency}',
-        );
       } else {
-        formzStatus = FormzSubmissionStatus.failure;
-        PaymentFlowLogger.log(
-          'createPayment failed after fallback: ${paymentResult.fold((l) => l, (_) => '')}',
-        );
+        emit(state.copyWith(formzStatus: FormzSubmissionStatus.failure));
       }
-      emit(state.copyWith(formzStatus: formzStatus, paymentUrl: checkoutUrl));
-      // if(checkoutUrl != null) LauncherService.launcherApplication(checkoutUrl);
     });
   }
 
   Future<bool> _confirmOrder(OrderData order) async {
-    // Only skip if order is already confirmed or beyond (e.g., PROCESSING, SHIPPED, DELIVERED)
-    // DO NOT skip for NEW or WAITING – those need confirmation.
-    final status = order.orderStatus;
-    if (status != 'NEW' && status != 'WAITING') {
-      PaymentFlowLogger.log(
-        'confirmOrder skipped (order already past NEW/WAITING) – status: $status',
-      );
-      return true;
-    }
-
     PaymentFlowLogger.log(
       'confirmOrder: PUT /api/v1/order/confirm orderId=${order.orderId}',
     );
-    final result = await _repository.confirmOrder(state.order.orderId);
-    if (result.isRight()) {
-      final ok = result.getOrElse(() => throw Exception('Unexpected error'));
-      PaymentFlowLogger.log('confirmOrder response success=$ok');
-      return ok;
-    }
-
-    PaymentFlowLogger.log(
-      'confirmOrder failed: ${result.fold((l) => l, (_) => '')}',
+    final result = await _repository.confirmOrder(order.orderId);
+    return result.fold(
+      (err) {
+        PaymentFlowLogger.log('confirmOrder failed: $err');
+        return false;
+      },
+      (ok) {
+        PaymentFlowLogger.log('confirmOrder success=$ok');
+        return ok;
+      },
     );
-    return false;
   }
 }

@@ -26,19 +26,15 @@ class CartRepositoryImpl extends CartRepository {
   }
 
   @override
-  Future<Either<String, CartModel>> fetchCartById(int id) async {
+  Future<Either<String, CartModel?>> fetchCartById(int id) async {
     try {
       if (!SessionService.isAuthenticated) {
         final guestCart = SessionService.findGuestCartById(id);
-        if (guestCart == null) {
-          GlobalSnackBar.showError('Guest cart not found');
-          return Left('Guest cart not found');
-        }
-        return Right(guestCart);
+        return Right(guestCart); // null is fine, means not in cart yet
       }
       final response = await CartDB.fetchCartById(id);
-      final cart = CartModel.fromMap(response!);
-      return Right(cart);
+      if (response == null) return Right(null); // ← no crash, no snackbar
+      return Right(CartModel.fromMap(response));
     } catch (e) {
       GlobalSnackBar.showError('Failed to fetch cart: ${e.toString()}');
       return Left(e.toString());

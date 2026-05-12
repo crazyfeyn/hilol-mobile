@@ -70,27 +70,27 @@ class DetailsBloc extends Bloc<DetailsEvent, DetailsState> {
   }
 
   Future<CartModel?> _addCart(CartModel? other) async {
-    late CartModel cart;
+    CartModel cart;
+
     if (other != null) {
       int newCount = (other.count ?? 0) + 1;
       final amount = state.product.amount ?? 0;
       newCount = newCount > amount ? amount : newCount;
       cart = other.copyWith(count: newCount, amount: amount);
     } else {
-      if ((state.product.amount ?? 0) > 0) {
-        cart = CartModel(
-          id: state.product.id,
-          title: state.product.localizedTitle,
-          description: state.product.localizedDescription,
-          brand: state.product.brand,
-          amount: state.product.amount,
-          currency: state.product.currency,
-          price: state.product.price,
-          measurementId: state.product.measurementId,
-          image: getImage(state.product.images),
-          count: 1,
-        );
-      }
+      if ((state.product.amount ?? 0) <= 0) return null;
+      cart = CartModel(
+        id: state.product.id,
+        title: state.product.localizedTitle,
+        description: state.product.localizedDescription,
+        brand: state.product.brand,
+        amount: state.product.amount,
+        currency: state.product.currency,
+        price: state.product.price,
+        measurementId: state.product.measurementId,
+        image: getImage(state.product.images),
+        count: 1,
+      );
     }
 
     final result = await _repository.setOrUpdateCart(cart);

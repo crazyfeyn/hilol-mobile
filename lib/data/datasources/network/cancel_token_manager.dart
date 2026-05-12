@@ -3,8 +3,11 @@ import 'package:dio/dio.dart';
 class CancelTokenManager {
   final Map<String, CancelToken> _tokens = {};
 
-  /// Token yaratish va olish
   CancelToken getToken(String key) {
+    // If token exists but was cancelled, replace it with a fresh one
+    if (_tokens[key]?.isCancelled ?? false) {
+      _tokens[key] = CancelToken();
+    }
     return _tokens.putIfAbsent(key, () => CancelToken());
   }
 

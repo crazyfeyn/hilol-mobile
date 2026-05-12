@@ -97,7 +97,7 @@ class _ProfileViewState extends State<ProfileView> {
                 const SizedBox(height: 8),
                 _buildInfoRow(
                   context.tr(LocaleKeys.customer_service),
-                  context.tr(LocaleKeys.customer_service_value),
+                  'golibjon@jbnu.ac.kr',
                 ),
                 const SizedBox(height: 8),
                 _buildInfoRow(
@@ -356,10 +356,11 @@ class _ProfileViewState extends State<ProfileView> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: TextButton(
-                              onPressed: () => NavigationService.push(
-                                context,
-                                SignInPage.path,
-                              ),
+                              onPressed:
+                                  () => NavigationService.push(
+                                    context,
+                                    SignInPage.path,
+                                  ),
                               child: Text(context.tr(LocaleKeys.login_btn)),
                             ),
                           ),
@@ -373,7 +374,8 @@ class _ProfileViewState extends State<ProfileView> {
                     const CircularProgressIndicator()
                   else ...[
                     CustomAvatarCard(
-                      imageUrl: isAuthenticated ? state.user?.imageUrl ?? "" : "",
+                      imageUrl:
+                          isAuthenticated ? state.user?.imageUrl ?? "" : "",
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -401,19 +403,29 @@ class _ProfileViewState extends State<ProfileView> {
                   ProfileCard(
                     icon: CupertinoIcons.bag,
                     title: context.tr(LocaleKeys.my_orders),
-                    prompt: isAuthenticated
-                        ? null
-                        : context.tr(LocaleKeys.sign_in_to_view),
-                    onTap: () => isAuthenticated
-                        ? NavigationService.push(context, MyOrderPage.path)
-                        : NavigationService.push(context, SignInPage.path),
+                    prompt:
+                        isAuthenticated
+                            ? null
+                            : context.tr(LocaleKeys.sign_in_to_view),
+                    onTap:
+                        () =>
+                            isAuthenticated
+                                ? NavigationService.push(
+                                  context,
+                                  MyOrderPage.path,
+                                )
+                                : NavigationService.push(
+                                  context,
+                                  SignInPage.path,
+                                ),
                   ),
 
                   const SizedBox(height: 16),
                   ProfileCard(
-                    onTap: () => LanguageBottomSheet.showBottomSheet(
-                      context: context,
-                    ),
+                    onTap:
+                        () => LanguageBottomSheet.showBottomSheet(
+                          context: context,
+                        ),
                     flag: LangService.langIcon(context.locale.languageCode),
                     icon: CupertinoIcons.globe,
                     title: context.tr(LocaleKeys.change_language),

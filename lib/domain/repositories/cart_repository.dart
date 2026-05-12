@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 abstract class CartRepository {
   Future<Either<String, List<CartModel>>> fetchCarts();
 
-  Future<Either<String, CartModel>> fetchCartById(int id);
+  Future<Either<String, CartModel?>> fetchCartById(int id);
 
   Future<Either<String, bool>> setOrUpdateCart(CartModel cart);
 
