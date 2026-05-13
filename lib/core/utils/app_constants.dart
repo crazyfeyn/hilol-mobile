@@ -24,8 +24,8 @@ class AppConstants {
 
   static int confirmCodeSeconds = 120;
 
-  /// Fixed delivery fee in KRW (₩1 for testing).
-  static const double fixedDeliveryFeeKrw = 1.0;
+  /// Fixed delivery fee in KRW (₩4,000).
+  static const double fixedDeliveryFeeKrw = 4000.0;
 
   // Support, Terms and privacy link
   static const String support =
