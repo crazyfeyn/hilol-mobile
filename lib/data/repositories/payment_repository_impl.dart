@@ -62,5 +62,56 @@ class PaymentRepositoryImpl extends PaymentRepository {
   }
 
   @override
+  Future<Either<String, bool>> confirmTossPayment(
+    String paymentKey,
+    String orderId,
+    int amount,
+  ) async {
+    try {
+      final api = NetworkService.apiPaymentConfirm;
+      final cancelToken = _cancelTokenManager.getToken(api);
+      await NetworkService.post(
+        api,
+        cancelToken,
+        NetworkService.paramsPaymentConfirm(paymentKey, orderId, amount),
+      );
+      // Any 2xx response means the backend accepted the confirmation.
+      return const Right(true);
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {
+        GlobalSnackBar.showError(e.message);
+      }
+      return Left(e.toString());
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, bool>> notifyTossFail(
+    String code,
+    String message,
+    String orderId,
+  ) async {
+    try {
+      final api = NetworkService.apiTossFail;
+      final cancelToken = _cancelTokenManager.getToken(api);
+      await NetworkService.get(
+        api,
+        cancelToken,
+        NetworkService.paramsTossFail(code, message, orderId),
+      );
+      return const Right(true);
+    } on NetworkException catch (e) {
+      if (e.type != NetworkExceptionType.cancelled) {
+        GlobalSnackBar.showError(e.message);
+      }
+      return Left(e.toString());
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
   void dispose() => _cancelTokenManager.cancelAll();
 }

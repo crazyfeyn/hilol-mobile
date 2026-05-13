@@ -1,6 +1,7 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/app_enums.dart';
+import 'package:commerce_mobile/core/utils/app_snackbar.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/data/models/order_model.dart';
@@ -37,40 +38,27 @@ class PaymentView extends StatefulWidget {
   State<PaymentView> createState() => _PaymentViewState();
 }
 
-class _PaymentViewState extends State<PaymentView> with WidgetsBindingObserver {
-  @override
-  void initState() {
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      if (mounted) {
-        NavigationService.go(context, "${ProfilePage.path}${MyOrderPage.path}");
-      }
+class _PaymentViewState extends State<PaymentView> {
+  void _goToOrders() {
+    if (mounted) {
+      NavigationService.go(context, "${ProfilePage.path}${MyOrderPage.path}");
     }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<PaymentBloc, PaymentState>(
       listener: (context, state) {
-        if(state.formzStatus.isSuccess && state.paymentUrl != null) {
+        if (state.formzStatus.isSuccess && state.paymentUrl != null) {
           TossPayBottomSheet.bottomSheet(
             context: context,
             paymentUrl: state.paymentUrl!,
-            onConfirm: () {
-              if(mounted) {
-                NavigationService.go(context, "${ProfilePage.path}${MyOrderPage.path}");
+            onConfirm: _goToOrders,
+            onFailure: () {
+              if (mounted) {
+                GlobalSnackBar.showError(
+                  context.tr(LocaleKeys.payment_failed_status),
+                );
               }
             },
           );

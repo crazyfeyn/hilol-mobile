@@ -11,7 +11,12 @@ class CustomPhoneField extends StatefulWidget {
   final String? title;
   final TextEditingController controller;
 
-  const CustomPhoneField({super.key, this.readOnly = false, this.title, required this.controller});
+  const CustomPhoneField({
+    super.key,
+    this.readOnly = false,
+    this.title,
+    required this.controller,
+  });
 
   @override
   State<CustomPhoneField> createState() => _CustomPhoneFieldState();
@@ -20,12 +25,19 @@ class CustomPhoneField extends StatefulWidget {
 class _CustomPhoneFieldState extends State<CustomPhoneField> {
   final TextEditingController ctr = TextEditingController();
 
-  var maskFormatter = MaskTextInputFormatter(mask: '##########', filter: {"#": RegExp(r'[0-9]')}, type: MaskAutoCompletionType.lazy);
+  var maskFormatter = MaskTextInputFormatter(
+    mask: '##########',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
   Country _selectedCountry = Country.parse('KR');
 
   Future<void> _initState() async {
     final countryList = CountryService().getAll();
-    _selectedCountry = countryList.firstWhere((e) => e.countryCode == 'KR', orElse: () => countryList.first);
+    _selectedCountry = countryList.firstWhere(
+      (e) => e.countryCode == 'KR',
+      orElse: () => countryList.first,
+    );
     maskFormatter = _onMask(_selectedCountry);
     if (mounted) setState(() {});
   }
@@ -62,7 +74,7 @@ class _CustomPhoneFieldState extends State<CustomPhoneField> {
             counter: const SizedBox.shrink(),
           ),
           onChanged: (value) {
-            if(mounted) setState(() {});
+            if (mounted) setState(() {});
             if (value.length <= _selectedCountry.example.length) {
               widget.controller.text = '${_selectedCountry.phoneCode}$value';
             }
