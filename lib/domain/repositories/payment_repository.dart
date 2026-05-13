@@ -9,5 +9,17 @@ abstract class PaymentRepository {
 
   Future<Either<String, bool>> confirmOrder(int id);
 
+  Future<Either<String, bool>> confirmTossPayment(
+    String paymentKey,
+    String orderId,
+    int amount,
+  );
+
+  Future<Either<String, bool>> notifyTossFail(
+    String code,
+    String message,
+    String orderId,
+  );
+
   void dispose();
 }

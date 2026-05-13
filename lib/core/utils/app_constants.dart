@@ -10,10 +10,11 @@ class AppConstants {
   // BaseUrls
   static const String baseUrl = 'http://131.153.18.44:8080/api/v1/client/';
 
-  // Toss Payments URLs
+  // Toss Payments redirect URLs (intercepted by WebView before the server sees them)
   static const String tossPaymentSuccessUrl =
-      'https://hilol-market.kr/pay/success';
-  static const String tossPaymentFailUrl = 'https://hilol-market.kr/pay/fail';
+      'https://hilol-market.kr/api/v1/toss/success';
+  static const String tossPaymentFailUrl =
+      'https://hilol-market.kr/api/v1/toss/fail';
 
   // App/Play store urls
   static const String appStore =
@@ -23,8 +24,8 @@ class AppConstants {
 
   static int confirmCodeSeconds = 120;
 
-  /// Fixed delivery fee in KRW (₩4,000).
-  static const double fixedDeliveryFeeKrw = 4000.0;
+  /// Fixed delivery fee in KRW (₩1 for testing).
+  static const double fixedDeliveryFeeKrw = 1.0;
 
   // Support, Terms and privacy link
   static const String support =

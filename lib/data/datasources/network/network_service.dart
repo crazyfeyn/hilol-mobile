@@ -338,6 +338,8 @@ class NetworkService {
   static final String apiOrderCancel = "/api/v1/order/cancel";
   static final String apiOrderConfirm = "/api/v1/order/confirm";
   static final String apiPaymentCreate = "/api/v1/payment/create";
+  static final String apiPaymentConfirm = "/api/v1/payment/confirm";
+  static final String apiTossFail = "/api/v1/toss/fail";
 
   /* Http Params */
   static Map<String, dynamic> paramsRefreshToken(
@@ -375,5 +377,21 @@ class NetworkService {
     String paymentMethod,
   ) {
     return {"orderId": id, "paymentMethod": paymentMethod};
+  }
+
+  static Map<String, dynamic> paramsPaymentConfirm(
+    String paymentKey,
+    String orderId,
+    int amount,
+  ) {
+    return {"paymentKey": paymentKey, "orderId": orderId, "amount": amount};
+  }
+
+  static Map<String, dynamic> paramsTossFail(
+    String code,
+    String message,
+    String orderId,
+  ) {
+    return {"code": code, "message": message, "orderId": orderId};
   }
 }

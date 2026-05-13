@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:commerce_mobile/config/router/navigation_service.dart';
 import 'package:commerce_mobile/core/extension/extensions.dart';
+import 'package:commerce_mobile/core/utils/app_constants.dart';
+import 'package:commerce_mobile/data/repositories/payment_repository_impl.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -11,24 +13,31 @@ import 'package:webview_flutter/webview_flutter.dart';
 class TossPayBottomSheet extends StatefulWidget {
   final String paymentUrl;
   final VoidCallback? onConfirm;
+  final VoidCallback? onFailure;
 
   const TossPayBottomSheet({
     super.key,
     required this.paymentUrl,
     this.onConfirm,
+    this.onFailure,
   });
 
   static Future<T?> bottomSheet<T>({
     required BuildContext context,
     required String paymentUrl,
     VoidCallback? onConfirm,
+    VoidCallback? onFailure,
   }) {
     return showModalBottomSheet<T>(
       context: context,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       builder: (_) {
-        return TossPayBottomSheet(paymentUrl: paymentUrl, onConfirm: onConfirm);
+        return TossPayBottomSheet(
+          paymentUrl: paymentUrl,
+          onConfirm: onConfirm,
+          onFailure: onFailure,
+        );
       },
     );
   }
@@ -37,8 +46,11 @@ class TossPayBottomSheet extends StatefulWidget {
   State<TossPayBottomSheet> createState() => _TossPayBottomSheetState();
 }
 
-class _TossPayBottomSheetState extends State<TossPayBottomSheet> with WidgetsBindingObserver {
+class _TossPayBottomSheetState extends State<TossPayBottomSheet> {
   late final WebViewController controller;
+  final _repository = PaymentRepositoryImpl();
+  // Tracks confirmed orderIds to prevent double-firing from duplicate navigation events.
+  final _confirmedOrderIds = <String>{};
   bool isLoading = true;
 
   Future<bool> _handleOverrideUrl(String requestedUrl) async {
@@ -75,9 +87,52 @@ class _TossPayBottomSheetState extends State<TossPayBottomSheet> with WidgetsBin
     return true;
   }
 
+  Future<NavigationDecision> _handleTossSuccess(Uri uri) async {
+    final paymentKey = uri.queryParameters['paymentKey'] ?? '';
+    final orderId = uri.queryParameters['orderId'] ?? '';
+    final amount = int.tryParse(uri.queryParameters['amount'] ?? '') ?? 0;
+
+    if (_confirmedOrderIds.contains(orderId)) {
+      return NavigationDecision.prevent;
+    }
+    _confirmedOrderIds.add(orderId);
+
+    final result = await _repository.confirmTossPayment(paymentKey, orderId, amount);
+
+    if (!mounted) return NavigationDecision.prevent;
+    NavigationService.pop(context);
+
+    result.fold(
+      (_) => widget.onFailure?.call(),
+      (success) {
+        if (success) {
+          widget.onConfirm?.call();
+        } else {
+          widget.onFailure?.call();
+        }
+      },
+    );
+
+    return NavigationDecision.prevent;
+  }
+
+  Future<NavigationDecision> _handleTossFail(Uri uri) async {
+    final code = uri.queryParameters['code'] ?? '';
+    final message = uri.queryParameters['message'] ?? '';
+    final orderId = uri.queryParameters['orderId'] ?? '';
+
+    await _repository.notifyTossFail(code, message, orderId);
+
+    if (!mounted) return NavigationDecision.prevent;
+    NavigationService.pop(context);
+    widget.onFailure?.call();
+
+    return NavigationDecision.prevent;
+  }
+
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
+    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       print(Uri.parse(widget.paymentUrl).host);
       controller =
@@ -97,41 +152,37 @@ class _TossPayBottomSheetState extends State<TossPayBottomSheet> with WidgetsBin
                   }
                 },
                 onNavigationRequest: (NavigationRequest request) async {
-                  final requestWebUri = request.url;
+                  final url = request.url;
+                  final uri = Uri.parse(url);
 
-                  if(request.url.contains("PAY_PROCESS_CANCELED")) {
+                  if (url.startsWith(AppConstants.tossPaymentSuccessUrl)) {
+                    return _handleTossSuccess(uri);
+                  }
+
+                  if (url.startsWith(AppConstants.tossPaymentFailUrl)) {
+                    return _handleTossFail(uri);
+                  }
+
+                  if (url.contains('PAY_PROCESS_CANCELED')) {
                     NavigationService.pop(context);
-
-                    return NavigationDecision.navigate;
+                    return NavigationDecision.prevent;
                   }
 
                   // NOTE(@JooYang): 반드시 rawValue 를 사용해야 한다 @see https://www.notion.so/tossteam/SDK-v3Mobile-12ea360d33e380d8b6a9e17138fc65ce?pvs=4
-                  var handled = await _handleOverrideUrl(requestWebUri);
-                  if (handled) {
-                    return NavigationDecision.prevent;
-                  } else {
-                    return NavigationDecision.navigate;
-                  }
+                  final handled = await _handleOverrideUrl(url);
+                  return handled
+                      ? NavigationDecision.prevent
+                      : NavigationDecision.navigate;
                 },
               ),
             )
             ..loadRequest(Uri.parse(widget.paymentUrl));
     });
-    super.initState();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed && mounted) {
-      NavigationService.pop(context);
-      widget.onConfirm?.call();
-    }
-    super.didChangeAppLifecycleState(state);
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    _repository.dispose();
     super.dispose();
   }
 
@@ -140,17 +191,16 @@ class _TossPayBottomSheetState extends State<TossPayBottomSheet> with WidgetsBin
     return Container(
       height: 0.8.sh(context),
       alignment: Alignment.center,
-      child:
-          isLoading
-              ? Center(child: CircularProgressIndicator())
-              : WebViewWidget(
-                controller: controller,
-                gestureRecognizers: {
-                  Factory<VerticalDragGestureRecognizer>(
-                    () => VerticalDragGestureRecognizer(),
-                  ),
-                },
-              ),
+      child: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : WebViewWidget(
+              controller: controller,
+              gestureRecognizers: {
+                Factory<VerticalDragGestureRecognizer>(
+                  () => VerticalDragGestureRecognizer(),
+                ),
+              },
+            ),
     );
   }
 }
