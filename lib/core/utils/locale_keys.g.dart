@@ -258,4 +258,8 @@ abstract class LocaleKeys {
   static const search_language = 'search_language';
   static const no_language_found = 'no_language_found';
   static const items_removed_from_cart = 'items_removed_from_cart';
+  static const scan_barcode = 'scan_barcode';
+  static const rescan = 'rescan';
+  static const product_not_found = 'product_not_found';
+  static const point_camera_at_barcode = 'point_camera_at_barcode';
 }

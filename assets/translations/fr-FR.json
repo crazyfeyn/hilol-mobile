@@ -250,5 +250,9 @@
   "sign_in_to_view": "Connectez-vous pour voir",
   "search_language": "Rechercher une langue",
   "no_language_found": "Aucune langue trouvée",
-  "items_removed_from_cart": "Articles supprimés du panier"
+  "items_removed_from_cart": "Articles supprimés du panier",
+  "scan_barcode": "Scanner le code-barres",
+  "rescan": "Rescanner",
+  "product_not_found": "Ce produit n'est pas disponible dans les magasins Hilol",
+  "point_camera_at_barcode": "Pointez la caméra vers un code-barres"
 }

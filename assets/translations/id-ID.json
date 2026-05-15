@@ -250,5 +250,9 @@
   "sign_in_to_view": "Masuk untuk melihat",
   "search_language": "Cari bahasa",
   "no_language_found": "Bahasa tidak ditemukan",
-  "items_removed_from_cart": "Item dihapus dari keranjang"
+  "items_removed_from_cart": "Item dihapus dari keranjang",
+  "scan_barcode": "Pindai Barcode",
+  "rescan": "Pindai Ulang",
+  "product_not_found": "Produk ini tidak tersedia di toko Hilol",
+  "point_camera_at_barcode": "Arahkan kamera ke barcode"
 }

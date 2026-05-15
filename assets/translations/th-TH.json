@@ -250,5 +250,9 @@
   "sign_in_to_view": "เข้าสู่ระบบเพื่อดู",
   "search_language": "ค้นหาภาษา",
   "no_language_found": "ไม่พบภาษา",
-   "items_removed_from_cart": "สินค้าถูกนำออกจากรถเข็นแล้ว"
+  "items_removed_from_cart": "สินค้าถูกนำออกจากรถเข็นแล้ว",
+  "scan_barcode": "สแกนบาร์โค้ด",
+  "rescan": "สแกนอีกครั้ง",
+  "product_not_found": "สินค้านี้ไม่มีในร้าน Hilol",
+  "point_camera_at_barcode": "ชี้กล้องไปที่บาร์โค้ด"
 }

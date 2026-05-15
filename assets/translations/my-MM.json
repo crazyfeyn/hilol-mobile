@@ -250,5 +250,9 @@
   "sign_in_to_view": "Log masuk untuk melihat",
   "search_language": "Cari bahasa",
   "no_language_found": "Tiada bahasa dijumpai",
-  "items_removed_from_cart": "Item telah dihapus dari keranjang"
-} 
+  "items_removed_from_cart": "Item telah dihapus dari keranjang",
+  "scan_barcode": "ဘားကုဒ်စကင်ဖတ်ပါ",
+  "rescan": "ပြန်လည်စကင်ဖတ်ပါ",
+  "product_not_found": "ဤထုတ်ကုန်သည် Hilol ဆိုင်များတွင် မရှိပါ",
+  "point_camera_at_barcode": "ကင်မရာကို ဘားကုဒ်သို့ ညွှန်ပါ"
+}

@@ -250,5 +250,9 @@
   "sign_in_to_view": "බැලීමට පුරනය වන්න",
   "search_language": "භාෂාව සොයන්න",
   "no_language_found": "භාෂාවක් හමු නොවිණි",
-  "items_removed_from_cart": "භාණ්ඩ කරත්තයෙන් ඉවත් කරන ලදී"
+  "items_removed_from_cart": "භාණ්ඩ කරත්තයෙන් ඉවත් කරන ලදී",
+  "scan_barcode": "තීරු කේතය ස්කෑන් කරන්න",
+  "rescan": "නැවත ස්කෑන් කරන්න",
+  "product_not_found": "මෙම නිෂ්පාදනය Hilol වෙළඳසැල් වල නොමැත",
+  "point_camera_at_barcode": "කැමරාව තීරු කේතයට යොමු කරන්න"
 }

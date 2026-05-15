@@ -250,5 +250,9 @@
   "sign_in_to_view": "Mag-login upang makita",
   "search_language": "Maghanap ng wika",
   "no_language_found": "Walang nakitang wika",
-  "items_removed_from_cart": "Inalis ang mga item mula sa cart"
+  "items_removed_from_cart": "Inalis ang mga item mula sa cart",
+  "scan_barcode": "I-scan ang Barcode",
+  "rescan": "I-scan Muli",
+  "product_not_found": "Hindi available ang produktong ito sa mga tindahan ng Hilol",
+  "point_camera_at_barcode": "Ituro ang camera sa barcode"
 }

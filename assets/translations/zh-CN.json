@@ -250,5 +250,9 @@
   "sign_in_to_view": "登录后查看",
   "search_language": "搜索语言",
   "no_language_found": "未找到语言",
-  "items_removed_from_cart": "商品已从购物车中移除"
+  "items_removed_from_cart": "商品已从购物车中移除",
+  "scan_barcode": "扫描条形码",
+  "rescan": "重新扫描",
+  "product_not_found": "此商品在Hilol商店中不存在",
+  "point_camera_at_barcode": "将相机对准条形码"
 }

@@ -250,5 +250,9 @@
   "sign_in_to_view": "ចូលដើម្បីមើល",
   "search_language": "ស្វែងរកភាសា",
   "no_language_found": "រកមិនឃើញភាសា",
-  "items_removed_from_cart": "ទំនិញត្រូវបានលុបចេញពីរទេះទិញទំនិញ"
+  "items_removed_from_cart": "ទំនិញត្រូវបានលុបចេញពីរទេះទិញទំនិញ",
+  "scan_barcode": "ស្កែនបាកូដ",
+  "rescan": "ស្កែនម្ដងទៀត",
+  "product_not_found": "ផលិតផលនេះមិនមាននៅក្នុងហាង Hilol",
+  "point_camera_at_barcode": "ដាក់កាមេរ៉ាទៅលើបាកូដ"
 }

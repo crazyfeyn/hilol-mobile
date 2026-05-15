@@ -250,5 +250,9 @@
   "sign_in_to_view": "দেখতে লগ ইন করুন",
   "search_language": "ভাষা অনুসন্ধান",
   "no_language_found": "কোন ভাষা পাওয়া যায়নি",
-  "items_removed_from_cart": "আইটেমগুলো কার্ট থেকে সরানো হয়েছে"
+  "items_removed_from_cart": "আইটেমগুলো কার্ট থেকে সরানো হয়েছে",
+  "scan_barcode": "বারকোড স্ক্যান করুন",
+  "rescan": "পুনরায় স্ক্যান করুন",
+  "product_not_found": "এই পণ্যটি Hilol-এর দোকানে নেই",
+  "point_camera_at_barcode": "বারকোডে ক্যামেরা নির্দেশ করুন"
 }

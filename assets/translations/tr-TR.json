@@ -250,5 +250,9 @@
   "sign_in_to_view": "Görmek için giriş yapın",
   "search_language": "Dil ara",
   "no_language_found": "Dil bulunamadı",
-  "items_removed_from_cart": "Ürünler sepetten kaldırıldı"
+  "items_removed_from_cart": "Ürünler sepetten kaldırıldı",
+  "scan_barcode": "Barkodu Tara",
+  "rescan": "Yeniden Tara",
+  "product_not_found": "Bu ürün Hilol mağazalarında mevcut değil",
+  "point_camera_at_barcode": "Kamerayı barkoda doğrultun"
 }

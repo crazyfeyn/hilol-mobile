@@ -250,5 +250,9 @@
   "sign_in_to_view": "Увійдіть, щоб переглянути",
   "search_language": "Пошук мови",
   "no_language_found": "Мову не знайдено",
-  "items_removed_from_cart": "Товари видалено з кошика"
+  "items_removed_from_cart": "Товари видалено з кошика",
+  "scan_barcode": "Сканувати штрих-код",
+  "rescan": "Сканувати знову",
+  "product_not_found": "Цей товар недоступний у магазинах Hilol",
+  "point_camera_at_barcode": "Наведіть камеру на штрих-код"
 }

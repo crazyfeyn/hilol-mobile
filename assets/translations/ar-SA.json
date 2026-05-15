@@ -250,5 +250,9 @@
   "sign_in_to_view": "قم بتسجيل الدخول للمشاهدة",
   "search_language": "البحث عن لغة",
   "no_language_found": "لم يتم العثور على لغة",
-  "items_removed_from_cart": "تمت إزالة العناصر من سلة التسوق"
+  "items_removed_from_cart": "تمت إزالة العناصر من سلة التسوق",
+  "scan_barcode": "مسح الباركود",
+  "rescan": "إعادة المسح",
+  "product_not_found": "هذا المنتج غير متوفر في متاجر Hilol",
+  "point_camera_at_barcode": "وجّه الكاميرا نحو الباركود"
 }

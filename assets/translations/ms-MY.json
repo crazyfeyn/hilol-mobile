@@ -250,5 +250,9 @@
   "sign_in_to_view": "ကြည့်ရှုရန်ဝင်ရောက်ပါ",
   "search_language": "ဘာသာစကားရှာရန်",
   "no_language_found": "ဘာသာစကားမတွေ့ပါ",
-  "items_removed_from_cart": "ပစ္စည်းများကို စျေးခြင်းတောင်းမှ ဖယ်ရှားပြီးပါပြီ"
+  "items_removed_from_cart": "ပစ္စည်းများကို စျေးခြင်းတောင်းမှ ဖယ်ရှားပြီးပါပြီ",
+  "scan_barcode": "Imbas Kod Bar",
+  "rescan": "Imbas Semula",
+  "product_not_found": "Produk ini tidak tersedia di kedai Hilol",
+  "point_camera_at_barcode": "Arahkan kamera ke kod bar"
 }

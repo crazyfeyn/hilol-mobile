@@ -250,5 +250,9 @@
   "sign_in_to_view": "हेर्नको लागि लग इन गर्नुहोस्",
   "search_language": "भाषा खोज्नुहोस्",
   "no_language_found": "कुनै भाषा फेला परेन",
-  "items_removed_from_cart": "सामानहरू कार्टबाट हटाइयो"
+  "items_removed_from_cart": "सामानहरू कार्टबाट हटाइयो",
+  "scan_barcode": "बारकोड स्क्यान गर्नुहोस्",
+  "rescan": "पुन: स्क्यान गर्नुहोस्",
+  "product_not_found": "यो उत्पाद Hilol को स्टोरमा उपलब्ध छैन",
+  "point_camera_at_barcode": "क्यामेरालाई बारकोडमा लक्ष्य गर्नुहोस्"
 }

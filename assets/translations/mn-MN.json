@@ -250,5 +250,9 @@
   "sign_in_to_view": "Харахын тулд нэвтрэнэ үү",
   "search_language": "Хэл хайх",
   "no_language_found": "Хэл олдсонгүй",
-  "items_removed_from_cart": "Бараанууд сагснаас хасагдлаа"
+  "items_removed_from_cart": "Бараанууд сагснаас хасагдлаа",
+  "scan_barcode": "Баркод уншуулах",
+  "rescan": "Дахин уншуулах",
+  "product_not_found": "Энэ бүтээгдэхүүн Hilol дэлгүүрт байхгүй",
+  "point_camera_at_barcode": "Камераг баркод руу чиглүүл"
 }

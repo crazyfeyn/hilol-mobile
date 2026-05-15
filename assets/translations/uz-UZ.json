@@ -250,5 +250,9 @@
   "sign_in_to_view": "Ko'rish uchun kiring",
   "search_language": "Tilni qidirish",
   "no_language_found": "Til topilmadi",
-  "items_removed_from_cart": "Mahsulotlar savatchadan olib tashlandi"
+  "items_removed_from_cart": "Mahsulotlar savatchadan olib tashlandi",
+  "scan_barcode": "Barkodni skanerlash",
+  "rescan": "Qayta skanerlash",
+  "product_not_found": "Bu mahsulot Hilol do'konlarida mavjud emas",
+  "point_camera_at_barcode": "Kamerani barkodga yondashtiring"
 }

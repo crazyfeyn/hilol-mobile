@@ -250,5 +250,9 @@
   "sign_in_to_view": "Zum Anzeigen anmelden",
   "search_language": "Sprache suchen",
   "no_language_found": "Keine Sprache gefunden",
-  "items_removed_from_cart": "Artikel wurden aus dem Warenkorb entfernt"
+  "items_removed_from_cart": "Artikel wurden aus dem Warenkorb entfernt",
+  "scan_barcode": "Barcode scannen",
+  "rescan": "Erneut scannen",
+  "product_not_found": "Dieses Produkt ist nicht in Hilols Läden verfügbar",
+  "point_camera_at_barcode": "Kamera auf einen Barcode richten"
 }

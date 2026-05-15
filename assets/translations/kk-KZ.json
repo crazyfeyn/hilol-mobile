@@ -250,5 +250,9 @@
   "sign_in_to_view": "Көру үшін кіріңіз",
   "search_language": "Тілді іздеу",
   "no_language_found": "Тіл табылмады",
-  "items_removed_from_cart": "Тауарлар себеттен жойылды"
+  "items_removed_from_cart": "Тауарлар себеттен жойылды",
+  "scan_barcode": "Штрих-кодты сканерлеу",
+  "rescan": "Қайта сканерлеу",
+  "product_not_found": "Бұл өнім Hilol дүкендерінде жоқ",
+  "point_camera_at_barcode": "Камераны штрих-кодқа бағыттаңыз"
 }

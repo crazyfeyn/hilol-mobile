@@ -250,5 +250,9 @@
   "sign_in_to_view": "Đăng nhập để xem",
   "search_language": "Tìm kiếm ngôn ngữ",
   "no_language_found": "Không tìm thấy ngôn ngữ",
-   "items_removed_from_cart": "Sản phẩm đã được xóa khỏi giỏ hàng"
+  "items_removed_from_cart": "Sản phẩm đã được xóa khỏi giỏ hàng",
+  "scan_barcode": "Quét mã vạch",
+  "rescan": "Quét lại",
+  "product_not_found": "Sản phẩm này không có trong cửa hàng Hilol",
+  "point_camera_at_barcode": "Hướng camera vào mã vạch"
 }

@@ -10,6 +10,7 @@ import 'package:commerce_mobile/core/utils/app_enums.dart';
 import 'package:commerce_mobile/core/utils/app_styles.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
 import 'package:commerce_mobile/presentation/pages/auth/sign_in/page/sign_in_page.dart';
+import 'package:commerce_mobile/presentation/pages/barcode/page/barcode_scan_page.dart';
 import 'package:commerce_mobile/presentation/pages/my_order/page/my_order_page.dart';
 import 'package:commerce_mobile/presentation/pages/profile/bloc/profile_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/profile/widget/custom_avatar_card.dart';
@@ -20,6 +21,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ProfilePage extends StatelessWidget {
   static const String path = "/profile_page";
@@ -491,6 +493,13 @@ class _ProfileViewState extends State<ProfileView> {
                       isLogout: true,
                       icon: CupertinoIcons.delete,
                       title: context.tr(LocaleKeys.delete_account),
+                    ),
+                    const SizedBox(height: 16),
+                    ProfileCard(
+                      onTap: () => context.push(BarcodePage.path),
+
+                      icon: CupertinoIcons.camera_circle,
+                      title: "Barcode Scanner",
                     ),
                   ],
                 ],
