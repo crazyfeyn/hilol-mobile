@@ -1,10 +1,11 @@
+import 'package:commerce_mobile/core/services/lang_service.dart';
 import 'package:commerce_mobile/data/datasources/network/cancel_token_manager.dart';
 import 'package:commerce_mobile/data/datasources/network/network_helper.dart';
 import 'package:commerce_mobile/data/datasources/network/network_service.dart';
-import 'package:commerce_mobile/data/models/product_model.dart';
+import 'package:commerce_mobile/data/models/barcode_product_model.dart';
 import 'package:commerce_mobile/domain/repositories/barcode_repository.dart';
-import 'package:dartz/dartz.dart';
 import 'package:commerce_mobile/core/utils/app_snackbar.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 
 class BarcodeRepositoryImpl extends BarcodeRepository {
@@ -15,21 +16,23 @@ class BarcodeRepositoryImpl extends BarcodeRepository {
   }
 
   @override
-  Future<Either<String, ProductModel>> fetchProductByBarcode(
+  Future<Either<String, BarcodeProductModel>> fetchProductByBarcode(
     String code,
   ) async {
     try {
-      final api = NetworkService.apiBarcodeLookup;
+      final api = NetworkService.apiBarcodeProductLookup;
       final cancelToken = cancelTokenManager.getToken(api);
       final response = await NetworkService.get(api, cancelToken, {
         'code': code,
       });
 
-      final data = response['data'];
-      return Right(ProductModel.fromMap(data));
+      if (response['success'] == true) {
+        return Right(BarcodeProductModel.fromMap(response['data']));
+      }
+      return Left('Product not found');
     } on NetworkException catch (e) {
       if (e.type != NetworkExceptionType.cancelled) {
-        GlobalSnackBar.showError(e.message);
+        // GlobalSnackBar.showError(e.message);
       }
       return Left(e.toString());
     } catch (e, st) {

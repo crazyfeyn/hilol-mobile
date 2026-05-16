@@ -1,6 +1,8 @@
 import 'package:commerce_mobile/config/router/navigation_service.dart';
+import 'package:commerce_mobile/core/services/lang_service.dart';
 import 'package:commerce_mobile/core/utils/app_colors.dart';
 import 'package:commerce_mobile/core/utils/locale_keys.g.dart';
+import 'package:commerce_mobile/data/models/barcode_product_model.dart';
 import 'package:commerce_mobile/data/repositories/barcode_repository_impl.dart';
 import 'package:commerce_mobile/presentation/pages/barcode/bloc/barcode_bloc.dart';
 import 'package:commerce_mobile/presentation/pages/home/details/page/details_page.dart';
@@ -63,12 +65,13 @@ class _BarcodePageState extends State<BarcodePage>
       context: ctx,
       backgroundColor: Colors.transparent,
       isDismissible: true,
-      builder: (_) => _NotFoundSheet(
-        onRescan: () {
-          Navigator.of(ctx).pop();
-          _reset(bloc);
-        },
-      ),
+      builder:
+          (_) => _NotFoundSheet(
+            onRescan: () {
+              Navigator.of(ctx).pop();
+              _reset(bloc);
+            },
+          ),
     );
   }
 
@@ -82,11 +85,7 @@ class _BarcodePageState extends State<BarcodePage>
           return BlocListener<BarcodeBloc, BarcodeState>(
             listener: (context, state) {
               if (state is BarcodeSuccess) {
-                NavigationService.push(
-                  context,
-                  ProductDetailsPage.path,
-                  extra: {'product': state.product, 'add': false},
-                ).then((_) => _reset(bloc));
+                _showResultSheet(context, state.product, bloc);
               } else if (state is BarcodeFailure) {
                 _showNotFoundSheet(context, bloc);
               }
@@ -150,6 +149,233 @@ class _BarcodePageState extends State<BarcodePage>
       ),
     );
   }
+
+  void _showResultSheet(
+    BuildContext ctx,
+    BarcodeProductModel product,
+    BarcodeBloc bloc,
+  ) {
+    showModalBottomSheet(
+      context: ctx,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      isDismissible: true,
+      builder:
+          (_) => _BarcodeResultSheet(
+            product: product,
+            onRescan: () {
+              Navigator.of(ctx).pop();
+              _reset(bloc);
+            },
+          ),
+    );
+  }
+}
+
+class _BarcodeResultSheet extends StatelessWidget {
+  final BarcodeProductModel product;
+  final VoidCallback onRescan;
+
+  const _BarcodeResultSheet({required this.product, required this.onRescan});
+
+  @override
+  Widget build(BuildContext context) {
+    final name = product.localizedName!;
+    final status = product.halalStatus ?? '';
+
+    final (statusColor, statusBg, statusLabel, statusIcon) = switch (status) {
+      'HALAL' => (
+        const Color(0xFF16A34A),
+        const Color(0xFFF0FDF4),
+        'Halal',
+        Icons.verified_rounded,
+      ),
+      'HARAM' => (
+        const Color(0xFFDC2626),
+        const Color(0xFFFEF2F2),
+        'Haram',
+        Icons.cancel_rounded,
+      ),
+      'SUSPICIOUS' => (
+        const Color(0xFFD97706),
+        const Color(0xFFFFFBEB),
+        'Suspicious',
+        Icons.warning_rounded,
+      ),
+      _ => (
+        const Color(0xFF6B7280),
+        const Color(0xFFF9FAFB),
+        'Not Certified',
+        Icons.help_rounded,
+      ),
+    };
+
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.4,
+      maxChildSize: 0.92,
+      builder:
+          (_, scrollController) => Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surface,
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(24),
+              ),
+            ),
+            child: ListView(
+              controller: scrollController,
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
+              children: [
+                // drag handle
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Product name
+                Text(
+                  name.isNotEmpty ? name : product.barcode ?? '',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  product.barcode ?? '',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade500,
+                    fontFamily: 'monospace',
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // ── Halal status card ──────────────────────────────────────
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: statusBg,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(color: statusColor.withOpacity(0.25)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(statusIcon, color: statusColor, size: 22),
+                          const SizedBox(width: 8),
+                          Text(
+                            statusLabel,
+                            style: TextStyle(
+                              color: statusColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const Spacer(),
+                          if (product.isHalal == true)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 3,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF16A34A),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: const Text(
+                                'Certified',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      if (product.reason?.isNotEmpty == true) ...[
+                        const SizedBox(height: 10),
+                        Text(
+                          product.reason!,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: statusColor,
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // ── Ingredients ────────────────────────────────────────────
+                if (product.ingredients?.isNotEmpty == true) ...[
+                  Text(
+                    'Ingredients',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children:
+                        product.ingredients!
+                            .map(
+                              (ing) => Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: Colors.grey.shade200,
+                                  ),
+                                ),
+                                child: Text(
+                                  ing,
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+
+                // ── Rescan button ──────────────────────────────────────────
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: onRescan,
+                    icon: const Icon(Icons.qr_code_scanner_rounded),
+                    label: const Text('Scan Again'),
+                    style: FilledButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+    );
+  }
 }
 
 class _ScannerOverlay extends StatelessWidget {
@@ -190,24 +416,25 @@ class _ScannerOverlay extends StatelessWidget {
               // animated scan line
               AnimatedBuilder(
                 animation: scanLineAnim,
-                builder: (_, __) => Positioned(
-                  top: scanLineAnim.value * (frameSize - 2),
-                  left: 12,
-                  right: 12,
-                  child: Container(
-                    height: 2,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.transparent,
-                          AppColors.primary600,
-                          Colors.transparent,
-                        ],
+                builder:
+                    (_, __) => Positioned(
+                      top: scanLineAnim.value * (frameSize - 2),
+                      left: 12,
+                      right: 12,
+                      child: Container(
+                        height: 2,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.transparent,
+                              AppColors.primary600,
+                              Colors.transparent,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(1),
+                        ),
                       ),
-                      borderRadius: BorderRadius.circular(1),
                     ),
-                  ),
-                ),
               ),
             ],
           ),
@@ -227,29 +454,53 @@ class _ScannerOverlay extends StatelessWidget {
       Positioned(
         top: 0,
         left: 0,
-        child: _Corner(len: len, thick: thick, color: color, radius: r,
-            top: true, left: true),
+        child: _Corner(
+          len: len,
+          thick: thick,
+          color: color,
+          radius: r,
+          top: true,
+          left: true,
+        ),
       ),
       // top-right
       Positioned(
         top: 0,
         right: 0,
-        child: _Corner(len: len, thick: thick, color: color, radius: r,
-            top: true, left: false),
+        child: _Corner(
+          len: len,
+          thick: thick,
+          color: color,
+          radius: r,
+          top: true,
+          left: false,
+        ),
       ),
       // bottom-left
       Positioned(
         bottom: 0,
         left: 0,
-        child: _Corner(len: len, thick: thick, color: color, radius: r,
-            top: false, left: true),
+        child: _Corner(
+          len: len,
+          thick: thick,
+          color: color,
+          radius: r,
+          top: false,
+          left: true,
+        ),
       ),
       // bottom-right
       Positioned(
         bottom: 0,
         right: 0,
-        child: _Corner(len: len, thick: thick, color: color, radius: r,
-            top: false, left: false),
+        child: _Corner(
+          len: len,
+          thick: thick,
+          color: color,
+          radius: r,
+          top: false,
+          left: false,
+        ),
       ),
     ];
   }
@@ -307,11 +558,12 @@ class _CornerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..strokeWidth = thick
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
+    final paint =
+        Paint()
+          ..color = color
+          ..strokeWidth = thick
+          ..strokeCap = StrokeCap.round
+          ..style = PaintingStyle.stroke;
 
     final path = Path();
     final w = size.width;
@@ -356,12 +608,16 @@ class _DimPainter extends CustomPainter {
     final full = Rect.fromLTWH(0, 0, size.width, size.height);
     final rrect = RRect.fromRectAndRadius(frameRect, const Radius.circular(12));
 
-    final path = Path()
-      ..addRect(full)
-      ..addRRect(rrect)
-      ..fillType = PathFillType.evenOdd;
+    final path =
+        Path()
+          ..addRect(full)
+          ..addRRect(rrect)
+          ..fillType = PathFillType.evenOdd;
 
-    canvas.drawPath(path, Paint()..color = Colors.black.withValues(alpha: 0.55));
+    canvas.drawPath(
+      path,
+      Paint()..color = Colors.black.withValues(alpha: 0.55),
+    );
 
     // frame border glow
     canvas.drawRRect(
@@ -401,17 +657,19 @@ class _NotFoundSheet extends StatelessWidget {
               color: Colors.red.shade50,
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.search_off_rounded,
-                size: 36, color: Colors.red.shade400),
+            child: Icon(
+              Icons.search_off_rounded,
+              size: 36,
+              color: Colors.red.shade400,
+            ),
           ),
           const SizedBox(height: 16),
           Text(
             context.tr(LocaleKeys.product_not_found),
             textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium
-                ?.copyWith(fontWeight: FontWeight.w600),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 24),
           SizedBox(
@@ -423,7 +681,8 @@ class _NotFoundSheet extends StatelessWidget {
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14)),
+                  borderRadius: BorderRadius.circular(14),
+                ),
               ),
             ),
           ),

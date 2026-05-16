@@ -1,4 +1,4 @@
-import 'package:commerce_mobile/data/models/product_model.dart';
+import 'package:commerce_mobile/data/models/barcode_product_model.dart';
 import 'package:commerce_mobile/domain/repositories/barcode_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

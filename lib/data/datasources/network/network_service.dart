@@ -341,6 +341,8 @@ class NetworkService {
   static final String apiPaymentConfirm = "/api/v1/payment/confirm";
   static final String apiTossFail = "/api/v1/toss/fail";
   static final String apiBarcodeLookup = "/api/v1/barcode/lookup";
+  static final String apiBarcodeProductLookup =
+      "/api/v1/barcode/product/lookup";
 
   /* Http Params */
   static Map<String, dynamic> paramsRefreshToken(
